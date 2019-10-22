@@ -14,10 +14,22 @@
  * limitations under the License.
  */
 
-variable "project_id" {
-  description = "The project ID to deploy to"
+variable "additional_components" {
+  description = "Additional gcloud CLI components to install. Defaults to none. Valid value are components listed in `gcloud components list`"
+  default     = []
 }
 
-variable "bucket_name" {
-  description = "The name of the bucket to create"
+variable "platform" {
+  description = "Platform CLI will run on. Defaults to linux. Valid values: linux, darwin"
+  default     = "linux"
+}
+
+variable "service_account_key_file" {
+  description = "Path to service account key file to run `gcloud auth activate-service-account` with. Optional."
+  default     = ""
+}
+
+variable "use_tf_google_credentials_env_var" {
+  description = "Use GOOGLE_CREDENTIALS environment variable to run `gcloud auth activate-service-account` with. Optional."
+  default     = false
 }

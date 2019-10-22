@@ -18,6 +18,7 @@
 # Make will use bash instead of sh
 SHELL := /usr/bin/env bash
 
+GCLOUD_SDK_VERSION:=267.0.0
 DOCKER_TAG_VERSION_DEVELOPER_TOOLS := 0.1.0
 DOCKER_IMAGE_DEVELOPER_TOOLS := cft/developer-tools
 REGISTRY_URL := gcr.io/cloud-foundation-cicd
@@ -83,3 +84,34 @@ docker_generate_docs:
 # Alias for backwards compatibility
 .PHONY: generate_docs
 generate_docs: docker_generate_docs
+
+.PHONY: all
+all: reset
+all:
+	$(MAKE) gcloud.darwin
+	$(MAKE) gcloud.linux
+
+.PHONY: gcloud.darwin
+gcloud.darwin: OS_ARCH=darwin
+gcloud.darwin: gcloud.download
+
+.PHONY: gcloud.linux
+gcloud.linux: OS_ARCH=linux
+gcloud.linux: gcloud.download
+
+.PHONY: gcloud.download
+gcloud.download:
+	mkdir -p cache/${OS_ARCH}/
+	cd cache/${OS_ARCH}/ && \
+		curl -sL -o google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_SDK_VERSION}-${OS_ARCH}-x86_64.tar.gz
+
+.PHONY: clean
+clean: ## Clean caches of decompressed SDKs
+	rm -rf cache/darwin/google-cloud-sdk/
+	rm -rf cache/linux/google-cloud-sdk/
+	rm -rf cache/darwin/google-cloud-sdk.staging/
+	rm -rf cache/linux/google-cloud-sdk.staging/
+
+.PHONY: reset
+reset:
+	rm -rf cache

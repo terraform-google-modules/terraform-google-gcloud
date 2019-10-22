@@ -18,6 +18,6 @@ control "gcloud" do
   describe command("gcloud --project=#{attribute("project_id")} services list --enabled") do
     its(:exit_status) { should eq 0 }
     its(:stderr) { should eq "" }
-    its(:stdout) { should match "storage-api.googleapis.com" }
+    its(:stdout) { should match "youtube.googleapis.com" }
   end
 end

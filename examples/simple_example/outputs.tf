@@ -13,8 +13,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-output "bucket_name" {
-  description = "The name of the bucket."
-  value       = module.gcloud.bucket_name
-}

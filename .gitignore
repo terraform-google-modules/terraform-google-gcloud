@@ -42,4 +42,6 @@ crash.log
 # version control.
 **/*.tfvars
 
+google-cloud-sdk/
+google-cloud-sdk.staging/
 credentials.json
