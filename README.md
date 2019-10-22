@@ -4,7 +4,7 @@ This module was generated from [terraform-google-module-template](https://github
 
 The resources/services/activations/deletions that this module will create/trigger are:
 
-- Create a GCS bucket with the provided name
+- (none)
 
 ## Usage
 
@@ -15,8 +15,28 @@ module "gcloud" {
   source  = "terraform-google-modules/gcloud/google"
   version = "~> 0.1"
 
-  project_id  = "<PROJECT ID>"
-  bucket_name = "gcs-test-bucket"
+  platform = "linux"
+  additional_components = ["kubectl", "beta"]
+}
+
+resource "null_resource" "gcloud_version" {
+  triggers {
+    always = "${uuid()}"
+  }
+
+  provisioner "local-exec" {
+    command = "${module.cli.gcloud} version"
+  }
+}
+
+resource "null_resource" "copy_file_to_k8s" {
+  triggers {
+    always = "${uuid()}"
+  }
+
+  provisioner "local-exec" {
+    command = "${module.cli.kubectl} cp ..."
+  }
 }
 ```
 
@@ -28,14 +48,20 @@ Functional examples are included in the
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| bucket\_name | The name of the bucket to create | string | n/a | yes |
-| project\_id | The project ID to deploy to | string | n/a | yes |
+| additional\_components | Additional gcloud CLI components to install. Defaults to none. Valid value are components listed in `gcloud components list` | list | `<list>` | no |
+| platform | Platform CLI will run on. Defaults to linux. Valid values: linux, darwin | string | `"linux"` | no |
+| service\_account\_key\_file | Path to service account key file to run `gcloud auth activate-service-account` with. Optional. | string | `""` | no |
+| use\_tf\_google\_credentials\_env\_var | Use GOOGLE_CREDENTIALS environment variable to run `gcloud auth activate-service-account` with. Optional. | string | `"false"` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| bucket\_name |  |
+| bq | Path to bq CLI |
+| gcloud | Path to gcloud CLI |
+| gcloud\_bin\_path | Path to gcloud bin path for use to locate any other components |
+| gsutil | Path to gsutil CLI |
+| kubectl | Path to kubectl CLI. Must be installed first using additional_components |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

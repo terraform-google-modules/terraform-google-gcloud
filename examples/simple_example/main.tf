@@ -18,9 +18,25 @@ provider "google" {
   version = "~> 2.0"
 }
 
-module "gcloud" {
+module "cli" {
   source = "../.."
 
-  project_id  = var.project_id
-  bucket_name = var.bucket_name
+  platform              = "linux"
+  additional_components = ["kubectl", "beta"]
+}
+
+resource "null_resource" "gcloud_enable_youtube" {
+  triggers = {
+    always = "${uuid()}"
+  }
+
+  provisioner "local-exec" {
+    when    = create
+    command = "${module.cli.gcloud} services enable youtube.googleapis.com"
+  }
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = "${module.cli.gcloud} services disable youtube.googleapis.com"
+  }
 }
