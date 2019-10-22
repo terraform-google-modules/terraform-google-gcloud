@@ -32,11 +32,11 @@ resource "null_resource" "gcloud_enable_youtube" {
 
   provisioner "local-exec" {
     when    = create
-    command = "${module.cli.gcloud} services enable youtube.googleapis.com"
+    command = "${module.cli.gcloud} services enable youtube.googleapis.com --project ${var.project_id}"
   }
 
   provisioner "local-exec" {
     when    = destroy
-    command = "${module.cli.gcloud} services disable youtube.googleapis.com"
+    command = "${module.cli.gcloud} services disable youtube.googleapis.com --project ${var.project_id}"
   }
 }
