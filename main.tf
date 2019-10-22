@@ -56,7 +56,7 @@ resource "null_resource" "upgrade" {
 
   provisioner "local-exec" {
     when    = create
-    command = "${local.gcloud} components update"
+    command = "${local.gcloud} components update --quiet"
   }
 
   provisioner "local-exec" {
@@ -75,7 +75,7 @@ resource "null_resource" "additional_components" {
 
   provisioner "local-exec" {
     when    = create
-    command = "${local.gcloud} components install ${local.components} -q"
+    command = "${local.gcloud} components install ${local.components} --quiet"
   }
 
   provisioner "local-exec" {
