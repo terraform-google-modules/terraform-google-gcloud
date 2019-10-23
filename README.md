@@ -1,10 +1,8 @@
 # terraform-google-gcloud
 
-This module was generated from [terraform-google-module-template](https://github.com/terraform-google-modules/terraform-google-module-template/), which by default generates a module that simply creates a GCS bucket. As the module develops, this README should be updated.
+This module allows you to use gcloud, gsutil, and any gcloud component in Terraform. Sometimes, there isn't Terraform GCP support for a particular feature, or you'd like to do something each time Terraform runs (ie: upload a file to a Kubernetes pod) that lacks Terraform support.
 
-The resources/services/activations/deletions that this module will create/trigger are:
-
-- (none)
+This module *does not* create any resources on GCP itself, rather exposes the GCP SDK to you for usage in null resources & external data resources.
 
 ## Usage
 
