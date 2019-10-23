@@ -76,7 +76,7 @@ The following dependencies must be available:
 
 ### Service Account
 
-A service account must be created, along with a key, to use this module. 
+A service account must be created, along with a key, to use this module.
 The service account must have the proper IAM roles for whatever
 commands you're running with this module.
 
