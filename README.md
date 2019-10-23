@@ -76,24 +76,17 @@ The following dependencies must be available:
 
 ### Service Account
 
-A service account with the following roles must be used to provision
-the resources of this module:
-
-- Storage Admin: `roles/storage.admin`
-
-The [Project Factory module][project-factory-module] and the
-[IAM module][iam-module] may be used in combination to provision a
-service account with the necessary roles applied.
+A service account must be created, along with a key, to use this module. 
+The service account must have the proper IAM roles for whatever
+commands you're running with this module.
 
 ### APIs
 
-A project with the following APIs enabled must be used to host the
-resources of this module:
+A project is not required to host resources of this module, since
+this module does not create any resources.
 
-- Google Cloud Storage JSON API: `storage-api.googleapis.com`
-
-The [Project Factory module][project-factory-module] can be used to
-provision a project with the necessary APIs enabled.
+However you will likely need a project for your service account
+and any resources you'd like to interact with while using this module.
 
 ## Contributing
 
@@ -104,3 +97,4 @@ information on contributing to this module.
 [project-factory-module]: https://registry.terraform.io/modules/terraform-google-modules/project-factory/google
 [terraform-provider-gcp]: https://www.terraform.io/docs/providers/google/index.html
 [terraform]: https://www.terraform.io/downloads.html
+
