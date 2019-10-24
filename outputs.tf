@@ -14,29 +14,37 @@
  * limitations under the License.
  */
 
-// Checking the length forces the outputs to resolve after the null_resource has executed,
-// otherwise they immediately resolve due to not having any references
+data "null_data_source" "values" {
+  inputs = {
+    gcloud          = "${local.gcloud}"
+    bq              = "${local.bq}"
+    gsutil          = "${local.gsutil}"
+    kubectl         = "${local.kubectl}"
+    gcloud_bin_path = "${local.gcloud_bin_path}"
+  }
+}
+
 output "gcloud" {
   description = "Path to gcloud CLI"
-  value       = local.wait > 0 ? local.gcloud : local.gcloud
+  value       = "${data.null_data_source.values.outputs["gcloud"]}"
 }
 
 output "bq" {
   description = "Path to bq CLI"
-  value       = local.wait > 0 ? local.bq : local.bq
+  value       = "${data.null_data_source.values.outputs["bq"]}"
 }
 
 output "gsutil" {
   description = "Path to gsutil CLI"
-  value       = local.wait > 0 ? local.gsutil : local.gsutil
+  value       = "${data.null_data_source.values.outputs["gsutil"]}"
 }
 
 output "kubectl" {
   description = "Path to kubectl CLI. Must be installed first using additional_components"
-  value       = local.wait > 0 ? local.kubectl : local.kubectl
+  value       = "${data.null_data_source.values.outputs["kubectl"]}"
 }
 
 output "gcloud_bin_path" {
   description = "Path to gcloud bin path for use to locate any other components"
-  value       = local.wait > 0 ? local.gcloud_bin_path : local.gcloud_bin_path
+  value       = "${data.null_data_source.values.outputs["gcloud_bin_path"]}"
 }
