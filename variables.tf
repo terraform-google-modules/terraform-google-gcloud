@@ -14,6 +14,16 @@
  * limitations under the License.
  */
 
+variable "create_command" {
+  description = "On create, the command you'd like to run with the GCP SDK."
+  default     = "true"
+}
+
+variable "destroy_command" {
+  description = "On destroy, the command you'd like to run with the GCP SDK."
+  default     = "true"
+}
+
 variable "additional_components" {
   description = "Additional gcloud CLI components to install. Defaults to none. Valid value are components listed in `gcloud components list`"
   default     = []

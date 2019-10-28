@@ -23,20 +23,6 @@ module "cli" {
 
   platform              = "linux"
   additional_components = ["kubectl", "beta"]
-}
-
-resource "null_resource" "gcloud_enable_youtube" {
-  triggers = {
-    always = "${uuid()}"
-  }
-
-  provisioner "local-exec" {
-    when    = create
-    command = "${module.cli.gcloud} services enable youtube.googleapis.com --project ${var.project_id}"
-  }
-
-  provisioner "local-exec" {
-    when    = destroy
-    command = "${module.cli.gcloud} services disable youtube.googleapis.com --project ${var.project_id}"
-  }
+  create_command        = "${module.cli.gcloud} services enable youtube.googleapis.com --project ${var.project_id}"
+  destroy_command       = "${module.cli.gcloud} services disable youtube.googleapis.com --project ${var.project_id}"
 }

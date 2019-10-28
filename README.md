@@ -15,26 +15,9 @@ module "gcloud" {
 
   platform = "linux"
   additional_components = ["kubectl", "beta"]
-}
 
-resource "null_resource" "gcloud_version" {
-  triggers {
-    always = "${uuid()}"
-  }
-
-  provisioner "local-exec" {
-    command = "${module.cli.gcloud} version"
-  }
-}
-
-resource "null_resource" "copy_file_to_k8s" {
-  triggers {
-    always = "${uuid()}"
-  }
-
-  provisioner "local-exec" {
-    command = "${module.cli.kubectl} cp ..."
-  }
+  create_command  = "${module.gcloud.gcloud} version"
+  destroy_command = "${module.gcloud.kubectl} cp ..."
 }
 ```
 
@@ -47,6 +30,8 @@ Functional examples are included in the
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | additional\_components | Additional gcloud CLI components to install. Defaults to none. Valid value are components listed in `gcloud components list` | list | `<list>` | no |
+| create\_command | On create, the command you'd like to run with the GCP SDK. | string | `"true"` | no |
+| destroy\_command | On destroy, the command you'd like to run with the GCP SDK. | string | `"true"` | no |
 | platform | Platform CLI will run on. Defaults to linux. Valid values: linux, darwin | string | `"linux"` | no |
 | service\_account\_key\_file | Path to service account key file to run `gcloud auth activate-service-account` with. Optional. | string | `""` | no |
 | use\_tf\_google\_credentials\_env\_var | Use GOOGLE_CREDENTIALS environment variable to run `gcloud auth activate-service-account` with. Optional. | string | `"false"` | no |
