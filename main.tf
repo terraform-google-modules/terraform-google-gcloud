@@ -101,3 +101,17 @@ ${data.null_data_source.values.outputs["gcloud"]} auth activate-service-account 
 EOF
   }
 }
+
+resource "null_resource" "run_command" {
+  depends_on = [null_resource.additional_components, null_resource.gcloud_auth_google_credentials, null_resource.gcloud_auth_service_account_key_file]
+
+  provisioner "local-exec" {
+    when    = create
+    command = "${var.create_command}"
+  }
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = "${var.destroy_command}"
+  }
+}
