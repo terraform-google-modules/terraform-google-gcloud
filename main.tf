@@ -26,10 +26,10 @@ data "null_data_source" "values" {
   depends_on = [null_resource.decompress]
 
   inputs = {
-		gcloud  = "${local.gcloud_bin_path}/gcloud"
-		gsutil  = "${local.gcloud_bin_path}/gsutil"
-		bq      = "${local.gcloud_bin_path}/bq"
-		kubectl = "${local.gcloud_bin_path}/kubectl"
+    gcloud  = "${local.gcloud_bin_path}/gcloud"
+    gsutil  = "${local.gcloud_bin_path}/gsutil"
+    bq      = "${local.gcloud_bin_path}/bq"
+    kubectl = "${local.gcloud_bin_path}/kubectl"
   }
 }
 
@@ -45,7 +45,7 @@ resource "null_resource" "decompress" {
 }
 
 resource "null_resource" "upgrade" {
-  depends_on = [null_resource.decompress]
+  depends_on = [data.null_data_source.values]
 
   triggers = {
     always = uuid()
@@ -99,6 +99,5 @@ resource "null_resource" "gcloud_auth_google_credentials" {
 printf "%s" "$GOOGLE_CREDENTIALS" > ${local.tmp_credentials_path} &&
 ${data.null_data_source.values.outputs["gcloud"]} auth activate-service-account --key-file ${local.tmp_credentials_path}
 EOF
-
   }
 }
