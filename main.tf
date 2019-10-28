@@ -42,11 +42,6 @@ resource "null_resource" "decompress" {
     when    = create
     command = "tar -xzf ${local.gcloud_tar_path} -C ${local.cache_path}"
   }
-
-  provisioner "local-exec" {
-    when    = destroy
-    command = "true"
-  }
 }
 
 resource "null_resource" "upgrade" {
@@ -59,11 +54,6 @@ resource "null_resource" "upgrade" {
   provisioner "local-exec" {
     when    = create
     command = "${data.null_data_source.values.outputs["gcloud"]} components update --quiet"
-  }
-
-  provisioner "local-exec" {
-    when    = destroy
-    command = "true"
   }
 }
 
@@ -79,11 +69,6 @@ resource "null_resource" "additional_components" {
     when    = create
     command = "${data.null_data_source.values.outputs["gcloud"]} components install ${local.components} --quiet"
   }
-
-  provisioner "local-exec" {
-    when    = destroy
-    command = "true"
-  }
 }
 
 resource "null_resource" "gcloud_auth_service_account_key_file" {
@@ -97,11 +82,6 @@ resource "null_resource" "gcloud_auth_service_account_key_file" {
   provisioner "local-exec" {
     when    = create
     command = "${data.null_data_source.values.outputs["gcloud"]} auth activate-service-account --key-file ${var.service_account_key_file}"
-  }
-
-  provisioner "local-exec" {
-    when    = destroy
-    command = "true"
   }
 }
 
@@ -120,10 +100,5 @@ printf "%s" "$GOOGLE_CREDENTIALS" > ${local.tmp_credentials_path} &&
 ${data.null_data_source.values.outputs["gcloud"]} auth activate-service-account --key-file ${local.tmp_credentials_path}
 EOF
 
-  }
-
-  provisioner "local-exec" {
-    when    = destroy
-    command = "true"
   }
 }
