@@ -14,16 +14,6 @@
  * limitations under the License.
  */
 
-data "null_data_source" "values" {
-  inputs = {
-    gcloud          = "${local.gcloud}"
-    bq              = "${local.bq}"
-    gsutil          = "${local.gsutil}"
-    kubectl         = "${local.kubectl}"
-    gcloud_bin_path = "${local.gcloud_bin_path}"
-  }
-}
-
 output "gcloud" {
   description = "Path to gcloud CLI"
   value       = "${data.null_data_source.values.outputs["gcloud"]}"
@@ -46,5 +36,5 @@ output "kubectl" {
 
 output "gcloud_bin_path" {
   description = "Path to gcloud bin path for use to locate any other components"
-  value       = "${data.null_data_source.values.outputs["gcloud_bin_path"]}"
+  value       = "${local.gcloud_bin_path}"
 }

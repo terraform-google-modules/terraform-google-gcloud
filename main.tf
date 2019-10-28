@@ -20,15 +20,17 @@ locals {
   gcloud_tar_path      = "${local.cache_path}/google-cloud-sdk.tar.gz"
   gcloud_bin_path      = "${local.cache_path}/google-cloud-sdk/bin"
   components           = join(" ", var.additional_components)
+}
 
-  gcloud  = "${local.gcloud_bin_path}/gcloud"
-  gsutil  = "${local.gcloud_bin_path}/gsutil"
-  bq      = "${local.gcloud_bin_path}/bq"
-  kubectl = "${local.gcloud_bin_path}/kubectl"
+data "null_data_source" "values" {
+  depends_on = [null_resource.decompress]
 
-  wait = length(null_resource.additional_components.*.triggers) + length(
-    null_resource.gcloud_auth_service_account_key_file.*.triggers,
-  ) + length(null_resource.gcloud_auth_google_credentials.*.triggers)
+  inputs = {
+		gcloud  = "${local.gcloud_bin_path}/gcloud"
+		gsutil  = "${local.gcloud_bin_path}/gsutil"
+		bq      = "${local.gcloud_bin_path}/bq"
+		kubectl = "${local.gcloud_bin_path}/kubectl"
+  }
 }
 
 resource "null_resource" "decompress" {
@@ -56,7 +58,7 @@ resource "null_resource" "upgrade" {
 
   provisioner "local-exec" {
     when    = create
-    command = "${local.gcloud} components update --quiet"
+    command = "${data.null_data_source.values.outputs["gcloud"]} components update --quiet"
   }
 
   provisioner "local-exec" {
@@ -75,7 +77,7 @@ resource "null_resource" "additional_components" {
 
   provisioner "local-exec" {
     when    = create
-    command = "${local.gcloud} components install ${local.components} --quiet"
+    command = "${data.null_data_source.values.outputs["gcloud"]} components install ${local.components} --quiet"
   }
 
   provisioner "local-exec" {
@@ -94,7 +96,7 @@ resource "null_resource" "gcloud_auth_service_account_key_file" {
 
   provisioner "local-exec" {
     when    = create
-    command = "${local.gcloud} auth activate-service-account --key-file ${var.service_account_key_file}"
+    command = "${data.null_data_source.values.outputs["gcloud"]} auth activate-service-account --key-file ${var.service_account_key_file}"
   }
 
   provisioner "local-exec" {
@@ -115,7 +117,7 @@ resource "null_resource" "gcloud_auth_google_credentials" {
     when    = create
     command = <<EOF
 printf "%s" "$GOOGLE_CREDENTIALS" > ${local.tmp_credentials_path} &&
-${local.gcloud} auth activate-service-account --key-file ${local.tmp_credentials_path}
+${data.null_data_source.values.outputs["gcloud"]} auth activate-service-account --key-file ${local.tmp_credentials_path}
 EOF
 
   }
