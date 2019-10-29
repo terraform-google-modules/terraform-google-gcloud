@@ -23,6 +23,10 @@ module "cli" {
 
   platform              = "linux"
   additional_components = ["kubectl", "beta"]
-  create_command        = "${module.cli.gcloud} services enable youtube.googleapis.com --project ${var.project_id}"
-  destroy_command       = "${module.cli.gcloud} services disable youtube.googleapis.com --project ${var.project_id}"
+
+  create_cmd_entrypoint = "gcloud"
+  create_cmd_body       = "services enable youtube.googleapis.com --project ${var.project_id}"
+
+  destroy_cmd_entrypoint = "gcloud"
+  destroy_cmd_body       = "services disable youtube.googleapis.com --project ${var.project_id}"
 }

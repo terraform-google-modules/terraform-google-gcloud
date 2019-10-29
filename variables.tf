@@ -14,14 +14,24 @@
  * limitations under the License.
  */
 
-variable "create_command" {
-  description = "On create, the command you'd like to run with the GCP SDK."
-  default     = "true"
+variable "create_cmd_entrypoint" {
+  description = "On create, the command entrypoint you'd like to use."
+  default     = "gcloud"
 }
 
-variable "destroy_command" {
-  description = "On destroy, the command you'd like to run with the GCP SDK."
-  default     = "true"
+variable "create_cmd_body" {
+  description = "On create, the command body you'd like to run with your entrypoint."
+  default     = "info"
+}
+
+variable "destroy_cmd_entrypoint" {
+  description = "On destroy, the command entrypoint you'd like to use."
+  default     = "gcloud"
+}
+
+variable "destroy_cmd_body" {
+  description = "On destroy, the command body you'd like to run with your entrypoint."
+  default     = "info"
 }
 
 variable "additional_components" {

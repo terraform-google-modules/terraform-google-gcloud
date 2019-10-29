@@ -107,11 +107,11 @@ resource "null_resource" "run_command" {
 
   provisioner "local-exec" {
     when    = create
-    command = "${var.create_command}"
+    command = "${data.null_data_source.values.outputs[var.create_cmd_entrypoint]} ${var.create_cmd_body}"
   }
 
   provisioner "local-exec" {
     when    = destroy
-    command = "${var.destroy_command}"
+    command = "${data.null_data_source.values.outputs[var.destroy_cmd_entrypoint]} ${var.destroy_cmd_body}"
   }
 }
