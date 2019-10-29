@@ -13,28 +13,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-output "gcloud" {
-  description = "Path to gcloud CLI"
-  value       = "${data.null_data_source.values.outputs["gcloud"]}"
-}
-
-output "bq" {
-  description = "Path to bq CLI"
-  value       = "${data.null_data_source.values.outputs["bq"]}"
-}
-
-output "gsutil" {
-  description = "Path to gsutil CLI"
-  value       = "${data.null_data_source.values.outputs["gsutil"]}"
-}
-
-output "kubectl" {
-  description = "Path to kubectl CLI. Must be installed first using additional_components"
-  value       = "${data.null_data_source.values.outputs["kubectl"]}"
-}
-
-output "gcloud_bin_path" {
-  description = "Path to gcloud bin path for use to locate any other components"
-  value       = "${local.gcloud_bin_path}"
-}

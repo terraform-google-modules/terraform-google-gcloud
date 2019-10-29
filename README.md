@@ -30,21 +30,13 @@ Functional examples are included in the
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | additional\_components | Additional gcloud CLI components to install. Defaults to none. Valid value are components listed in `gcloud components list` | list | `<list>` | no |
-| create\_command | On create, the command you'd like to run with the GCP SDK. | string | `"true"` | no |
-| destroy\_command | On destroy, the command you'd like to run with the GCP SDK. | string | `"true"` | no |
+| create\_cmd\_body | On create, the command body you'd like to run with your entrypoint. | string | `"info"` | no |
+| create\_cmd\_entrypoint | On create, the command entrypoint you'd like to use. | string | `"gcloud"` | no |
+| destroy\_cmd\_body | On destroy, the command body you'd like to run with your entrypoint. | string | `"info"` | no |
+| destroy\_cmd\_entrypoint | On destroy, the command entrypoint you'd like to use. | string | `"gcloud"` | no |
 | platform | Platform CLI will run on. Defaults to linux. Valid values: linux, darwin | string | `"linux"` | no |
 | service\_account\_key\_file | Path to service account key file to run `gcloud auth activate-service-account` with. Optional. | string | `""` | no |
 | use\_tf\_google\_credentials\_env\_var | Use GOOGLE_CREDENTIALS environment variable to run `gcloud auth activate-service-account` with. Optional. | string | `"false"` | no |
-
-## Outputs
-
-| Name | Description |
-|------|-------------|
-| bq | Path to bq CLI |
-| gcloud | Path to gcloud CLI |
-| gcloud\_bin\_path | Path to gcloud bin path for use to locate any other components |
-| gsutil | Path to gsutil CLI |
-| kubectl | Path to kubectl CLI. Must be installed first using additional_components |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
