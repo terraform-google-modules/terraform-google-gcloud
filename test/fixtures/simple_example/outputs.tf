@@ -18,28 +18,3 @@ output "project_id" {
   description = "The ID of the project in which resources are provisioned."
   value       = var.project_id
 }
-
-output "gcloud" {
-  description = "Path to gcloud CLI"
-  value       = module.example.gcloud
-}
-
-output "bq" {
-  description = "Path to bq CLI"
-  value       = module.example.bq
-}
-
-output "gsutil" {
-  description = "Path to gsutil CLI"
-  value       = module.example.gsutil
-}
-
-output "kubectl" {
-  description = "Path to kubectl CLI. Must be installed first using additional_components"
-  value       = module.example.kubectl
-}
-
-output "gcloud_bin_path" {
-  description = "Path to gcloud bin path for use to locate any other components"
-  value       = module.example.gcloud_bin_path
-}
