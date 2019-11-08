@@ -110,7 +110,12 @@ EOF
 resource "null_resource" "run_command" {
   count = var.enabled ? 1 : 0
 
-  depends_on = [null_resource.additional_components, null_resource.gcloud_auth_google_credentials, null_resource.gcloud_auth_service_account_key_file]
+  depends_on = [
+    null_resource.decompress,
+    null_resource.additional_components,
+    null_resource.gcloud_auth_google_credentials,
+    null_resource.gcloud_auth_service_account_key_file
+  ]
 
   provisioner "local-exec" {
     when    = create
