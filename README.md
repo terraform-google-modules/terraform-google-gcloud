@@ -36,6 +36,7 @@ Functional examples are included in the
 | create\_cmd\_entrypoint | On create, the command entrypoint you'd like to use. | string | `"gcloud"` | no |
 | destroy\_cmd\_body | On destroy, the command body you'd like to run with your entrypoint. | string | `"info"` | no |
 | destroy\_cmd\_entrypoint | On destroy, the command entrypoint you'd like to use. | string | `"gcloud"` | no |
+| enabled | Flag to optionally disable usage of this module. | bool | `"true"` | no |
 | platform | Platform CLI will run on. Defaults to linux. Valid values: linux, darwin | string | `"linux"` | no |
 | service\_account\_key\_file | Path to service account key file to run `gcloud auth activate-service-account` with. Optional. | string | `""` | no |
 | use\_tf\_google\_credentials\_env\_var | Use GOOGLE_CREDENTIALS environment variable to run `gcloud auth activate-service-account` with. Optional. | string | `"false"` | no |
