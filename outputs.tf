@@ -16,12 +16,10 @@
 
 output "create_cmd_bin" {
   description = "The full bin path & command used on create"
-  type        = string
   value       = local.create_cmd_bin
 }
 
 output "destroy_cmd_bin" {
   description = "The full bin path & command used on destroy"
-  type        = string
   value       = local.destroy_cmd_bin
 }
