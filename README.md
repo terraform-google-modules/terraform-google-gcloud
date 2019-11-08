@@ -41,6 +41,13 @@ Functional examples are included in the
 | service\_account\_key\_file | Path to service account key file to run `gcloud auth activate-service-account` with. Optional. | string | `""` | no |
 | use\_tf\_google\_credentials\_env\_var | Use GOOGLE_CREDENTIALS environment variable to run `gcloud auth activate-service-account` with. Optional. | string | `"false"` | no |
 
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| create\_cmd\_bin | The full bin path & command used on create |
+| destroy\_cmd\_bin | The full bin path & command used on destroy |
+
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Requirements
