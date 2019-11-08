@@ -35,6 +35,8 @@ locals {
 }
 
 resource "null_resource" "decompress" {
+  count = var.enabled ? 1 : 0
+
   triggers = {
     always = uuid()
   }
@@ -46,6 +48,8 @@ resource "null_resource" "decompress" {
 }
 
 resource "null_resource" "upgrade" {
+  count = var.enabled ? 1 : 0
+
   depends_on = [null_resource.decompress]
 
   triggers = {
@@ -59,7 +63,7 @@ resource "null_resource" "upgrade" {
 }
 
 resource "null_resource" "additional_components" {
-  count      = length(var.additional_components) > 1 ? 1 : 0
+  count      = var.enabled && length(var.additional_components) > 1 ? 1 : 0
   depends_on = [null_resource.upgrade]
 
   triggers = {
@@ -73,7 +77,7 @@ resource "null_resource" "additional_components" {
 }
 
 resource "null_resource" "gcloud_auth_service_account_key_file" {
-  count      = length(var.service_account_key_file) > 0 ? 1 : 0
+  count      = var.enabled && length(var.service_account_key_file) > 0 ? 1 : 0
   depends_on = [null_resource.upgrade]
 
   triggers = {
@@ -87,7 +91,7 @@ resource "null_resource" "gcloud_auth_service_account_key_file" {
 }
 
 resource "null_resource" "gcloud_auth_google_credentials" {
-  count      = var.use_tf_google_credentials_env_var ? 1 : 0
+  count      = var.enabled && var.use_tf_google_credentials_env_var ? 1 : 0
   depends_on = [null_resource.upgrade]
 
   triggers = {
@@ -104,6 +108,8 @@ EOF
 }
 
 resource "null_resource" "run_command" {
+  count = var.enabled ? 1 : 0
+
   depends_on = [null_resource.additional_components, null_resource.gcloud_auth_google_credentials, null_resource.gcloud_auth_service_account_key_file]
 
   provisioner "local-exec" {
