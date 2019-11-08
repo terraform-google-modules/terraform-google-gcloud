@@ -28,6 +28,7 @@ platforms:
 suites:
   - name: simple_example
     driver:
+      command_timeout: 1800
       root_module_directory: test/fixtures/simple_example/
     verifier:
       color: false
