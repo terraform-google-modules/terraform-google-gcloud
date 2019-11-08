@@ -20,17 +20,18 @@ locals {
   gcloud_tar_path      = "${local.cache_path}/google-cloud-sdk.tar.gz"
   gcloud_bin_path      = "${local.cache_path}/google-cloud-sdk/bin"
   components           = join(" ", var.additional_components)
-}
 
-data "null_data_source" "values" {
-  depends_on = [null_resource.decompress]
+  gcloud  = "${local.gcloud_bin_path}/gcloud"
+  gsutil  = "${local.gcloud_bin_path}/gsutil"
+  bq      = "${local.gcloud_bin_path}/bq"
+  kubectl = "${local.gcloud_bin_path}/kubectl"
 
-  inputs = {
-    gcloud  = "${local.gcloud_bin_path}/gcloud"
-    gsutil  = "${local.gcloud_bin_path}/gsutil"
-    bq      = "${local.gcloud_bin_path}/bq"
-    kubectl = "${local.gcloud_bin_path}/kubectl"
-  }
+  create_cmd_bin  = "${local.gcloud_bin_path}/${var.create_cmd_entrypoint}"
+  destroy_cmd_bin = "${local.gcloud_bin_path}/${var.destroy_cmd_entrypoint}"
+
+  wait = length(null_resource.additional_components.*.triggers) + length(
+    null_resource.gcloud_auth_service_account_key_file.*.triggers,
+  ) + length(null_resource.gcloud_auth_google_credentials.*.triggers)
 }
 
 resource "null_resource" "decompress" {
@@ -45,7 +46,7 @@ resource "null_resource" "decompress" {
 }
 
 resource "null_resource" "upgrade" {
-  depends_on = [data.null_data_source.values]
+  depends_on = [null_resource.decompress]
 
   triggers = {
     always = uuid()
@@ -53,7 +54,7 @@ resource "null_resource" "upgrade" {
 
   provisioner "local-exec" {
     when    = create
-    command = "${data.null_data_source.values.outputs["gcloud"]} components update --quiet"
+    command = "${local.gcloud} components update --quiet"
   }
 }
 
@@ -67,7 +68,7 @@ resource "null_resource" "additional_components" {
 
   provisioner "local-exec" {
     when    = create
-    command = "${data.null_data_source.values.outputs["gcloud"]} components install ${local.components} --quiet"
+    command = "${local.gcloud} components install ${local.components} --quiet"
   }
 }
 
@@ -81,7 +82,7 @@ resource "null_resource" "gcloud_auth_service_account_key_file" {
 
   provisioner "local-exec" {
     when    = create
-    command = "${data.null_data_source.values.outputs["gcloud"]} auth activate-service-account --key-file ${var.service_account_key_file}"
+    command = "${local.gcloud} auth activate-service-account --key-file ${var.service_account_key_file}"
   }
 }
 
@@ -97,7 +98,7 @@ resource "null_resource" "gcloud_auth_google_credentials" {
     when    = create
     command = <<EOF
 printf "%s" "$GOOGLE_CREDENTIALS" > ${local.tmp_credentials_path} &&
-${data.null_data_source.values.outputs["gcloud"]} auth activate-service-account --key-file ${local.tmp_credentials_path}
+${local.gcloud} auth activate-service-account --key-file ${local.tmp_credentials_path}
 EOF
   }
 }
@@ -107,11 +108,11 @@ resource "null_resource" "run_command" {
 
   provisioner "local-exec" {
     when    = create
-    command = "${data.null_data_source.values.outputs[var.create_cmd_entrypoint]} ${var.create_cmd_body}"
+    command = "${local.create_cmd_bin} ${var.create_cmd_body}"
   }
 
   provisioner "local-exec" {
     when    = destroy
-    command = "${data.null_data_source.values.outputs[var.destroy_cmd_entrypoint]} ${var.destroy_cmd_body}"
+    command = "${local.destroy_cmd_bin} ${var.destroy_cmd_body}"
   }
 }
