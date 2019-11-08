@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+variable "enabled" {
+  description = "Flag to optionally disable usage of this module."
+  type        = bool
+  default     = true
+}
+
 variable "create_cmd_entrypoint" {
   description = "On create, the command entrypoint you'd like to use."
   default     = "gcloud"
