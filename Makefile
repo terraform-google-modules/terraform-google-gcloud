@@ -121,4 +121,4 @@ update-gcloud-version:
 	mkdir -p tmp && cd tmp && \
 		curl -sL -o google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz && \
 		tar -xzf google-cloud-sdk.tar.gz -C . && \
-		cp google-cloud-sdk/VERSION SDK_VERSION
+		cp google-cloud-sdk/VERSION ../SDK_VERSION
