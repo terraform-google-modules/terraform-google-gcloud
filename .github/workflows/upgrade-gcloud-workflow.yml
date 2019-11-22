@@ -1,7 +1,7 @@
 name: Update GCloud SDK
-on: [push]
-#  schedule:
-#    - cron: '0 * * * *'
+on:
+  schedule:
+    - cron: '0 2 * * *'
 jobs:
   createPullRequest:
     runs-on: ubuntu-latest
