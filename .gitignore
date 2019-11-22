@@ -45,3 +45,4 @@ crash.log
 google-cloud-sdk/
 google-cloud-sdk.staging/
 credentials.json
+tmp

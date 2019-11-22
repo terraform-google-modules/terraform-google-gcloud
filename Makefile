@@ -18,7 +18,7 @@
 # Make will use bash instead of sh
 SHELL := /usr/bin/env bash
 
-GCLOUD_SDK_VERSION:=268.0.0
+GCLOUD_SDK_VERSION := $(shell cat SDK_VERSION)
 DOCKER_TAG_VERSION_DEVELOPER_TOOLS := 0.4.6
 DOCKER_IMAGE_DEVELOPER_TOOLS := cft/developer-tools
 REGISTRY_URL := gcr.io/cloud-foundation-cicd
@@ -115,3 +115,10 @@ clean: ## Clean caches of decompressed SDKs
 .PHONY: reset
 reset:
 	rm -rf cache
+
+.PHONY: update-gcloud-version
+update-gcloud-version:
+	mkdir -p tmp && cd tmp && \
+		curl -sL -o google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz && \
+		tar -xzf google-cloud-sdk.tar.gz -C . && \
+		cp google-cloud-sdk/VERSION ../SDK_VERSION
