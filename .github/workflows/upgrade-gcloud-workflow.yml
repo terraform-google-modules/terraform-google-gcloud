@@ -9,6 +9,8 @@ jobs:
       - uses: actions/checkout@v1
       - name: Update GCloud SDK Version
         run: make update-gcloud-version
+      - name: Refresh Cache
+        run: make all
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v1
