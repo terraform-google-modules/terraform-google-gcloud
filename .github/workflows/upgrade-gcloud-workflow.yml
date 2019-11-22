@@ -19,7 +19,7 @@ jobs:
           commit-message: Update GCloud SDK Version
           author-email: milesmatthias@users.noreply.github.com
           author-name: Miles Matthias
-          title: 'Update GCloud SDk'
+          title: 'Update GCloud SDK'
           body: |
             Updated GCloud SDK Version
           labels: automated pr
