@@ -20,7 +20,7 @@ SHELL := /usr/bin/env bash
 
 GCLOUD_SDK_VERSION := $(shell cat SDK_VERSION)
 JQ_VERSION := 1.6
-DOCKER_TAG_VERSION_DEVELOPER_TOOLS := 0.4.6
+DOCKER_TAG_VERSION_DEVELOPER_TOOLS := 0.6.0
 DOCKER_IMAGE_DEVELOPER_TOOLS := cft/developer-tools
 REGISTRY_URL := gcr.io/cloud-foundation-cicd
 
