@@ -20,9 +20,10 @@ SHELL := /usr/bin/env bash
 
 GCLOUD_SDK_VERSION := $(shell cat SDK_VERSION)
 JQ_VERSION := 1.6
-DOCKER_TAG_VERSION_DEVELOPER_TOOLS := 0.6.0
+DOCKER_TAG_VERSION_DEVELOPER_TOOLS := 0.6.2
 DOCKER_IMAGE_DEVELOPER_TOOLS := cft/developer-tools
 REGISTRY_URL := gcr.io/cloud-foundation-cicd
+EXCLUDE_LINT_DIR=cache
 
 # Enter docker container for local development
 .PHONY: docker_run
@@ -65,6 +66,7 @@ docker_test_integration:
 		-v "$(CURDIR)":/workspace \
 		$(REGISTRY_URL)/${DOCKER_IMAGE_DEVELOPER_TOOLS}:${DOCKER_TAG_VERSION_DEVELOPER_TOOLS} \
 		/usr/local/bin/test_integration.sh
+
 
 # Execute lint tests within the docker container
 .PHONY: docker_test_lint
