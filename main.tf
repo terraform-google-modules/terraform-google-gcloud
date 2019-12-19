@@ -142,7 +142,7 @@ resource "null_resource" "run_script_create" {
   ]
 
   triggers = merge({
-    md5 = filemd5(var.create_script)
+    md5       = filemd5(var.create_script)
     arguments = md5(var.create_script_arguments)
   }, var.create_script_triggers)
 
