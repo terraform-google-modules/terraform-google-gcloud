@@ -141,16 +141,17 @@ resource "null_resource" "run_script_create" {
     null_resource.run_command
   ]
 
-  triggers = {
+  triggers = merge({
     md5 = filemd5(var.create_script)
-  }
+    arguments = md5(var.create_script_arguments)
+  }, var.create_script_triggers)
 
   provisioner "local-exec" {
     when = create
 
     command = <<-EOT
     PATH=${local.gcloud_bin_abs_path}:$PATH
-    ${var.create_script}
+    ${var.create_script} ${var.create_script_arguments}
     EOT
   }
 }
@@ -166,16 +167,12 @@ resource "null_resource" "run_script_destroy" {
     null_resource.run_command
   ]
 
-  triggers = {
-    md5 = filemd5(var.destroy_script)
-  }
-
   provisioner "local-exec" {
     when = destroy
 
     command = <<-EOT
     PATH=${local.gcloud_bin_abs_path}:$PATH
-    ${var.destroy_script}
+    ${var.destroy_script} ${var.destroy_script_arguments}
     EOT
   }
 }
