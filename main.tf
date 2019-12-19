@@ -19,6 +19,7 @@ locals {
   cache_path           = "${path.module}/cache/${var.platform}"
   gcloud_tar_path      = "${local.cache_path}/google-cloud-sdk.tar.gz"
   gcloud_bin_path      = "${local.cache_path}/google-cloud-sdk/bin"
+  gcloud_bin_abs_path  = abspath(local.gcloud_bin_path)
   components           = join(" ", var.additional_components)
 
   gcloud  = "${local.gcloud_bin_path}/gcloud"
@@ -148,7 +149,7 @@ resource "null_resource" "run_script_create" {
     when = create
 
     command = <<-EOT
-    PATH=${local.gcloud_bin_path}:$PATH
+    PATH=${local.gcloud_bin_abs_path}:$PATH
     ${var.create_script}
     EOT
   }
@@ -173,7 +174,7 @@ resource "null_resource" "run_script_destroy" {
     when = destroy
 
     command = <<-EOT
-    PATH=${local.gcloud_bin_path}:$PATH
+    PATH=${local.gcloud_bin_abs_path}:$PATH
     ${var.destroy_script}
     EOT
   }
