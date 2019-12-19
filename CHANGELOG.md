@@ -29,4 +29,4 @@ and this project adheres to
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-gcloud/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/terraform-google-modules/terraform-google-gcloud/releases/tag/v0.1.0
 
-[#343]: https://github.com/terraform-google-modules/terraform-google-gcloud/pull/9
+[#9]: https://github.com/terraform-google-modules/terraform-google-gcloud/pull/9
