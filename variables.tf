@@ -59,3 +59,13 @@ variable "use_tf_google_credentials_env_var" {
   description = "Use GOOGLE_CREDENTIALS environment variable to run `gcloud auth activate-service-account` with. Optional."
   default     = false
 }
+
+variable "create_script" {
+  description = "On create, the file location of the script to run. Module's bin directory will be prepended to path."
+  default     = null
+}
+
+variable "destroy_script" {
+  description = "On destroy, the file location of the script to run. Module's bin directory will be prepended to path."
+  default     = null
+}

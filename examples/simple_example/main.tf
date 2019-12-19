@@ -26,4 +26,7 @@ module "cli" {
 
   create_cmd_body  = "services enable youtube.googleapis.com --project ${var.project_id}"
   destroy_cmd_body = "services disable youtube.googleapis.com --project ${var.project_id}"
+
+  create_script  = "${path.module}/scripts/script.sh"
+  destroy_script = "${path.module}/scripts/script.sh"
 }
