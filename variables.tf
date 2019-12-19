@@ -65,7 +65,23 @@ variable "create_script" {
   default     = null
 }
 
+variable "create_script_arguments" {
+  description = "String of arguments passed to the `create_script` at exec time"
+  default     = ""
+}
+
+variable "create_script_triggers" {
+  description = "List of any additional triggers for the create script execution."
+  type        = map
+  default     = {}
+}
+
 variable "destroy_script" {
   description = "On destroy, the file location of the script to run. Module's bin directory will be prepended to path."
   default     = null
+}
+
+variable "destroy_script_arguments" {
+  description = "String of arguments passed to the `destroy_script` at exec time"
+  default     = ""
 }

@@ -37,9 +37,12 @@ The [jq](https://stedolan.github.io/jq/) binary is also included in this module 
 | create\_cmd\_body | On create, the command body you'd like to run with your entrypoint. | string | `"info"` | no |
 | create\_cmd\_entrypoint | On create, the command entrypoint you'd like to use. | string | `"gcloud"` | no |
 | create\_script | On create, the file location of the script to run. Module's bin directory will be prepended to path. | string | `"null"` | no |
+| create\_script\_arguments | String of arguments passed to the `create_script` at exec time | string | `""` | no |
+| create\_script\_triggers | List of any additional triggers for the create script execution. | map | `<map>` | no |
 | destroy\_cmd\_body | On destroy, the command body you'd like to run with your entrypoint. | string | `"info"` | no |
 | destroy\_cmd\_entrypoint | On destroy, the command entrypoint you'd like to use. | string | `"gcloud"` | no |
 | destroy\_script | On destroy, the file location of the script to run. Module's bin directory will be prepended to path. | string | `"null"` | no |
+| destroy\_script\_arguments | String of arguments passed to the `destroy_script` at exec time | string | `""` | no |
 | enabled | Flag to optionally disable usage of this module. | bool | `"true"` | no |
 | platform | Platform CLI will run on. Defaults to linux. Valid values: linux, darwin | string | `"linux"` | no |
 | service\_account\_key\_file | Path to service account key file to run `gcloud auth activate-service-account` with. Optional. | string | `""` | no |
