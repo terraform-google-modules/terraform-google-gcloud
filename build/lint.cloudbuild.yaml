@@ -16,9 +16,11 @@ steps:
 - name: 'gcr.io/cloud-foundation-cicd/cft/developer-tools:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   id: 'lint'
   args: ['/usr/local/bin/test_lint.sh']
+  env:
+  - "EXCLUDE_LINT_DIRS=['cache']"
 tags:
 - 'ci'
 - 'lint'
 substitutions:
   _DOCKER_IMAGE_DEVELOPER_TOOLS: 'cft/developer-tools'
-  _DOCKER_TAG_VERSION_DEVELOPER_TOOLS: '0.4.6'
+  _DOCKER_TAG_VERSION_DEVELOPER_TOOLS: '0'

@@ -1,6 +1,6 @@
 # terraform-google-gcloud
 
-This module allows you to use gcloud, gsutil, and any gcloud component in Terraform. Sometimes, there isn't Terraform GCP support for a particular feature, or you'd like to do something each time Terraform runs (ie: upload a file to a Kubernetes pod) that lacks Terraform support.
+This module allows you to use gcloud, gsutil, any gcloud component, and jq in Terraform. Sometimes, there isn't Terraform GCP support for a particular feature, or you'd like to do something each time Terraform runs (ie: upload a file to a Kubernetes pod) that lacks Terraform support.
 
 This module *does not* create any resources on GCP itself, rather exposes the GCP SDK to you for usage in null resources & external data resources.
 
@@ -25,6 +25,8 @@ module "gcloud" {
 
 Functional examples are included in the
 [examples](./examples/) directory.
+
+The [jq](https://stedolan.github.io/jq/) binary is also included in this module so you can use it as well for either of your `create_cmd_entrypoint` or `destroy_cmd_entrypoint` values.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
