@@ -15,5 +15,5 @@
 
 #!/bin/sh
 
-which gcloud
+command -v gcloud
 gcloud --version
