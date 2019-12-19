@@ -25,6 +25,7 @@ locals {
   gsutil  = "${local.gcloud_bin_path}/gsutil"
   bq      = "${local.gcloud_bin_path}/bq"
   kubectl = "${local.gcloud_bin_path}/kubectl"
+  jq      = "${local.gcloud_bin_path}/jq"
 
   create_cmd_bin  = "${local.gcloud_bin_path}/${var.create_cmd_entrypoint}"
   destroy_cmd_bin = "${local.gcloud_bin_path}/${var.destroy_cmd_entrypoint}"
@@ -43,7 +44,7 @@ resource "null_resource" "decompress" {
 
   provisioner "local-exec" {
     when    = create
-    command = "tar -xzf ${local.gcloud_tar_path} -C ${local.cache_path}"
+    command = "tar -xzf ${local.gcloud_tar_path} -C ${local.cache_path} && cp ${local.cache_path}/jq ${local.cache_path}/google-cloud-sdk/bin/"
   }
 }
 
