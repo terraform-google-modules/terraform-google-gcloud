@@ -128,3 +128,53 @@ resource "null_resource" "run_command" {
     command = "${local.destroy_cmd_bin} ${var.destroy_cmd_body}"
   }
 }
+
+resource "null_resource" "run_script_create" {
+  count = var.enabled && var.create_script != null ? 1 : 0
+
+  depends_on = [
+    null_resource.decompress,
+    null_resource.additional_components,
+    null_resource.gcloud_auth_google_credentials,
+    null_resource.gcloud_auth_service_account_key_file,
+    null_resource.run_command
+  ]
+
+  triggers = {
+    md5 = filemd5(var.create_script)
+  }
+
+  provisioner "local-exec" {
+    when = create
+
+    command = <<-EOT
+    PATH=${local.gcloud_bin_path}:$PATH
+    ${var.create_script}
+    EOT
+  }
+}
+
+resource "null_resource" "run_script_destroy" {
+  count = var.enabled && var.destroy_script != null ? 1 : 0
+
+  depends_on = [
+    null_resource.decompress,
+    null_resource.additional_components,
+    null_resource.gcloud_auth_google_credentials,
+    null_resource.gcloud_auth_service_account_key_file,
+    null_resource.run_command
+  ]
+
+  triggers = {
+    md5 = filemd5(var.destroy_script)
+  }
+
+  provisioner "local-exec" {
+    when = destroy
+
+    command = <<-EOT
+    PATH=${local.gcloud_bin_path}:$PATH
+    ${var.destroy_script}
+    EOT
+  }
+}
