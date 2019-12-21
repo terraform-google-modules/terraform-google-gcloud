@@ -11,7 +11,8 @@ and this project adheres to
 
 ### Added
 
-- `create_script` and `destroy_script` variables. The variables take in a path to a script that will be run by the module with the correct bin directory prepended to `PATH`. [#9]
+- `create_cmd_entrypoint` and `destroy_cmd_entrypoint` variables can now be set to a custom script to run. Prior to running the command the module will prepend the module's bin directory to `PATH`. [#9]
+- `create_cmd_triggers` can be set to trigger the `create_cmd` local-exec again. [#9]
 
 ## [0.2.0] - 2019-12-18
 
