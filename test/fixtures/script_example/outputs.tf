@@ -14,16 +14,7 @@
  * limitations under the License.
  */
 
-provider "google" {
-  version = "~> 2.0"
-}
-
-module "cli" {
-  source = "../.."
-
-  platform              = "linux"
-  additional_components = ["kubectl", "beta"]
-
-  create_cmd_body  = "services enable youtube.googleapis.com --project ${var.project_id}"
-  destroy_cmd_body = "services disable youtube.googleapis.com --project ${var.project_id}"
+output "project_id" {
+  description = "The ID of the project in which resources are provisioned."
+  value       = var.project_id
 }
