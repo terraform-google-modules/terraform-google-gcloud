@@ -1,4 +1,4 @@
-# Simple Example
+# Script Example
 
 This example illustrates how to use the `gcloud` module with a script
 
