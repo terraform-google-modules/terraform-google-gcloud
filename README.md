@@ -48,6 +48,7 @@ The [jq](https://stedolan.github.io/jq/) binary is also included in this module 
 
 | Name | Description |
 |------|-------------|
+| bin\_dir | The full bin path of the modules executables |
 | create\_cmd\_bin | The full bin path & command used on create |
 | destroy\_cmd\_bin | The full bin path & command used on destroy |
 
