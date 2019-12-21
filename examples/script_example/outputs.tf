@@ -13,17 +13,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-provider "google" {
-  version = "~> 2.0"
-}
-
-module "cli" {
-  source = "../.."
-
-  platform              = "linux"
-  additional_components = ["kubectl", "beta"]
-
-  create_cmd_body  = "services enable youtube.googleapis.com --project ${var.project_id}"
-  destroy_cmd_body = "services disable youtube.googleapis.com --project ${var.project_id}"
-}
