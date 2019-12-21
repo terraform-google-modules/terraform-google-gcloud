@@ -28,9 +28,6 @@ locals {
   kubectl = "${local.gcloud_bin_path}/kubectl"
   jq      = "${local.gcloud_bin_path}/jq"
 
-  create_cmd_bin  = "${local.gcloud_bin_path}/${var.create_cmd_entrypoint}"
-  destroy_cmd_bin = "${local.gcloud_bin_path}/${var.destroy_cmd_entrypoint}"
-
   wait = length(null_resource.additional_components.*.triggers) + length(
     null_resource.gcloud_auth_service_account_key_file.*.triggers,
   ) + length(null_resource.gcloud_auth_google_credentials.*.triggers)
