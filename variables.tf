@@ -21,7 +21,7 @@ variable "enabled" {
 }
 
 variable "create_cmd_entrypoint" {
-  description = "On create, the command entrypoint you'd like to use."
+  description = "On create, the command entrypoint you'd like to use. Can also be set to a custom script. Module's bin directory will be prepended to path."
   default     = "gcloud"
 }
 
@@ -30,8 +30,14 @@ variable "create_cmd_body" {
   default     = "info"
 }
 
+variable "create_cmd_triggers" {
+  description = "List of any additional triggers for the create command execution."
+  type        = map
+  default     = {}
+}
+
 variable "destroy_cmd_entrypoint" {
-  description = "On destroy, the command entrypoint you'd like to use."
+  description = "On destroy, the command entrypoint you'd like to use.  Can also be set to a custom script. Module's bin directory will be prepended to path."
   default     = "gcloud"
 }
 
@@ -58,30 +64,4 @@ variable "service_account_key_file" {
 variable "use_tf_google_credentials_env_var" {
   description = "Use GOOGLE_CREDENTIALS environment variable to run `gcloud auth activate-service-account` with. Optional."
   default     = false
-}
-
-variable "create_script" {
-  description = "On create, the file location of the script to run. Module's bin directory will be prepended to path."
-  default     = null
-}
-
-variable "create_script_arguments" {
-  description = "String of arguments passed to the `create_script` at exec time"
-  default     = ""
-}
-
-variable "create_script_triggers" {
-  description = "List of any additional triggers for the create script execution."
-  type        = map
-  default     = {}
-}
-
-variable "destroy_script" {
-  description = "On destroy, the file location of the script to run. Module's bin directory will be prepended to path."
-  default     = null
-}
-
-variable "destroy_script_arguments" {
-  description = "String of arguments passed to the `destroy_script` at exec time"
-  default     = ""
 }

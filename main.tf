@@ -119,60 +119,24 @@ resource "null_resource" "run_command" {
     null_resource.gcloud_auth_service_account_key_file
   ]
 
+  triggers = merge({
+    md5       = md5(var.create_cmd_entrypoint)
+    arguments = md5(var.create_cmd_body)
+  }, var.create_cmd_triggers)
+
   provisioner "local-exec" {
     when    = create
-    command = "${local.create_cmd_bin} ${var.create_cmd_body}"
+    command = <<-EOT
+    PATH=${local.gcloud_bin_abs_path}:$PATH
+    ${var.create_cmd_entrypoint} ${var.create_cmd_body}
+    EOT
   }
 
   provisioner "local-exec" {
     when    = destroy
-    command = "${local.destroy_cmd_bin} ${var.destroy_cmd_body}"
-  }
-}
-
-resource "null_resource" "run_script_create" {
-  count = var.enabled && var.create_script != null ? 1 : 0
-
-  depends_on = [
-    null_resource.decompress,
-    null_resource.additional_components,
-    null_resource.gcloud_auth_google_credentials,
-    null_resource.gcloud_auth_service_account_key_file,
-    null_resource.run_command
-  ]
-
-  triggers = merge({
-    md5       = filemd5(var.create_script)
-    arguments = md5(var.create_script_arguments)
-  }, var.create_script_triggers)
-
-  provisioner "local-exec" {
-    when = create
-
     command = <<-EOT
     PATH=${local.gcloud_bin_abs_path}:$PATH
-    ${var.create_script} ${var.create_script_arguments}
-    EOT
-  }
-}
-
-resource "null_resource" "run_script_destroy" {
-  count = var.enabled && var.destroy_script != null ? 1 : 0
-
-  depends_on = [
-    null_resource.decompress,
-    null_resource.additional_components,
-    null_resource.gcloud_auth_google_credentials,
-    null_resource.gcloud_auth_service_account_key_file,
-    null_resource.run_command
-  ]
-
-  provisioner "local-exec" {
-    when = destroy
-
-    command = <<-EOT
-    PATH=${local.gcloud_bin_abs_path}:$PATH
-    ${var.destroy_script} ${var.destroy_script_arguments}
+    ${var.destroy_cmd_entrypoint} ${var.destroy_cmd_body}
     EOT
   }
 }
