@@ -35,9 +35,10 @@ The [jq](https://stedolan.github.io/jq/) binary is also included in this module 
 |------|-------------|:----:|:-----:|:-----:|
 | additional\_components | Additional gcloud CLI components to install. Defaults to none. Valid value are components listed in `gcloud components list` | list | `<list>` | no |
 | create\_cmd\_body | On create, the command body you'd like to run with your entrypoint. | string | `"info"` | no |
-| create\_cmd\_entrypoint | On create, the command entrypoint you'd like to use. | string | `"gcloud"` | no |
+| create\_cmd\_entrypoint | On create, the command entrypoint you'd like to use. Can also be set to a custom script. Module's bin directory will be prepended to path. | string | `"gcloud"` | no |
+| create\_cmd\_triggers | List of any additional triggers for the create command execution. | map | `<map>` | no |
 | destroy\_cmd\_body | On destroy, the command body you'd like to run with your entrypoint. | string | `"info"` | no |
-| destroy\_cmd\_entrypoint | On destroy, the command entrypoint you'd like to use. | string | `"gcloud"` | no |
+| destroy\_cmd\_entrypoint | On destroy, the command entrypoint you'd like to use.  Can also be set to a custom script. Module's bin directory will be prepended to path. | string | `"gcloud"` | no |
 | enabled | Flag to optionally disable usage of this module. | bool | `"true"` | no |
 | platform | Platform CLI will run on. Defaults to linux. Valid values: linux, darwin | string | `"linux"` | no |
 | service\_account\_key\_file | Path to service account key file to run `gcloud auth activate-service-account` with. Optional. | string | `""` | no |
@@ -47,6 +48,7 @@ The [jq](https://stedolan.github.io/jq/) binary is also included in this module 
 
 | Name | Description |
 |------|-------------|
+| bin\_dir | The full bin path of the modules executables |
 | create\_cmd\_bin | The full bin path & command used on create |
 | destroy\_cmd\_bin | The full bin path & command used on destroy |
 

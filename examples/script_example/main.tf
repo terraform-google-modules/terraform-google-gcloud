@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-output "create_cmd_bin" {
-  description = "The full bin path & command used on create"
-  value       = local.create_cmd_bin
+provider "google" {
+  version = "~> 2.0"
 }
 
-output "destroy_cmd_bin" {
-  description = "The full bin path & command used on destroy"
-  value       = local.destroy_cmd_bin
-}
+module "cli" {
+  source = "../.."
 
-output "bin_dir" {
-  description = "The full bin path of the modules executables"
-  value       = local.gcloud_bin_path
+  platform              = "linux"
+  additional_components = ["kubectl", "beta"]
+
+  create_cmd_entrypoint = "${path.module}/scripts/script.sh"
+  create_cmd_body       = "enable ${var.project_id}"
+
+  destroy_cmd_entrypoint = "${path.module}/scripts/script.sh"
+  destroy_cmd_body       = "disable ${var.project_id}"
 }
