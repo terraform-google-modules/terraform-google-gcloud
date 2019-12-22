@@ -19,6 +19,7 @@ locals {
   cache_path           = "${path.module}/cache/${var.platform}"
   gcloud_tar_path      = "${local.cache_path}/google-cloud-sdk.tar.gz"
   gcloud_bin_path      = "${local.cache_path}/google-cloud-sdk/bin"
+  gcloud_bin_abs_path  = abspath(local.gcloud_bin_path)
   components           = join(" ", var.additional_components)
 
   gcloud  = "${local.gcloud_bin_path}/gcloud"
@@ -118,13 +119,24 @@ resource "null_resource" "run_command" {
     null_resource.gcloud_auth_service_account_key_file
   ]
 
+  triggers = merge({
+    md5       = md5(var.create_cmd_entrypoint)
+    arguments = md5(var.create_cmd_body)
+  }, var.create_cmd_triggers)
+
   provisioner "local-exec" {
     when    = create
-    command = "${local.create_cmd_bin} ${var.create_cmd_body}"
+    command = <<-EOT
+    PATH=${local.gcloud_bin_abs_path}:$PATH
+    ${var.create_cmd_entrypoint} ${var.create_cmd_body}
+    EOT
   }
 
   provisioner "local-exec" {
     when    = destroy
-    command = "${local.destroy_cmd_bin} ${var.destroy_cmd_body}"
+    command = <<-EOT
+    PATH=${local.gcloud_bin_abs_path}:$PATH
+    ${var.destroy_cmd_entrypoint} ${var.destroy_cmd_body}
+    EOT
   }
 }

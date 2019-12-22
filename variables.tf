@@ -21,7 +21,7 @@ variable "enabled" {
 }
 
 variable "create_cmd_entrypoint" {
-  description = "On create, the command entrypoint you'd like to use."
+  description = "On create, the command entrypoint you'd like to use. Can also be set to a custom script. Module's bin directory will be prepended to path."
   default     = "gcloud"
 }
 
@@ -30,8 +30,14 @@ variable "create_cmd_body" {
   default     = "info"
 }
 
+variable "create_cmd_triggers" {
+  description = "List of any additional triggers for the create command execution."
+  type        = map
+  default     = {}
+}
+
 variable "destroy_cmd_entrypoint" {
-  description = "On destroy, the command entrypoint you'd like to use."
+  description = "On destroy, the command entrypoint you'd like to use.  Can also be set to a custom script. Module's bin directory will be prepended to path."
   default     = "gcloud"
 }
 

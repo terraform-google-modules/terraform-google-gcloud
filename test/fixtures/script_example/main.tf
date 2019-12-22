@@ -14,17 +14,8 @@
  * limitations under the License.
  */
 
-output "create_cmd_bin" {
-  description = "The full bin path & command used on create"
-  value       = local.create_cmd_bin
-}
+module "example" {
+  source = "../../../examples/script_example"
 
-output "destroy_cmd_bin" {
-  description = "The full bin path & command used on destroy"
-  value       = local.destroy_cmd_bin
-}
-
-output "bin_dir" {
-  description = "The full bin path of the modules executables"
-  value       = local.gcloud_bin_path
+  project_id = var.project_id
 }
