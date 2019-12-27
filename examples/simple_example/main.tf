@@ -26,4 +26,6 @@ module "cli" {
 
   create_cmd_body  = "services enable youtube.googleapis.com --project ${var.project_id}"
   destroy_cmd_body = "services disable youtube.googleapis.com --project ${var.project_id}"
+
+  use_tf_google_credentials_env_var = true
 }
