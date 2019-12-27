@@ -154,10 +154,6 @@ resource "null_resource" "gcloud_auth_google_credentials_destroy" {
   count      = var.enabled && var.use_tf_google_credentials_env_var ? 1 : 0
   depends_on = [null_resource.run_command]
 
-  triggers = {
-    always = uuid()
-  }
-
   provisioner "local-exec" {
     when    = destroy
     command = local.gcloud_auth_google_credentials_command
@@ -168,10 +164,6 @@ resource "null_resource" "gcloud_auth_service_account_key_file_destroy" {
   count      = var.enabled && length(var.service_account_key_file) > 0 ? 1 : 0
   depends_on = [null_resource.run_command]
 
-  triggers = {
-    always = uuid()
-  }
-
   provisioner "local-exec" {
     when    = destroy
     command = local.gcloud_auth_service_account_key_file_command
@@ -181,10 +173,6 @@ resource "null_resource" "gcloud_auth_service_account_key_file_destroy" {
 resource "null_resource" "additional_components_destroy" {
   count      = var.enabled && length(var.additional_components) > 1 ? 1 : 0
   depends_on = [null_resource.run_command]
-
-  triggers = {
-    always = uuid()
-  }
 
   provisioner "local-exec" {
     when    = destroy
@@ -201,10 +189,6 @@ resource "null_resource" "upgrade_destroy" {
     null_resource.gcloud_auth_google_credentials_destroy
   ]
 
-  triggers = {
-    always = uuid()
-  }
-
   provisioner "local-exec" {
     when    = destroy
     command = local.upgrade_command
@@ -214,10 +198,6 @@ resource "null_resource" "upgrade_destroy" {
 resource "null_resource" "decompress_destroy" {
   count = var.enabled ? 1 : 0
   depends_on = [null_resource.upgrade_destroy]
-
-  triggers = {
-    always = uuid()
-  }
 
   provisioner "local-exec" {
     when    = destroy
