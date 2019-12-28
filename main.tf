@@ -196,7 +196,7 @@ resource "null_resource" "upgrade_destroy" {
 }
 
 resource "null_resource" "decompress_destroy" {
-  count = var.enabled ? 1 : 0
+  count      = var.enabled ? 1 : 0
   depends_on = [null_resource.upgrade_destroy]
 
   provisioner "local-exec" {
