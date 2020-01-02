@@ -17,7 +17,7 @@ steps:
   id: 'lint'
   args: ['/usr/local/bin/test_lint.sh']
   env:
-  - "EXCLUDE_LINT_DIRS=['cache']"
+  - "EXCLUDE_LINT_DIRS=\./cache"
 tags:
 - 'ci'
 - 'lint'
