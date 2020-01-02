@@ -33,7 +33,7 @@ locals {
 
   wait = length(null_resource.additional_components.*.triggers) + length(
     null_resource.gcloud_auth_service_account_key_file.*.triggers,
-  ) + length(null_resource.gcloud_auth_google_credentials.*.triggers,
+    ) + length(null_resource.gcloud_auth_google_credentials.*.triggers,
   ) + length(null_resource.run_command.*.triggers)
 }
 
