@@ -9,6 +9,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- On destroy provisioners so gcloud is installed and configured prior to the `destroy_cmd`. Helpful when running each terraform run in a clean environment (eg. terraform cloud). [#11]
+
 ## [0.3.0] - 2019-12-21
 
 ### Added
@@ -33,4 +37,5 @@ and this project adheres to
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-gcloud/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/terraform-google-modules/terraform-google-gcloud/releases/tag/v0.1.0
 
+[#11]: https://github.com/terraform-google-modules/terraform-google-gcloud/pull/11
 [#9]: https://github.com/terraform-google-modules/terraform-google-gcloud/pull/9
