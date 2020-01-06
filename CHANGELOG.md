@@ -9,7 +9,7 @@ and this project adheres to
 
 ## [Unreleased]
 
-### Added
+### Fixed
 
 - On destroy provisioners so gcloud is installed and configured prior to the `destroy_cmd`. Helpful when running each terraform run in a clean environment (eg. terraform cloud). [#11]
 
