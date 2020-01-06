@@ -51,6 +51,7 @@ The [jq](https://stedolan.github.io/jq/) binary is also included in this module 
 | bin\_dir | The full bin path of the modules executables |
 | create\_cmd\_bin | The full bin path & command used on create |
 | destroy\_cmd\_bin | The full bin path & command used on destroy |
+| wait | An output to use when you want to depend on cmd finishing |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
