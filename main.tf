@@ -33,7 +33,8 @@ locals {
 
   wait = length(null_resource.additional_components.*.triggers) + length(
     null_resource.gcloud_auth_service_account_key_file.*.triggers,
-  ) + length(null_resource.gcloud_auth_google_credentials.*.triggers)
+    ) + length(null_resource.gcloud_auth_google_credentials.*.triggers,
+  ) + length(null_resource.run_command.*.triggers)
 
   decompress_command                           = "tar -xzf ${local.gcloud_tar_path} -C ${local.cache_path} && cp ${local.cache_path}/jq ${local.cache_path}/google-cloud-sdk/bin/"
   upgrade_command                              = "${local.gcloud} components update --quiet"
