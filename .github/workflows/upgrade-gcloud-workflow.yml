@@ -23,8 +23,8 @@ jobs:
           body: |
             Updated GCloud SDK Version
           labels: automated pr
-          assignees: morgante,aaron-lane,milesmatthias
-          reviewers: morgante,aaron-lane,milesmatthias
+          assignees: morgante
+          reviewers: morgante
           branch: create-pull-request/patch-gcloud-version
           branch-suffix: none
       - name: Check outputs
