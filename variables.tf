@@ -20,6 +20,12 @@ variable "enabled" {
   default     = true
 }
 
+variable "module_depends_on" {
+  description = "List of modules or resources this module depends on."
+  type        = list
+  default     = []
+}
+
 variable "create_cmd_entrypoint" {
   description = "On create, the command entrypoint you'd like to use. Can also be set to a custom script. Module's bin directory will be prepended to path."
   default     = "gcloud"
