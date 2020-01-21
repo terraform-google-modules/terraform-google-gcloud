@@ -47,6 +47,14 @@ locals {
 
 }
 
+resource "null_resource" "module_depends_on" {
+  count = length(var.module_depends_on) > 0 ? 1 : 0
+
+  triggers = {
+    value = length(var.module_depends_on)
+  }
+}
+
 resource "null_resource" "decompress" {
   count = var.enabled ? 1 : 0
 
@@ -58,6 +66,8 @@ resource "null_resource" "decompress" {
     when    = create
     command = local.decompress_command
   }
+
+  depends_on = [null_resource.module_depends_on]
 }
 
 resource "null_resource" "upgrade" {

@@ -48,3 +48,14 @@ suites:
           backend: local
           controls:
             - gcloud
+  - name: dependency_example
+    driver:
+      command_timeout: 1800
+      root_module_directory: test/fixtures/dependency_example/
+    verifier:
+      color: false
+      systems:
+        - name: dependency_example local
+          backend: local
+          controls:
+            - file
