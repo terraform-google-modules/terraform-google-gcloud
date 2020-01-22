@@ -1,0 +1,9 @@
+name: dependency_example
+depends:
+  - name: inspec-gcp
+    git: https://github.com/inspec/inspec-gcp.git
+    tag: v0.10.0
+attributes:
+  - name: filename
+    required: true
+    type: string
