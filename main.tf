@@ -16,7 +16,8 @@
 
 locals {
   tmp_credentials_path = "${path.module}/terraform-google-credentials.json"
-  cache_path           = "${path.module}/cache/${var.platform}"
+  original_path        = "${path.module}/cache/${var.platform}"
+  cache_path           = "${path.module}/cache/${random_id.cache.hex}"
   gcloud_tar_path      = "${local.cache_path}/google-cloud-sdk.tar.gz"
   gcloud_bin_path      = "${local.cache_path}/google-cloud-sdk/bin"
   gcloud_bin_abs_path  = abspath(local.gcloud_bin_path)
@@ -36,6 +37,7 @@ locals {
     ) + length(null_resource.gcloud_auth_google_credentials.*.triggers,
   ) + length(null_resource.run_command.*.triggers)
 
+  copy_command                                 = "cp -R ${local.original_path} ${local.cache_path}"
   decompress_command                           = "tar -xzf ${local.gcloud_tar_path} -C ${local.cache_path} && cp ${local.cache_path}/jq ${local.cache_path}/google-cloud-sdk/bin/"
   upgrade_command                              = "${local.gcloud} components update --quiet"
   additional_components_command                = "${local.gcloud} components install ${local.components} --quiet"
@@ -45,6 +47,33 @@ locals {
     ${local.gcloud} auth activate-service-account --key-file ${local.tmp_credentials_path}
   EOT
 
+}
+
+resource "random_id" "cache" {
+  byte_length = 4
+}
+
+resource "null_resource" "module_depends_on" {
+  count = length(var.module_depends_on) > 0 ? 1 : 0
+
+  triggers = {
+    value = length(var.module_depends_on)
+  }
+}
+
+resource "null_resource" "copy" {
+  count = var.enabled ? 1 : 0
+
+  triggers = {
+    always = uuid()
+  }
+
+  provisioner "local-exec" {
+    when    = create
+    command = local.copy_command
+  }
+
+  depends_on = [null_resource.module_depends_on]
 }
 
 resource "null_resource" "decompress" {
@@ -58,10 +87,12 @@ resource "null_resource" "decompress" {
     when    = create
     command = local.decompress_command
   }
+
+  depends_on = [null_resource.copy]
 }
 
 resource "null_resource" "upgrade" {
-  count = var.enabled ? 1 : 0
+  count = (var.enabled && var.upgrade) ? 1 : 0
 
   depends_on = [null_resource.decompress]
 
@@ -182,7 +213,7 @@ resource "null_resource" "additional_components_destroy" {
 }
 
 resource "null_resource" "upgrade_destroy" {
-  count = var.enabled ? 1 : 0
+  count = (var.enabled && var.upgrade) ? 1 : 0
 
   depends_on = [
     null_resource.additional_components_destroy,
