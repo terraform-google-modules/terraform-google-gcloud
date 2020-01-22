@@ -15,7 +15,7 @@
  */
 
 locals {
-  filename = abspath("/tmp/file-${random_pet.filename.id}.txt")
+  filename = abspath("${path.module}/file-${random_pet.filename.id}.txt")
 }
 
 resource "random_pet" "filename" {
