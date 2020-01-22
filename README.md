@@ -43,6 +43,7 @@ The [jq](https://stedolan.github.io/jq/) binary is also included in this module 
 | module\_depends\_on | List of modules or resources this module depends on. | list | `<list>` | no |
 | platform | Platform CLI will run on. Defaults to linux. Valid values: linux, darwin | string | `"linux"` | no |
 | service\_account\_key\_file | Path to service account key file to run `gcloud auth activate-service-account` with. Optional. | string | `""` | no |
+| upgrade | Whether to upgrade gcloud at runtime | bool | `"true"` | no |
 | use\_tf\_google\_credentials\_env\_var | Use GOOGLE_CREDENTIALS environment variable to run `gcloud auth activate-service-account` with. Optional. | string | `"false"` | no |
 
 ## Outputs

@@ -28,6 +28,7 @@ module "hello" {
   source = "../.."
 
   platform = "linux"
+  upgrade  = false
 
   create_cmd_entrypoint = "${path.module}/scripts/script.sh"
   create_cmd_body       = "${local.filename} hello"
@@ -37,6 +38,7 @@ module "two" {
   source = "../.."
 
   platform = "linux"
+  upgrade  = false
 
   create_cmd_entrypoint = "${path.module}/scripts/script.sh"
   create_cmd_body       = "${local.filename} two"
@@ -46,6 +48,7 @@ module "goodbye" {
   source = "../.."
 
   platform = "linux"
+  upgrade  = false
 
   create_cmd_entrypoint = "${path.module}/scripts/script.sh"
   create_cmd_body       = "${local.filename} goodbye"
