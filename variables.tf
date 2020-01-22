@@ -20,6 +20,12 @@ variable "enabled" {
   default     = true
 }
 
+variable "upgrade" {
+  description = "Whether to upgrade gcloud at runtime"
+  type        = bool
+  default     = true
+}
+
 variable "module_depends_on" {
   description = "List of modules or resources this module depends on."
   type        = list
