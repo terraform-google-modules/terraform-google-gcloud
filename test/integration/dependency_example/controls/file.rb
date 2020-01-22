@@ -15,15 +15,16 @@
 control "file" do
   title "file"
 
-  describe command("cat #{attribute("filename")}") do
+  describe command("cat #{attribute("filename")} | wc -l") do
     its(:exit_status) { should eq 0 }
     its(:stderr) { should eq "" }
-    its(:stdout) { should match %{hello 1
-hello 2
-hello 3
-hello 4
-hello 5
-goodbye 1
+    its(:stdout) { should match "15" }
+  end
+
+  describe command("tail -n 5 #{attribute("filename")}") do
+    its(:exit_status) { should eq 0 }
+    its(:stderr) { should eq "" }
+    its(:stdout) { should match %{goodbye 1
 goodbye 2
 goodbye 3
 goodbye 4
