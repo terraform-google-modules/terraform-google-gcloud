@@ -18,11 +18,6 @@
 GCLOUD_LOCATION=$(command -v gcloud)
 echo "Using gcloud from $GCLOUD_LOCATION"
 
-if [[ $GCLOUD_LOCATION != *"/cache/linux/google-cloud-sdk/bin/gcloud" ]]; then
-  echo "gcloud bin not in modules directory"
-  exit 1
-fi
-
 gcloud --version
 echo "running gcloud services $1 appengine.googleapis.com --project $2"
 gcloud services "$1" appengine.googleapis.com --project "$2"
