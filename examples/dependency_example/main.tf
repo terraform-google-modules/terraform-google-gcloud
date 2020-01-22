@@ -33,6 +33,15 @@ module "hello" {
   create_cmd_body       = "${local.filename} hello"
 }
 
+module "two" {
+  source = "../.."
+
+  platform = "linux"
+
+  create_cmd_entrypoint = "${path.module}/scripts/script.sh"
+  create_cmd_body       = "${local.filename} two"
+}
+
 module "goodbye" {
   source = "../.."
 
@@ -41,5 +50,8 @@ module "goodbye" {
   create_cmd_entrypoint = "${path.module}/scripts/script.sh"
   create_cmd_body       = "${local.filename} goodbye"
 
-  module_depends_on = [module.hello.wait]
+  module_depends_on = [
+    module.hello.wait,
+    module.two.wait
+  ]
 }
