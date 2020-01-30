@@ -64,9 +64,10 @@ resource "null_resource" "module_depends_on" {
 resource "null_resource" "copy" {
   count = var.enabled ? 1 : 0
 
-  triggers = {
-    always = uuid()
-  }
+  triggers = merge({
+    md5       = md5(var.create_cmd_entrypoint)
+    arguments = md5(var.create_cmd_body)
+  }, var.create_cmd_triggers)
 
   provisioner "local-exec" {
     when    = create
@@ -79,9 +80,10 @@ resource "null_resource" "copy" {
 resource "null_resource" "decompress" {
   count = var.enabled ? 1 : 0
 
-  triggers = {
-    always = uuid()
-  }
+  triggers = merge({
+    md5       = md5(var.create_cmd_entrypoint)
+    arguments = md5(var.create_cmd_body)
+  }, var.create_cmd_triggers)
 
   provisioner "local-exec" {
     when    = create
@@ -96,9 +98,10 @@ resource "null_resource" "upgrade" {
 
   depends_on = [null_resource.decompress]
 
-  triggers = {
-    always = uuid()
-  }
+  triggers = merge({
+    md5       = md5(var.create_cmd_entrypoint)
+    arguments = md5(var.create_cmd_body)
+  }, var.create_cmd_triggers)
 
   provisioner "local-exec" {
     when    = create
@@ -110,9 +113,10 @@ resource "null_resource" "additional_components" {
   count      = var.enabled && length(var.additional_components) > 1 ? 1 : 0
   depends_on = [null_resource.upgrade]
 
-  triggers = {
-    always = uuid()
-  }
+  triggers = merge({
+    md5       = md5(var.create_cmd_entrypoint)
+    arguments = md5(var.create_cmd_body)
+  }, var.create_cmd_triggers)
 
   provisioner "local-exec" {
     when    = create
@@ -124,9 +128,10 @@ resource "null_resource" "gcloud_auth_service_account_key_file" {
   count      = var.enabled && length(var.service_account_key_file) > 0 ? 1 : 0
   depends_on = [null_resource.upgrade]
 
-  triggers = {
-    always = uuid()
-  }
+  triggers = merge({
+    md5       = md5(var.create_cmd_entrypoint)
+    arguments = md5(var.create_cmd_body)
+  }, var.create_cmd_triggers)
 
   provisioner "local-exec" {
     when    = create
@@ -138,9 +143,10 @@ resource "null_resource" "gcloud_auth_google_credentials" {
   count      = var.enabled && var.use_tf_google_credentials_env_var ? 1 : 0
   depends_on = [null_resource.upgrade]
 
-  triggers = {
-    always = uuid()
-  }
+  triggers = merge({
+    md5       = md5(var.create_cmd_entrypoint)
+    arguments = md5(var.create_cmd_body)
+  }, var.create_cmd_triggers)
 
   provisioner "local-exec" {
     when    = create
