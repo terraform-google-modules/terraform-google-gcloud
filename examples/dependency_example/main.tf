@@ -27,8 +27,9 @@ resource "random_pet" "filename" {
 module "hello" {
   source = "../.."
 
-  platform = "linux"
-  upgrade  = false
+  platform      = "linux"
+  upgrade       = false
+  skip_download = true
 
   create_cmd_entrypoint = "${path.module}/scripts/script.sh"
   create_cmd_body       = "${local.filename} hello"
@@ -37,8 +38,9 @@ module "hello" {
 module "two" {
   source = "../.."
 
-  platform = "linux"
-  upgrade  = false
+  platform      = "linux"
+  upgrade       = false
+  skip_download = true
 
   create_cmd_entrypoint = "${path.module}/scripts/script.sh"
   create_cmd_body       = "${local.filename} two"
@@ -47,8 +49,9 @@ module "two" {
 module "goodbye" {
   source = "../.."
 
-  platform = "linux"
-  upgrade  = false
+  platform      = "linux"
+  upgrade       = false
+  skip_download = true
 
   create_cmd_entrypoint = "${path.module}/scripts/script.sh"
   create_cmd_body       = "${local.filename} goodbye"
