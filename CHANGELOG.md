@@ -7,6 +7,18 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v0.4.0...v0.5.0) (2020-01-30)
+
+
+### Features
+
+* Add a skip_download var to use global gcloud instead ([#22](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/22)) ([19c2263](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/19c22633292b925bb6e20aadb9552084bbf7fea8))
+
+
+### Bug Fixes
+
+* Only download & install when create cmd changes, fixes [#23](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/23) ([a57245b](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/a57245b81a9957b7666779f99a7be80ff192a223))
+
 ## [Unreleased](https://github.com/terraform-google-modules/terraform-google-gcloud/compare/v0.4.0...master)
 
 ## [0.4.0](https://github.com/terraform-google-modules/terraform-google-gcloud/compare/v0.3.0...v0.4.0) - 2020-01-23
