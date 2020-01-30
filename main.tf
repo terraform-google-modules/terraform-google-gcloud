@@ -23,14 +23,10 @@ locals {
   gcloud_bin_abs_path  = abspath(local.gcloud_bin_path)
   components           = join(" ", var.additional_components)
 
-  gcloud  = "${local.gcloud_bin_path}/gcloud"
-  gsutil  = "${local.gcloud_bin_path}/gsutil"
-  bq      = "${local.gcloud_bin_path}/bq"
-  kubectl = "${local.gcloud_bin_path}/kubectl"
-  jq      = "${local.gcloud_bin_path}/jq"
+  gcloud = var.skip_download ? "gcloud" : "${local.gcloud_bin_path}/gcloud"
 
-  create_cmd_bin  = "${local.gcloud_bin_path}/${var.create_cmd_entrypoint}"
-  destroy_cmd_bin = "${local.gcloud_bin_path}/${var.destroy_cmd_entrypoint}"
+  create_cmd_bin  = var.skip_download ? var.create_cmd_entrypoint : "${local.gcloud_bin_path}/${var.create_cmd_entrypoint}"
+  destroy_cmd_bin = var.skip_download ? var.destroy_cmd_entrypoint : "${local.gcloud_bin_path}/${var.destroy_cmd_entrypoint}"
 
   wait = length(null_resource.additional_components.*.triggers) + length(
     null_resource.gcloud_auth_service_account_key_file.*.triggers,
@@ -62,7 +58,7 @@ resource "null_resource" "module_depends_on" {
 }
 
 resource "null_resource" "copy" {
-  count = var.enabled ? 1 : 0
+  count = (var.enabled && ! var.skip_download) ? 1 : 0
 
   triggers = merge({
     md5       = md5(var.create_cmd_entrypoint)
@@ -78,7 +74,7 @@ resource "null_resource" "copy" {
 }
 
 resource "null_resource" "decompress" {
-  count = var.enabled ? 1 : 0
+  count = (var.enabled && ! var.skip_download) ? 1 : 0
 
   triggers = merge({
     md5       = md5(var.create_cmd_entrypoint)
@@ -94,7 +90,7 @@ resource "null_resource" "decompress" {
 }
 
 resource "null_resource" "upgrade" {
-  count = (var.enabled && var.upgrade) ? 1 : 0
+  count = (var.enabled && var.upgrade && ! var.skip_download) ? 1 : 0
 
   depends_on = [null_resource.decompress]
 
@@ -158,6 +154,7 @@ resource "null_resource" "run_command" {
   count = var.enabled ? 1 : 0
 
   depends_on = [
+    null_resource.module_depends_on,
     null_resource.decompress,
     null_resource.additional_components,
     null_resource.gcloud_auth_google_credentials,
@@ -219,7 +216,7 @@ resource "null_resource" "additional_components_destroy" {
 }
 
 resource "null_resource" "upgrade_destroy" {
-  count = (var.enabled && var.upgrade) ? 1 : 0
+  count = (var.enabled && var.upgrade && ! var.skip_download) ? 1 : 0
 
   depends_on = [
     null_resource.additional_components_destroy,
@@ -234,7 +231,7 @@ resource "null_resource" "upgrade_destroy" {
 }
 
 resource "null_resource" "decompress_destroy" {
-  count      = var.enabled ? 1 : 0
+  count      = (var.enabled && ! var.skip_download) ? 1 : 0
   depends_on = [null_resource.upgrade_destroy]
 
   provisioner "local-exec" {
