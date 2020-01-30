@@ -26,6 +26,12 @@ variable "upgrade" {
   default     = true
 }
 
+variable "skip_download" {
+  description = "Whether to skip downloading gcloud (assumes gcloud is already available outside the module)"
+  type        = bool
+  default     = false
+}
+
 variable "module_depends_on" {
   description = "List of modules or resources this module depends on."
   type        = list
