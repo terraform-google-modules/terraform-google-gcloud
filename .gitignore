@@ -46,3 +46,8 @@ google-cloud-sdk/
 google-cloud-sdk.staging/
 credentials.json
 tmp
+
+# ignore the detected platform
+platform.cfg
+# ignore the example generated files
+file-*.txt 

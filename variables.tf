@@ -70,8 +70,8 @@ variable "additional_components" {
 }
 
 variable "platform" {
-  description = "Platform CLI will run on. Defaults to linux. Valid values: linux, darwin"
-  default     = "linux"
+  description = "Platform CLI will run on. Defaults to \"\" (autodetect). Valid values: linux, darwin, \"\""
+  default     = ""
 }
 
 variable "service_account_key_file" {

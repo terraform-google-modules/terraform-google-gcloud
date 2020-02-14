@@ -21,7 +21,6 @@ provider "google" {
 module "cli" {
   source = "../.."
 
-  platform              = "linux"
   additional_components = ["kubectl", "beta"]
 
   create_cmd_body  = "services enable youtube.googleapis.com --project ${var.project_id}"

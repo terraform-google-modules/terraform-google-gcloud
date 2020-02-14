@@ -49,7 +49,6 @@ module "two" {
 module "goodbye" {
   source = "../.."
 
-  platform      = "linux"
   upgrade       = false
   skip_download = true
 
