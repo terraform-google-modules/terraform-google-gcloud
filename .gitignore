@@ -50,4 +50,4 @@ tmp
 # ignore the detected platform
 platform.cfg
 # ignore the example generated files
-file-*.txt 
+file-*.txt
