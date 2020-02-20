@@ -7,6 +7,13 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### [0.5.1](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v0.5.0...v0.5.1) (2020-02-20)
+
+
+### Bug Fixes
+
+* Remove cyclic dependency warnings in gcloud module ([#31](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/31)) ([57a4c36](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/57a4c3631a678f4f2882f9a73ece7b6a6a734673))
+
 ## [0.5.0](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v0.4.0...v0.5.0) (2020-01-30)
 
 
