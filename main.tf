@@ -61,13 +61,14 @@ resource "null_resource" "copy" {
   count = (var.enabled && ! var.skip_download) ? 1 : 0
 
   triggers = merge({
-    md5       = md5(var.create_cmd_entrypoint)
-    arguments = md5(var.create_cmd_body)
+    md5          = md5(var.create_cmd_entrypoint)
+    arguments    = md5(var.create_cmd_body)
+    copy_command = local.copy_command
   }, var.create_cmd_triggers)
 
   provisioner "local-exec" {
     when    = create
-    command = local.copy_command
+    command = self.triggers.copy_command
   }
 
   depends_on = [null_resource.module_depends_on]
@@ -77,13 +78,14 @@ resource "null_resource" "decompress" {
   count = (var.enabled && ! var.skip_download) ? 1 : 0
 
   triggers = merge({
-    md5       = md5(var.create_cmd_entrypoint)
-    arguments = md5(var.create_cmd_body)
+    md5                = md5(var.create_cmd_entrypoint)
+    arguments          = md5(var.create_cmd_body)
+    decompress_command = local.decompress_command
   }, var.create_cmd_triggers)
 
   provisioner "local-exec" {
     when    = create
-    command = local.decompress_command
+    command = self.triggers.decompress_command
   }
 
   depends_on = [null_resource.copy]
@@ -95,13 +97,14 @@ resource "null_resource" "upgrade" {
   depends_on = [null_resource.decompress]
 
   triggers = merge({
-    md5       = md5(var.create_cmd_entrypoint)
-    arguments = md5(var.create_cmd_body)
+    md5             = md5(var.create_cmd_entrypoint)
+    arguments       = md5(var.create_cmd_body)
+    upgrade_command = local.upgrade_command
   }, var.create_cmd_triggers)
 
   provisioner "local-exec" {
     when    = create
-    command = local.upgrade_command
+    command = self.triggers.upgrade_command
   }
 }
 
@@ -110,13 +113,14 @@ resource "null_resource" "additional_components" {
   depends_on = [null_resource.upgrade]
 
   triggers = merge({
-    md5       = md5(var.create_cmd_entrypoint)
-    arguments = md5(var.create_cmd_body)
+    md5                           = md5(var.create_cmd_entrypoint)
+    arguments                     = md5(var.create_cmd_body)
+    additional_components_command = local.additional_components_command
   }, var.create_cmd_triggers)
 
   provisioner "local-exec" {
     when    = create
-    command = local.additional_components_command
+    command = self.triggers.additional_components_command
   }
 }
 
@@ -125,13 +129,14 @@ resource "null_resource" "gcloud_auth_service_account_key_file" {
   depends_on = [null_resource.upgrade]
 
   triggers = merge({
-    md5       = md5(var.create_cmd_entrypoint)
-    arguments = md5(var.create_cmd_body)
+    md5                                          = md5(var.create_cmd_entrypoint)
+    arguments                                    = md5(var.create_cmd_body)
+    gcloud_auth_service_account_key_file_command = local.gcloud_auth_service_account_key_file_command
   }, var.create_cmd_triggers)
 
   provisioner "local-exec" {
     when    = create
-    command = local.gcloud_auth_service_account_key_file_command
+    command = self.triggers.gcloud_auth_service_account_key_file_command
   }
 }
 
@@ -140,13 +145,14 @@ resource "null_resource" "gcloud_auth_google_credentials" {
   depends_on = [null_resource.upgrade]
 
   triggers = merge({
-    md5       = md5(var.create_cmd_entrypoint)
-    arguments = md5(var.create_cmd_body)
+    md5                                    = md5(var.create_cmd_entrypoint)
+    arguments                              = md5(var.create_cmd_body)
+    gcloud_auth_google_credentials_command = local.gcloud_auth_google_credentials_command
   }, var.create_cmd_triggers)
 
   provisioner "local-exec" {
     when    = create
-    command = local.gcloud_auth_google_credentials_command
+    command = self.triggers.gcloud_auth_google_credentials_command
   }
 }
 
@@ -162,23 +168,28 @@ resource "null_resource" "run_command" {
   ]
 
   triggers = merge({
-    md5       = md5(var.create_cmd_entrypoint)
-    arguments = md5(var.create_cmd_body)
+    md5                    = md5(var.create_cmd_entrypoint)
+    arguments              = md5(var.create_cmd_body)
+    create_cmd_entrypoint  = var.create_cmd_entrypoint
+    create_cmd_body        = var.create_cmd_body
+    destroy_cmd_entrypoint = var.destroy_cmd_entrypoint
+    destroy_cmd_body       = var.destroy_cmd_body
+    gcloud_bin_abs_path    = local.gcloud_bin_abs_path
   }, var.create_cmd_triggers)
 
   provisioner "local-exec" {
     when    = create
     command = <<-EOT
-    PATH=${local.gcloud_bin_abs_path}:$PATH
-    ${var.create_cmd_entrypoint} ${var.create_cmd_body}
+    PATH=${self.triggers.gcloud_bin_abs_path}:$PATH
+    ${self.triggers.create_cmd_entrypoint} ${self.triggers.create_cmd_body}
     EOT
   }
 
   provisioner "local-exec" {
     when    = destroy
     command = <<-EOT
-    PATH=${local.gcloud_bin_abs_path}:$PATH
-    ${var.destroy_cmd_entrypoint} ${var.destroy_cmd_body}
+    PATH=${self.triggers.gcloud_bin_abs_path}:$PATH
+    ${self.triggers.destroy_cmd_entrypoint} ${self.triggers.destroy_cmd_body}
     EOT
   }
 }
@@ -189,9 +200,12 @@ resource "null_resource" "gcloud_auth_google_credentials_destroy" {
   count      = var.enabled && var.use_tf_google_credentials_env_var ? 1 : 0
   depends_on = [null_resource.run_command]
 
+  triggers = {
+    gcloud_auth_google_credentials_command = local.gcloud_auth_google_credentials_command
+  }
   provisioner "local-exec" {
     when    = destroy
-    command = local.gcloud_auth_google_credentials_command
+    command = self.triggers.gcloud_auth_google_credentials_command
   }
 }
 
@@ -199,9 +213,13 @@ resource "null_resource" "gcloud_auth_service_account_key_file_destroy" {
   count      = var.enabled && length(var.service_account_key_file) > 0 ? 1 : 0
   depends_on = [null_resource.run_command]
 
+  triggers = {
+    gcloud_auth_service_account_key_file_command = local.gcloud_auth_service_account_key_file_command
+  }
+
   provisioner "local-exec" {
     when    = destroy
-    command = local.gcloud_auth_service_account_key_file_command
+    command = self.triggers.gcloud_auth_service_account_key_file_command
   }
 }
 
@@ -209,9 +227,13 @@ resource "null_resource" "additional_components_destroy" {
   count      = var.enabled && length(var.additional_components) > 1 ? 1 : 0
   depends_on = [null_resource.run_command]
 
+  triggers = {
+    additional_components_command = local.additional_components_command
+  }
+
   provisioner "local-exec" {
     when    = destroy
-    command = local.additional_components_command
+    command = self.triggers.additional_components_command
   }
 }
 
@@ -224,9 +246,13 @@ resource "null_resource" "upgrade_destroy" {
     null_resource.gcloud_auth_google_credentials_destroy
   ]
 
+  triggers = {
+    upgrade_command = local.upgrade_command
+  }
+
   provisioner "local-exec" {
     when    = destroy
-    command = local.upgrade_command
+    command = self.triggers.upgrade_command
   }
 }
 
@@ -234,8 +260,12 @@ resource "null_resource" "decompress_destroy" {
   count      = (var.enabled && ! var.skip_download) ? 1 : 0
   depends_on = [null_resource.upgrade_destroy]
 
+  triggers = {
+    decompress_command = local.decompress_command
+  }
+
   provisioner "local-exec" {
     when    = destroy
-    command = local.decompress_command
+    command = self.triggers.decompress_command
   }
 }
