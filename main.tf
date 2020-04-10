@@ -116,9 +116,11 @@ resource "null_resource" "decompress" {
   count = (var.enabled && ! var.skip_download) ? 1 : 0
 
   triggers = merge({
-    md5                = md5(var.create_cmd_entrypoint)
-    arguments          = md5(var.create_cmd_body)
-    decompress_command = local.decompress_command
+    md5                     = md5(var.create_cmd_entrypoint)
+    arguments               = md5(var.create_cmd_body)
+    decompress_command      = local.decompress_command
+    download_gcloud_command = local.download_gcloud_command
+    download_jq_command     = local.download_jq_command
   }, var.create_cmd_triggers)
 
   provisioner "local-exec" {
