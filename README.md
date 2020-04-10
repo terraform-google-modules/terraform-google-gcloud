@@ -40,6 +40,10 @@ The [jq](https://stedolan.github.io/jq/) binary is also included in this module 
 | destroy\_cmd\_body | On destroy, the command body you'd like to run with your entrypoint. | string | `"info"` | no |
 | destroy\_cmd\_entrypoint | On destroy, the command entrypoint you'd like to use.  Can also be set to a custom script. Module's bin directory will be prepended to path. | string | `"gcloud"` | no |
 | enabled | Flag to optionally disable usage of this module. | bool | `"true"` | no |
+| gcloud\_download\_url | Custom gcloud download url. Optional. | string | `""` | no |
+| gcloud\_sdk\_version | The gcloud sdk version to download. | string | `"281.0.0"` | no |
+| jq\_download\_url | Custom jq download url. Optional. | string | `""` | no |
+| jq\_version | The jq version to download. | string | `"1.6"` | no |
 | module\_depends\_on | List of modules or resources this module depends on. | list | `<list>` | no |
 | platform | Platform CLI will run on. Defaults to linux. Valid values: linux, darwin | string | `"linux"` | no |
 | service\_account\_key\_file | Path to service account key file to run `gcloud auth activate-service-account` with. Optional. | string | `""` | no |
@@ -68,6 +72,7 @@ The following dependencies must be available:
 
 - [Terraform][terraform] v0.12
 - [Terraform Provider for GCP][terraform-provider-gcp] plugin v2.0
+- [curl][curl]
 
 ### Service Account
 
@@ -92,4 +97,4 @@ information on contributing to this module.
 [project-factory-module]: https://registry.terraform.io/modules/terraform-google-modules/project-factory/google
 [terraform-provider-gcp]: https://www.terraform.io/docs/providers/google/index.html
 [terraform]: https://www.terraform.io/downloads.html
-
+[curl]: https://curl.haxx.se

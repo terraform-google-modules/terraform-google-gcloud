@@ -16,10 +16,8 @@
 # Please make sure to contribute relevant changes upstream!
 
 # Make will use bash instead of sh
-SHELL := /usr/bin/env bash
+SHELL := /usr/bin/env bash -O extglob
 
-GCLOUD_SDK_VERSION := $(shell cat SDK_VERSION)
-JQ_VERSION := 1.6
 DOCKER_TAG_VERSION_DEVELOPER_TOOLS := 0
 DOCKER_IMAGE_DEVELOPER_TOOLS := cft/developer-tools
 REGISTRY_URL := gcr.io/cloud-foundation-cicd
@@ -66,7 +64,6 @@ docker_test_integration:
 		$(REGISTRY_URL)/${DOCKER_IMAGE_DEVELOPER_TOOLS}:${DOCKER_TAG_VERSION_DEVELOPER_TOOLS} \
 		/usr/local/bin/test_integration.sh
 
-
 # Execute lint tests within the docker container
 .PHONY: docker_test_lint
 docker_test_lint:
@@ -88,54 +85,6 @@ docker_generate_docs:
 .PHONY: generate_docs
 generate_docs: docker_generate_docs
 
-.PHONY: all
-all: reset
-all:
-	$(MAKE) gcloud.darwin
-	$(MAKE) gcloud.linux
-	$(MAKE) jq.download
-
-.PHONY: gcloud.darwin
-gcloud.darwin: OS_ARCH=darwin
-gcloud.darwin: gcloud.download
-
-.PHONY: gcloud.linux
-gcloud.linux: OS_ARCH=linux
-gcloud.linux: gcloud.download
-
-.PHONY: gcloud.download
-gcloud.download:
-	mkdir -p cache/${OS_ARCH}/
-	cd cache/${OS_ARCH}/ && \
-		curl -sL -o google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_SDK_VERSION}-${OS_ARCH}-x86_64.tar.gz
-
-.PHONY: jq.download
-jq.download:
-	mkdir -p cache/darwin/
-	cd cache/darwin/ && \
-		curl -sL -o jq https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-osx-amd64 && \
-		chmod +x jq
-	mkdir -p cache/linux/
-	cd cache/linux/ && \
-		curl -sL -o jq https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-linux64 && \
-		chmod +x jq
-
 .PHONY: clean
-clean: ## Clean caches of decompressed SDKs
-	rm -rf cache/darwin/google-cloud-sdk/
-	rm -rf cache/linux/google-cloud-sdk/
-	rm -rf cache/darwin/google-cloud-sdk.staging/
-	rm -rf cache/linux/google-cloud-sdk.staging/
-	rm -rf cache/darwin/jq
-	rm -rf cache/linux/jq
-
-.PHONY: reset
-reset:
-	rm -rf cache
-
-.PHONY: update-gcloud-version
-update-gcloud-version:
-	mkdir -p tmp && cd tmp && \
-		curl -sL -o google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz && \
-		tar -xzf google-cloud-sdk.tar.gz -C . && \
-		cp google-cloud-sdk/VERSION ../SDK_VERSION
+clean: ## Clean caches
+	rm -rf cache/!(README.md)

@@ -83,3 +83,25 @@ variable "use_tf_google_credentials_env_var" {
   description = "Use GOOGLE_CREDENTIALS environment variable to run `gcloud auth activate-service-account` with. Optional."
   default     = false
 }
+
+variable "jq_version" {
+  description = "The jq version to download."
+  default     = "1.6"
+}
+
+variable "gcloud_sdk_version" {
+  description = "The gcloud sdk version to download."
+  default     = "281.0.0"
+}
+
+variable "gcloud_download_url" {
+  description = "Custom gcloud download url. Optional."
+  type        = string
+  default     = ""
+}
+
+variable "jq_download_url" {
+  description = "Custom jq download url. Optional."
+  type        = string
+  default     = ""
+}
