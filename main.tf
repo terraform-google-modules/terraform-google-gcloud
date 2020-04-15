@@ -16,14 +16,16 @@
 
 locals {
   tmp_credentials_path = "${path.module}/terraform-google-credentials.json"
-  original_path        = "${path.module}/cache/${var.platform}"
   cache_path           = "${path.module}/cache/${random_id.cache.hex}"
   gcloud_tar_path      = "${local.cache_path}/google-cloud-sdk.tar.gz"
   gcloud_bin_path      = "${local.cache_path}/google-cloud-sdk/bin"
   gcloud_bin_abs_path  = abspath(local.gcloud_bin_path)
   components           = join(" ", var.additional_components)
 
-  gcloud = var.skip_download ? "gcloud" : "${local.gcloud_bin_path}/gcloud"
+  gcloud              = var.skip_download ? "gcloud" : "${local.gcloud_bin_path}/gcloud"
+  gcloud_download_url = var.gcloud_download_url != "" ? var.gcloud_download_url : "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${var.gcloud_sdk_version}-${var.platform}-x86_64.tar.gz"
+  jq_platform         = var.platform == "darwin" ? "osx-amd" : var.platform
+  jq_download_url     = var.jq_download_url != "" ? var.jq_download_url : "https://github.com/stedolan/jq/releases/download/jq-${var.jq_version}/jq-${local.jq_platform}64"
 
   create_cmd_bin  = var.skip_download ? var.create_cmd_entrypoint : "${local.gcloud_bin_path}/${var.create_cmd_entrypoint}"
   destroy_cmd_bin = var.skip_download ? var.destroy_cmd_entrypoint : "${local.gcloud_bin_path}/${var.destroy_cmd_entrypoint}"
@@ -33,7 +35,9 @@ locals {
     ) + length(null_resource.gcloud_auth_google_credentials.*.triggers,
   ) + length(null_resource.run_command.*.triggers)
 
-  copy_command                                 = "cp -R ${local.original_path} ${local.cache_path}"
+  prepare_cache_command                        = "mkdir ${local.cache_path}"
+  download_gcloud_command                      = "curl -sL -o ${local.cache_path}/google-cloud-sdk.tar.gz ${local.gcloud_download_url}"
+  download_jq_command                          = "curl -sL -o ${local.cache_path}/jq ${local.jq_download_url} && chmod +x ${local.cache_path}/jq"
   decompress_command                           = "tar -xzf ${local.gcloud_tar_path} -C ${local.cache_path} && cp ${local.cache_path}/jq ${local.cache_path}/google-cloud-sdk/bin/"
   upgrade_command                              = "${local.gcloud} components update --quiet"
   additional_components_command                = "${local.gcloud} components install ${local.components} --quiet"
@@ -57,30 +61,66 @@ resource "null_resource" "module_depends_on" {
   }
 }
 
-resource "null_resource" "copy" {
+resource "null_resource" "prepare_cache" {
   count = (var.enabled && ! var.skip_download) ? 1 : 0
 
   triggers = merge({
-    md5          = md5(var.create_cmd_entrypoint)
-    arguments    = md5(var.create_cmd_body)
-    copy_command = local.copy_command
+    md5                   = md5(var.create_cmd_entrypoint)
+    arguments             = md5(var.create_cmd_body)
+    prepare_cache_command = local.prepare_cache_command
   }, var.create_cmd_triggers)
 
   provisioner "local-exec" {
     when    = create
-    command = self.triggers.copy_command
+    command = self.triggers.prepare_cache_command
   }
 
   depends_on = [null_resource.module_depends_on]
+}
+
+resource "null_resource" "download_gcloud" {
+  count = (var.enabled && ! var.skip_download) ? 1 : 0
+
+  triggers = merge({
+    md5                     = md5(var.create_cmd_entrypoint)
+    arguments               = md5(var.create_cmd_body)
+    download_gcloud_command = local.download_gcloud_command
+  }, var.create_cmd_triggers)
+
+  provisioner "local-exec" {
+    when    = create
+    command = self.triggers.download_gcloud_command
+  }
+
+  depends_on = [null_resource.prepare_cache]
+}
+
+resource "null_resource" "download_jq" {
+  count = (var.enabled && ! var.skip_download) ? 1 : 0
+
+  triggers = merge({
+    md5                 = md5(var.create_cmd_entrypoint)
+    arguments           = md5(var.create_cmd_body)
+    download_jq_command = local.download_jq_command
+  }, var.create_cmd_triggers)
+
+  provisioner "local-exec" {
+    when    = create
+    command = self.triggers.download_jq_command
+  }
+
+  depends_on = [null_resource.prepare_cache]
 }
 
 resource "null_resource" "decompress" {
   count = (var.enabled && ! var.skip_download) ? 1 : 0
 
   triggers = merge({
-    md5                = md5(var.create_cmd_entrypoint)
-    arguments          = md5(var.create_cmd_body)
-    decompress_command = local.decompress_command
+    md5                     = md5(var.create_cmd_entrypoint)
+    arguments               = md5(var.create_cmd_body)
+    decompress_command      = local.decompress_command
+    download_gcloud_command = local.download_gcloud_command
+    download_jq_command     = local.download_jq_command
   }, var.create_cmd_triggers)
 
   provisioner "local-exec" {
@@ -88,7 +128,7 @@ resource "null_resource" "decompress" {
     command = self.triggers.decompress_command
   }
 
-  depends_on = [null_resource.copy]
+  depends_on = [null_resource.download_gcloud, null_resource.download_jq]
 }
 
 resource "null_resource" "upgrade" {
