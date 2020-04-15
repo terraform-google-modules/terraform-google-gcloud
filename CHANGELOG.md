@@ -7,6 +7,17 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v0.5.1...v1.0.0) (2020-04-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* gcloud is now downloaded as part of Terraform execution, meaning your Terraform runner needs access to the internet. Alternatively, you can install gcloud out-of-band and set `skip_download` to true.
+
+### Features
+
+* Download gcloud directly in Terraform and allow skipping completely ([#41](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/41)) ([41fe46b](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/41fe46b2f46ee493e1af54738a52ac5c89103482))
+
 ### [0.5.1](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v0.5.0...v0.5.1) (2020-02-20)
 
 
