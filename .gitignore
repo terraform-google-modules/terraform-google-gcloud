@@ -46,3 +46,7 @@ google-cloud-sdk/
 google-cloud-sdk.staging/
 credentials.json
 tmp
+
+# Ignore cache directory
+cache/*
+!cache/README.md
