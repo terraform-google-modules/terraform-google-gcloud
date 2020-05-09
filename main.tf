@@ -149,7 +149,7 @@ resource "null_resource" "upgrade" {
 }
 
 resource "null_resource" "additional_components" {
-  count      = var.enabled && length(var.additional_components) > 1 ? 1 : 0
+  count      = var.enabled && length(var.additional_components) > 0 ? 1 : 0
   depends_on = [null_resource.upgrade]
 
   triggers = merge({
@@ -264,7 +264,7 @@ resource "null_resource" "gcloud_auth_service_account_key_file_destroy" {
 }
 
 resource "null_resource" "additional_components_destroy" {
-  count      = var.enabled && length(var.additional_components) > 1 ? 1 : 0
+  count      = var.enabled && length(var.additional_components) > 0 ? 1 : 0
   depends_on = [null_resource.run_command]
 
   triggers = {
