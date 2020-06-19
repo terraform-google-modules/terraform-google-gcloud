@@ -104,4 +104,5 @@ module "kubectl-local-yaml" {
   module_depends_on       = [module.kubectl-imperative.wait, module.gke.endpoint]
   kubectl_create_command  = "kubectl apply -f ${local.manifest_path}"
   kubectl_destroy_command = "kubectl delete -f ${local.manifest_path}"
+  skip_download           = false
 }
