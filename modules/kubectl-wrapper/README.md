@@ -18,6 +18,7 @@ This submodule aims to make interactions with GKE clusters using kubectl easier 
 | module\_depends\_on | List of modules or resources this module depends on. | list | `<list>` | no |
 | project\_id | The project ID hosting the cluster | string | n/a | yes |
 | skip\_download | Whether to skip downloading gcloud (assumes gcloud and kubectl is already available outside the module) | bool | `"false"` | no |
+| upgrade | Whether to upgrade gcloud at runtime | bool | `"true"` | no |
 
 ## Outputs
 

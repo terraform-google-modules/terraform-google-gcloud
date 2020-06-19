@@ -51,7 +51,6 @@ variable "module_depends_on" {
   default     = []
 }
 
-
 variable "create_cmd_triggers" {
   description = "List of any additional triggers for the create command execution."
   type        = map
@@ -72,4 +71,10 @@ variable "skip_download" {
 variable "gcloud_sdk_version" {
   description = "The gcloud sdk version to download."
   default     = "281.0.0"
+}
+
+variable "upgrade" {
+  description = "Whether to upgrade gcloud at runtime"
+  type        = bool
+  default     = true
 }
