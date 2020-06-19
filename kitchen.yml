@@ -59,3 +59,14 @@ suites:
           backend: local
           controls:
             - file
+  - name: kubectl_wrapper_example
+    driver:
+      command_timeout: 3600
+      root_module_directory: test/fixtures/kubectl_wrapper_example/
+    verifier:
+      color: false
+      systems:
+        - name: kubectl_wrapper_example local
+          backend: local
+          controls:
+            - kubectl
