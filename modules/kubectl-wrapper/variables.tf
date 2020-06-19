@@ -16,17 +16,20 @@
 
 variable "project_id" {
   type        = string
-  description = "The project ID hosting the cluster"
+  description = "The project ID hosting the cluster. Optional if use_existing_context is true."
+  default     = ""
 }
 
 variable "cluster_name" {
   type        = string
-  description = "Cluster name"
+  description = "Cluster name. Optional if use_existing_context is true."
+  default     = ""
 }
 
 variable "cluster_location" {
   type        = string
-  description = "Cluster location (Zone/Region)"
+  description = "Cluster location (Zone/Region). Optional if use_existing_context is true."
+  default     = ""
 }
 
 variable "kubectl_create_command" {
@@ -65,7 +68,7 @@ variable "additional_components" {
 variable "skip_download" {
   description = "Whether to skip downloading gcloud (assumes gcloud and kubectl is already available outside the module)"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "gcloud_sdk_version" {
@@ -77,4 +80,10 @@ variable "upgrade" {
   description = "Whether to upgrade gcloud at runtime"
   type        = bool
   default     = true
+}
+
+variable "use_existing_context" {
+  description = "Use existing kubecontext to auth kube-api."
+  type        = bool
+  default     = false
 }
