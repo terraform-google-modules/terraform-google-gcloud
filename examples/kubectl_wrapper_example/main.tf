@@ -105,4 +105,5 @@ module "kubectl-local-yaml" {
   kubectl_create_command  = "kubectl apply -f ${local.manifest_path}"
   kubectl_destroy_command = "kubectl delete -f ${local.manifest_path}"
   skip_download           = true
+  upgrade                 = false
 }

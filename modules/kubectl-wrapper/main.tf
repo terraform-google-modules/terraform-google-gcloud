@@ -38,6 +38,7 @@ module "gcloud_kubectl" {
   skip_download         = var.skip_download
   gcloud_sdk_version    = var.gcloud_sdk_version
   enabled               = var.enabled
+  upgrade               = var.upgrade
 
   create_cmd_entrypoint  = "${path.module}/scripts/kubectl_wrapper.sh"
   create_cmd_body        = "${local.cluster_endpoint} ${local.token} ${local.cluster_ca_certificate} ${var.kubectl_create_command}"
