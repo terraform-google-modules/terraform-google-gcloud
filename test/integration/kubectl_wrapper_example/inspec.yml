@@ -1,0 +1,11 @@
+name: kubectl_wrapper_example
+attributes:
+  - name: kubernetes_endpoint
+    required: true
+    type: string
+  - name: client_token
+    required: true
+    type: string
+  - name: ca_certificate
+    required: true
+    type: string
