@@ -85,9 +85,10 @@ data "google_client_config" "default" {
 module "kubectl-imperative" {
   source = "../../modules/kubectl-wrapper"
 
-  project_id       = var.project_id
-  cluster_name     = module.gke.name
-  cluster_location = module.gke.location
+  project_id        = var.project_id
+  cluster_name      = module.gke.name
+  cluster_location  = module.gke.location
+  module_depends_on = [module.gke.endpoint]
   # using --generator for cross compat between 1.18 and lower
   kubectl_create_command  = "kubectl run --generator=run-pod/v1 nginx-imperative --image=nginx"
   kubectl_destroy_command = "kubectl delete pod nginx-imperative"
@@ -100,6 +101,7 @@ module "kubectl-local-yaml" {
   project_id              = var.project_id
   cluster_name            = module.gke.name
   cluster_location        = module.gke.location
+  module_depends_on       = [module.kubectl-imperative.wait, module.gke.endpoint]
   kubectl_create_command  = "kubectl apply -f ${local.manifest_path}"
   kubectl_destroy_command = "kubectl delete -f ${local.manifest_path}"
   skip_download           = true
