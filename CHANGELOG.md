@@ -7,6 +7,13 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v1.0.1...v1.1.0) (2020-06-19)
+
+
+### Features
+
+* Add kubectl submodule ([#45](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/45)) ([a3aad69](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/a3aad69cca8e0f25ad926dd63008e884f3007aff))
+
 ### [1.0.1](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v1.0.0...v1.0.1) (2020-05-09)
 
 
