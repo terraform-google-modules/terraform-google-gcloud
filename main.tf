@@ -35,7 +35,7 @@ locals {
     ) + length(null_resource.gcloud_auth_google_credentials.*.triggers,
   ) + length(null_resource.run_command.*.triggers)
 
-  prepare_cache_command                        = "mkdir ${local.cache_path}"
+  prepare_cache_command                        = "mkdir -p ${local.cache_path}"
   download_gcloud_command                      = "curl -sL -o ${local.cache_path}/google-cloud-sdk.tar.gz ${local.gcloud_download_url}"
   download_jq_command                          = "curl -sL -o ${local.cache_path}/jq ${local.jq_download_url} && chmod +x ${local.cache_path}/jq"
   decompress_command                           = "tar -xzf ${local.gcloud_tar_path} -C ${local.cache_path} && cp ${local.cache_path}/jq ${local.cache_path}/google-cloud-sdk/bin/"
