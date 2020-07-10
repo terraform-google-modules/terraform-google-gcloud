@@ -7,6 +7,29 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v1.1.1...v2.0.0) (2020-07-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* gcloud is now downloaded as part of Terraform execution, meaning your Terraform runner needs access to the internet. Alternatively, you can install gcloud out-of-band and set `skip_download` to true.
+
+### Features
+
+* Add a skip_download var to use global gcloud instead ([#22](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/22)) ([756f5e4](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/756f5e4c35189caa60dae804a0d4b0c04bacd67e))
+* Add flag for dependency management and associated example. ([58946a6](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/58946a625957b7f27878e4137c694a36ba595df8))
+* add flag to disable upgrades and make each instance separate ([14e134a](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/14e134a4dd944978e5f54c2779b7aa77df260b37))
+* Add kubectl submodule ([#45](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/45)) ([dd04160](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/dd041606792ca8a2c35db23acb056675448107a9))
+* Download gcloud directly in Terraform and allow skipping completely ([#41](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/41)) ([9c1f3b8](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/9c1f3b8e0fb14ed07babd8d03414a90a23ff2662))
+
+
+### Bug Fixes
+
+* Download additional_components when var.additional_components == 1 ([#43](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/43)) ([9af0423](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/9af0423e80ff46fa093dd39fae69c6fcb95699f5))
+* ignore if cache path exists ([#49](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/49)) ([b7f418c](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/b7f418ca581080ceb174b98bdcb63089e6d95758))
+* Only download & install when create cmd changes, fixes [#23](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/23) ([f475970](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/f475970cbf0425b4b5a24b808c6ceb747f1f15b3))
+* Remove cyclic dependency warnings in gcloud module ([#31](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/31)) ([992c7e8](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/992c7e830ec00a8d280b2bf30398af929640d957))
+
 ### [1.1.1](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v1.1.0...v1.1.1) (2020-07-01)
 
 
