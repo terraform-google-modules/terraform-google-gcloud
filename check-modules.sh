@@ -31,18 +31,18 @@ IFS=',' read -r -a CURRENTLY_INSTALLED <<< "$CURRENTLY_INSTALLED"
 IFS=',' read -r -a PROPOSED_COMPONENTS_TO_INSTALL <<< "$PROPOSED_COMPONENTS_TO_INSTALL"
 
 #get diff btw components already installed and those that need to be installed
-FINAL_COMPONENT_LIST=""
+FINAL_COMPONENT_LIST=()
 for component in "${PROPOSED_COMPONENTS_TO_INSTALL[@]}"
 do
     if [[ ! ${CURRENTLY_INSTALLED[*]} =~ $component ]]; then
-        FINAL_COMPONENT_LIST+="$component "
+        FINAL_COMPONENT_LIST+=("$component")
     fi
 done
 
 # if there is any component in list, install
-if [[ $FINAL_COMPONENT_LIST ]]; then
-    echo "Installing components $FINAL_COMPONENT_LIST";
-    $GCLOUD_PATH components install "${FINAL_COMPONENT_LIST}" --quiet
+if [[ ${FINAL_COMPONENT_LIST[*]} ]]; then
+    echo "Installing components ${FINAL_COMPONENT_LIST[*]}";
+    $GCLOUD_PATH components install "${FINAL_COMPONENT_LIST[@]}" --quiet
 else
-    echo "All components already installed."
+    echo "All components ${PROPOSED_COMPONENTS_TO_INSTALL[*]} already installed."
 fi
