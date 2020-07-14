@@ -20,7 +20,7 @@ locals {
   gcloud_tar_path      = "${local.cache_path}/google-cloud-sdk.tar.gz"
   gcloud_bin_path      = "${local.cache_path}/google-cloud-sdk/bin"
   gcloud_bin_abs_path  = abspath(local.gcloud_bin_path)
-  components           = join(" ", var.additional_components)
+  components           = join(",", var.additional_components)
 
   gcloud              = var.skip_download ? "gcloud" : "${local.gcloud_bin_path}/gcloud"
   gcloud_download_url = var.gcloud_download_url != "" ? var.gcloud_download_url : "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${var.gcloud_sdk_version}-${var.platform}-x86_64.tar.gz"
@@ -40,7 +40,7 @@ locals {
   download_jq_command                          = "curl -sL -o ${local.cache_path}/jq ${local.jq_download_url} && chmod +x ${local.cache_path}/jq"
   decompress_command                           = "tar -xzf ${local.gcloud_tar_path} -C ${local.cache_path} && cp ${local.cache_path}/jq ${local.cache_path}/google-cloud-sdk/bin/"
   upgrade_command                              = "${local.gcloud} components update --quiet"
-  additional_components_command                = "${local.gcloud} components install ${local.components} --quiet"
+  additional_components_command                = "${path.module}/check-modules.sh ${local.gcloud} ${local.components}"
   gcloud_auth_service_account_key_file_command = "${local.gcloud} auth activate-service-account --key-file ${var.service_account_key_file}"
   gcloud_auth_google_credentials_command       = <<-EOT
     printf "%s" "$GOOGLE_CREDENTIALS" > ${local.tmp_credentials_path} &&
