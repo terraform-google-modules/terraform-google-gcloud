@@ -40,7 +40,7 @@ locals {
   download_jq_command                          = "curl -sL -o ${local.cache_path}/jq ${local.jq_download_url} && chmod +x ${local.cache_path}/jq"
   decompress_command                           = "tar -xzf ${local.gcloud_tar_path} -C ${local.cache_path} && cp ${local.cache_path}/jq ${local.cache_path}/google-cloud-sdk/bin/"
   upgrade_command                              = "${local.gcloud} components update --quiet"
-  additional_components_command                = "${path.module}/check-modules.sh ${local.gcloud} ${local.components}"
+  additional_components_command                = "${path.module}/check_components.sh ${local.gcloud} ${local.components}"
   gcloud_auth_service_account_key_file_command = "${local.gcloud} auth activate-service-account --key-file ${var.service_account_key_file}"
   gcloud_auth_google_credentials_command       = <<-EOT
     printf "%s" "$GOOGLE_CREDENTIALS" > ${local.tmp_credentials_path} &&
