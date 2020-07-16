@@ -7,6 +7,18 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v1.1.1...v1.2.0) (2020-07-16)
+
+
+### Features
+
+* only install missing additional_components ([#53](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/53)) ([db6d1a4](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/db6d1a4571720281c232289dda90fa6e8d7edc23))
+
+
+### Bug Fixes
+
+* Check for binaries in additional_components ([#57](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/57)) ([c399a32](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/c399a32aaacb58d3e5fd36516346d536e5f7e196))
+
 ### [1.1.1](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v1.1.0...v1.1.1) (2020-07-01)
 
 
