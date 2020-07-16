@@ -31,15 +31,29 @@ IFS=',' read -r -a CURRENTLY_INSTALLED <<< "$CURRENTLY_INSTALLED"
 IFS=',' read -r -a PROPOSED_COMPONENTS_TO_INSTALL <<< "$PROPOSED_COMPONENTS_TO_INSTALL"
 
 #get diff btw components already installed and those that need to be installed
-FINAL_COMPONENT_LIST=()
+FILTER_COMPONENT_LIST=()
 for component in "${PROPOSED_COMPONENTS_TO_INSTALL[@]}"
 do
     if [[ ! ${CURRENTLY_INSTALLED[*]} =~ $component ]]; then
+        FILTER_COMPONENT_LIST+=("$component")
+    else
+        echo "Found $component via gcloud component manager";
+    fi
+done
+
+# check if any component exists as a binary
+FINAL_COMPONENT_LIST=()
+for component in "${FILTER_COMPONENT_LIST[@]}"
+do
+    if [[ $(command -v "$component") ]]; then
+        echo "Found $component via $(command -v "$component")";
+    else
         FINAL_COMPONENT_LIST+=("$component")
     fi
 done
 
-# if there is any component in list, install
+
+# if there is any component left in list, install via gcloud
 if [[ ${FINAL_COMPONENT_LIST[*]} ]]; then
     echo "Installing components ${FINAL_COMPONENT_LIST[*]}";
     $GCLOUD_PATH components install "${FINAL_COMPONENT_LIST[@]}" --quiet
