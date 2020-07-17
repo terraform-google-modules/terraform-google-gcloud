@@ -9,6 +9,12 @@ This example illustrates how to use the `gcloud` module.
 |------|-------------|:----:|:-----:|:-----:|
 | project\_id | The ID of the project in which to provision resources. | string | n/a | yes |
 
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| downloaded | Whether gcloud was downloaded or not |
+
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 To provision this example, run the following from within this directory:
