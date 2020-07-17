@@ -14,12 +14,6 @@
  * limitations under the License.
  */
 
-output "project_id" {
-  description = "The ID of the project in which resources are provisioned."
-  value       = var.project_id
-}
-
-output "downloaded" {
-  description = "Whether gcloud was downloaded or not"
-  value       = module.example.downloaded
+terraform {
+  required_version = ">= 0.12"
 }

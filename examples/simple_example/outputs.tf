@@ -13,3 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+output "downloaded" {
+  description = "Whether gcloud was downloaded or not"
+  value       = module.cli.downloaded
+}

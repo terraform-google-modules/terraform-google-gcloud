@@ -33,3 +33,9 @@ output "wait" {
   description = "An output to use when you want to depend on cmd finishing"
   value       = local.wait
 }
+
+output "downloaded" {
+  description = "Whether gcloud was downloaded or not"
+  value       = !local.skip_download
+  depends_on = [local.wait]
+}
