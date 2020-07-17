@@ -37,22 +37,22 @@ steps:
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do create skipped-env']
   env:
-  - 'GCLOUD_TF_DOWNLOAD="never"'
+  - 'GCLOUD_TF_DOWNLOAD=never'
 - id: converge-skipped
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do converge skipped-env']
   env:
-    - 'GCLOUD_TF_DOWNLOAD="never"'
+    - 'GCLOUD_TF_DOWNLOAD=never'
 - id: verify-skipped
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do verify skipped-env']
   env:
-    - 'GCLOUD_TF_DOWNLOAD="never"'
+    - 'GCLOUD_TF_DOWNLOAD=never'
 - id: destroy-skipped
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do destroy skipped-env']
   env:
-    - 'GCLOUD_TF_DOWNLOAD="never"'
+    - 'GCLOUD_TF_DOWNLOAD=never'
 tags:
 - 'ci'
 - 'integration'
