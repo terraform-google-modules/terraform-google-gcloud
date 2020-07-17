@@ -28,6 +28,16 @@ Functional examples are included in the
 
 The [jq](https://stedolan.github.io/jq/) binary is also included in this module so you can use it as well for either of your `create_cmd_entrypoint` or `destroy_cmd_entrypoint` values.
 
+## Downloading
+This module will automatically download gcloud on your behalf,
+allowing you to run it in environments without a gcloud binary available.
+
+You can override this behavior by setting the `skip_download` variable to `true` or `false`.
+
+You can also override the behavior by setting the `GCLOUD_TF_DOWNLOAD` environment variable.
+This environment variable will override all other settings.
+Setting it to `never` will *never* gcloud download and setting it to `always` will always download gcloud.
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
