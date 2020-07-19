@@ -16,19 +16,22 @@
 
 locals {
   tmp_credentials_path = "${path.module}/terraform-google-credentials.json"
-  cache_path           = "${path.module}/cache/${random_id.cache.hex}"
+  cache_path           = local.skip_download ? "" : "${path.module}/cache/${random_id.cache[0].hex}"
   gcloud_tar_path      = "${local.cache_path}/google-cloud-sdk.tar.gz"
   gcloud_bin_path      = "${local.cache_path}/google-cloud-sdk/bin"
   gcloud_bin_abs_path  = abspath(local.gcloud_bin_path)
   components           = join(",", var.additional_components)
 
-  gcloud              = var.skip_download ? "gcloud" : "${local.gcloud_bin_path}/gcloud"
+  download_override = data.external.env_override.result.download
+  skip_download     = local.download_override == "always" ? false : (local.download_override == "never" ? true : var.skip_download)
+
+  gcloud              = local.skip_download ? "gcloud" : "${local.gcloud_bin_path}/gcloud"
   gcloud_download_url = var.gcloud_download_url != "" ? var.gcloud_download_url : "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${var.gcloud_sdk_version}-${var.platform}-x86_64.tar.gz"
   jq_platform         = var.platform == "darwin" ? "osx-amd" : var.platform
   jq_download_url     = var.jq_download_url != "" ? var.jq_download_url : "https://github.com/stedolan/jq/releases/download/jq-${var.jq_version}/jq-${local.jq_platform}64"
 
-  create_cmd_bin  = var.skip_download ? var.create_cmd_entrypoint : "${local.gcloud_bin_path}/${var.create_cmd_entrypoint}"
-  destroy_cmd_bin = var.skip_download ? var.destroy_cmd_entrypoint : "${local.gcloud_bin_path}/${var.destroy_cmd_entrypoint}"
+  create_cmd_bin  = local.skip_download ? var.create_cmd_entrypoint : "${local.gcloud_bin_path}/${var.create_cmd_entrypoint}"
+  destroy_cmd_bin = local.skip_download ? var.destroy_cmd_entrypoint : "${local.gcloud_bin_path}/${var.destroy_cmd_entrypoint}"
 
   wait = length(null_resource.additional_components.*.triggers) + length(
     null_resource.gcloud_auth_service_account_key_file.*.triggers,
@@ -41,7 +44,7 @@ locals {
   decompress_command                           = "tar -xzf ${local.gcloud_tar_path} -C ${local.cache_path} && cp ${local.cache_path}/jq ${local.cache_path}/google-cloud-sdk/bin/"
   decompress_wrapper                           = fileexists(local.gcloud_tar_path) ? local.decompress_command : "${local.prepare_cache_command} && ${local.download_gcloud_command} && ${local.download_jq_command} && ${local.decompress_command}"
   upgrade_command                              = "${local.gcloud} components update --quiet"
-  additional_components_command                = "${path.module}/check_components.sh ${local.gcloud} ${local.components}"
+  additional_components_command                = "${path.module}/scripts/check_components.sh ${local.gcloud} ${local.components}"
   gcloud_auth_service_account_key_file_command = "${local.gcloud} auth activate-service-account --key-file ${var.service_account_key_file}"
   gcloud_auth_google_credentials_command       = <<-EOT
     printf "%s" "$GOOGLE_CREDENTIALS" > ${local.tmp_credentials_path} &&
@@ -51,6 +54,8 @@ locals {
 }
 
 resource "random_id" "cache" {
+  count = (! local.skip_download) ? 1 : 0
+
   byte_length = 4
 }
 
@@ -62,8 +67,14 @@ resource "null_resource" "module_depends_on" {
   }
 }
 
+data "external" "env_override" {
+  program = ["${path.module}/scripts/check_env.sh"]
+
+  query = {}
+}
+
 resource "null_resource" "prepare_cache" {
-  count = (var.enabled && ! var.skip_download) ? 1 : 0
+  count = (var.enabled && ! local.skip_download) ? 1 : 0
 
   triggers = merge({
     md5                   = md5(var.create_cmd_entrypoint)
@@ -80,7 +91,7 @@ resource "null_resource" "prepare_cache" {
 }
 
 resource "null_resource" "download_gcloud" {
-  count = (var.enabled && ! var.skip_download) ? 1 : 0
+  count = (var.enabled && ! local.skip_download) ? 1 : 0
 
   triggers = merge({
     md5                     = md5(var.create_cmd_entrypoint)
@@ -97,7 +108,7 @@ resource "null_resource" "download_gcloud" {
 }
 
 resource "null_resource" "download_jq" {
-  count = (var.enabled && ! var.skip_download) ? 1 : 0
+  count = (var.enabled && ! local.skip_download) ? 1 : 0
 
   triggers = merge({
     md5                 = md5(var.create_cmd_entrypoint)
@@ -114,7 +125,7 @@ resource "null_resource" "download_jq" {
 }
 
 resource "null_resource" "decompress" {
-  count = (var.enabled && ! var.skip_download) ? 1 : 0
+  count = (var.enabled && ! local.skip_download) ? 1 : 0
 
   triggers = merge({
     md5                     = md5(var.create_cmd_entrypoint)
@@ -133,7 +144,7 @@ resource "null_resource" "decompress" {
 }
 
 resource "null_resource" "upgrade" {
-  count = (var.enabled && var.upgrade && ! var.skip_download) ? 1 : 0
+  count = (var.enabled && var.upgrade && ! local.skip_download) ? 1 : 0
 
   depends_on = [null_resource.decompress]
 
@@ -279,7 +290,7 @@ resource "null_resource" "additional_components_destroy" {
 }
 
 resource "null_resource" "upgrade_destroy" {
-  count = (var.enabled && var.upgrade && ! var.skip_download) ? 1 : 0
+  count = (var.enabled && var.upgrade && ! local.skip_download) ? 1 : 0
 
   depends_on = [
     null_resource.additional_components_destroy,
@@ -298,7 +309,7 @@ resource "null_resource" "upgrade_destroy" {
 }
 
 resource "null_resource" "decompress_destroy" {
-  count      = (var.enabled && ! var.skip_download) ? 1 : 0
+  count      = (var.enabled && ! local.skip_download) ? 1 : 0
   depends_on = [null_resource.upgrade_destroy]
 
   triggers = {
