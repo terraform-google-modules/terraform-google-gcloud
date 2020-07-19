@@ -11,7 +11,7 @@ Basic usage of this module is as follows:
 ```hcl
 module "gcloud" {
   source  = "terraform-google-modules/gcloud/google"
-  version = "~> 1.2"
+  version = "~> 1.3"
 
   platform = "linux"
   additional_components = ["kubectl", "beta"]
