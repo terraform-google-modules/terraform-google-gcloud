@@ -87,3 +87,14 @@ variable "use_existing_context" {
   type        = bool
   default     = false
 }
+
+variable "internal_ip" {
+  description = "Use internal ip for the cluster endpoint."
+  type        = bool
+  default     = false
+}
+
+variable "service_account_key_file" {
+  description = "Path to service account key file to auth as for running `gcloud container clusters get-credentials`."
+  default     = ""
+}
