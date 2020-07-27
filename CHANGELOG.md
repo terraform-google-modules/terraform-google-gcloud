@@ -7,6 +7,13 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v1.3.0...v1.4.0) (2020-07-27)
+
+
+### Features
+
+* **kubectl:** Generate kubeconfig dynamically ([#62](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/62)) ([6501fd8](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/6501fd86c85bafa36d351f8d9c2c4ceb12b7571c))
+
 ## [1.3.0](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v1.2.0...v1.3.0) (2020-07-19)
 
 
