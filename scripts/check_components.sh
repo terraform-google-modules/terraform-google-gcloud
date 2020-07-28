@@ -24,8 +24,9 @@ GCLOUD_PATH=$1
 PROPOSED_COMPONENTS_TO_INSTALL=$2
 
 # get list of currently installed components
-CURRENTLY_INSTALLED=$($GCLOUD_PATH components list --quiet --format json 2> /dev/null | jq -r '[.[] | select(.state.name!="Not Installed") | .id] | @tsv | gsub("\\t";",")')
-
+CURRENTLY_INSTALLED=$($GCLOUD_PATH components list --quiet --filter='state.name!="Not Installed"' --format="csv[no-heading,terminator=','](id)" 2> /dev/null)
+# this creates a trailing comma that needs to be removed
+CURRENTLY_INSTALLED=${CURRENTLY_INSTALLED%?}
 # transform to arrays
 IFS=',' read -r -a CURRENTLY_INSTALLED <<< "$CURRENTLY_INSTALLED"
 IFS=',' read -r -a PROPOSED_COMPONENTS_TO_INSTALL <<< "$PROPOSED_COMPONENTS_TO_INSTALL"
