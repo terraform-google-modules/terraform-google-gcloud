@@ -29,10 +29,9 @@ Functional examples are included in the
 The [jq](https://stedolan.github.io/jq/) binary is also included in this module so you can use it as well for either of your `create_cmd_entrypoint` or `destroy_cmd_entrypoint` values.
 
 ## Downloading
-This module will automatically download gcloud on your behalf,
-allowing you to run it in environments without a gcloud binary available.
+By default, this module assumes you already have gcloud installed in your $PATH.
 
-You can override this behavior by setting the `skip_download` variable to `true` or `false`.
+If you need to run Terraform in environments without a gcloud binary available, you can override this behavior by setting the `skip_download` variable to `false`.
 
 You can also override the behavior by setting the `GCLOUD_TF_DOWNLOAD` environment variable.
 This environment variable will override all other settings.
@@ -57,7 +56,7 @@ Setting it to `never` will *never* gcloud download and setting it to `always` wi
 | module\_depends\_on | List of modules or resources this module depends on. | list | `<list>` | no |
 | platform | Platform CLI will run on. Defaults to linux. Valid values: linux, darwin | string | `"linux"` | no |
 | service\_account\_key\_file | Path to service account key file to run `gcloud auth activate-service-account` with. Optional. | string | `""` | no |
-| skip\_download | Whether to skip downloading gcloud (assumes gcloud is already available outside the module) | bool | `"false"` | no |
+| skip\_download | Whether to skip downloading gcloud (assumes gcloud is already available outside the module) | bool | `"true"` | no |
 | upgrade | Whether to upgrade gcloud at runtime | bool | `"true"` | no |
 | use\_tf\_google\_credentials\_env\_var | Use GOOGLE_CREDENTIALS environment variable to run `gcloud auth activate-service-account` with. Optional. | string | `"false"` | no |
 
