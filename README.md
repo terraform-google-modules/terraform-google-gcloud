@@ -56,7 +56,7 @@ Setting it to `never` will *never* gcloud download and setting it to `always` wi
 | module\_depends\_on | List of modules or resources this module depends on. | list | `<list>` | no |
 | platform | Platform CLI will run on. Defaults to linux. Valid values: linux, darwin | string | `"linux"` | no |
 | service\_account\_key\_file | Path to service account key file to run `gcloud auth activate-service-account` with. Optional. | string | `""` | no |
-| skip\_download | Whether to skip downloading gcloud (assumes gcloud is already available outside the module) | bool | `"false"` | no |
+| skip\_download | Whether to skip downloading gcloud (assumes gcloud is already available outside the module) | bool | `"true"` | no |
 | upgrade | Whether to upgrade gcloud at runtime | bool | `"true"` | no |
 | use\_tf\_google\_credentials\_env\_var | Use GOOGLE_CREDENTIALS environment variable to run `gcloud auth activate-service-account` with. Optional. | string | `"false"` | no |
 
