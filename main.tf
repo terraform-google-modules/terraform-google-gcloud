@@ -36,7 +36,7 @@ locals {
   wait = length(null_resource.additional_components.*.triggers) + length(
     null_resource.gcloud_auth_service_account_key_file.*.triggers,
     ) + length(null_resource.gcloud_auth_google_credentials.*.triggers,
-  ) + length(null_resource.run_command.*.triggers)
+  ) + length(null_resource.run_upsert_command.*.triggers) + length(null_resource.run_destroy_command.*.triggers)
 
   prepare_cache_command                        = "mkdir -p ${local.cache_path}"
   download_gcloud_command                      = "curl -sL -o ${local.cache_path}/google-cloud-sdk.tar.gz ${local.gcloud_download_url}"
@@ -208,7 +208,7 @@ resource "null_resource" "gcloud_auth_google_credentials" {
   }
 }
 
-resource "null_resource" "run_command" {
+resource "null_resource" "run_upsert_command" {
   count = var.enabled ? 1 : 0
 
   depends_on = [
@@ -224,8 +224,6 @@ resource "null_resource" "run_command" {
     arguments              = md5(var.create_cmd_body)
     create_cmd_entrypoint  = var.create_cmd_entrypoint
     create_cmd_body        = var.create_cmd_body
-    destroy_cmd_entrypoint = var.destroy_cmd_entrypoint
-    destroy_cmd_body       = var.destroy_cmd_body
     gcloud_bin_abs_path    = local.gcloud_bin_abs_path
   }, var.create_cmd_triggers)
 
@@ -237,6 +235,25 @@ resource "null_resource" "run_command" {
     EOT
   }
 
+}
+
+resource "null_resource" "run_destroy_command" {
+  count = var.enabled ? 1 : 0
+
+  depends_on = [
+    null_resource.module_depends_on,
+    null_resource.decompress,
+    null_resource.additional_components,
+    null_resource.gcloud_auth_google_credentials,
+    null_resource.gcloud_auth_service_account_key_file
+  ]
+
+  triggers = merge({
+    destroy_cmd_entrypoint = var.destroy_cmd_entrypoint
+    destroy_cmd_body       = var.destroy_cmd_body
+    gcloud_bin_abs_path    = local.gcloud_bin_abs_path
+  }, var.create_cmd_triggers)
+
   provisioner "local-exec" {
     when    = destroy
     command = <<-EOT
@@ -247,10 +264,10 @@ resource "null_resource" "run_command" {
 }
 
 // Destroy provision steps in opposite depdenency order
-// so they run before `run_command` destroy
+// so they run before `run_destroy_command` destroy
 resource "null_resource" "gcloud_auth_google_credentials_destroy" {
   count      = var.enabled && var.use_tf_google_credentials_env_var ? 1 : 0
-  depends_on = [null_resource.run_command]
+  depends_on = [null_resource.run_destroy_command]
 
   triggers = {
     gcloud_auth_google_credentials_command = local.gcloud_auth_google_credentials_command
@@ -263,7 +280,7 @@ resource "null_resource" "gcloud_auth_google_credentials_destroy" {
 
 resource "null_resource" "gcloud_auth_service_account_key_file_destroy" {
   count      = var.enabled && length(var.service_account_key_file) > 0 ? 1 : 0
-  depends_on = [null_resource.run_command]
+  depends_on = [null_resource.run_destroy_command]
 
   triggers = {
     gcloud_auth_service_account_key_file_command = local.gcloud_auth_service_account_key_file_command
@@ -277,7 +294,7 @@ resource "null_resource" "gcloud_auth_service_account_key_file_destroy" {
 
 resource "null_resource" "additional_components_destroy" {
   count      = var.enabled && length(var.additional_components) > 0 ? 1 : 0
-  depends_on = [null_resource.run_command]
+  depends_on = [null_resource.run_destroy_command]
 
   triggers = {
     additional_components_command = local.additional_components_command
