@@ -220,11 +220,11 @@ resource "null_resource" "run_upsert_command" {
   ]
 
   triggers = merge({
-    md5                    = md5(var.create_cmd_entrypoint)
-    arguments              = md5(var.create_cmd_body)
-    create_cmd_entrypoint  = var.create_cmd_entrypoint
-    create_cmd_body        = var.create_cmd_body
-    gcloud_bin_abs_path    = local.gcloud_bin_abs_path
+    md5                   = md5(var.create_cmd_entrypoint)
+    arguments             = md5(var.create_cmd_body)
+    create_cmd_entrypoint = var.create_cmd_entrypoint
+    create_cmd_body       = var.create_cmd_body
+    gcloud_bin_abs_path   = local.gcloud_bin_abs_path
   }, var.create_cmd_triggers)
 
   provisioner "local-exec" {
