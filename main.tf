@@ -36,7 +36,7 @@ locals {
   wait = length(null_resource.additional_components.*.triggers) + length(
     null_resource.gcloud_auth_service_account_key_file.*.triggers,
     ) + length(null_resource.gcloud_auth_google_credentials.*.triggers,
-  ) + length(null_resource.run_upsert_command.*.triggers) + length(null_resource.run_destroy_command.*.triggers)
+  ) + length(null_resource.run_command.*.triggers) + length(null_resource.run_destroy_command.*.triggers)
 
   prepare_cache_command                        = "mkdir -p ${local.cache_path}"
   download_gcloud_command                      = "curl -sL -o ${local.cache_path}/google-cloud-sdk.tar.gz ${local.gcloud_download_url}"
@@ -208,7 +208,7 @@ resource "null_resource" "gcloud_auth_google_credentials" {
   }
 }
 
-resource "null_resource" "run_upsert_command" {
+resource "null_resource" "run_command" {
   count = var.enabled ? 1 : 0
 
   depends_on = [
