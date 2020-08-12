@@ -7,6 +7,18 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v1.4.1...v2.0.0) (2020-08-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* The module has been changed to not download gcloud by default. You can override this behavior by setting `skip_download = false` or setting the GCLOUD_TF_DOWNLOAD environment variable to "always".
+
+### Features
+
+* Decoupled the upsert command and destroy command ([#71](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/71)) ([497886c](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/497886c96cec885d5e861b9e4a5f4122e660fd18))
+* Skip gcloud download by default. ([#70](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/70)) ([7113d90](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/7113d902a2a6a1a397d903c842b9cce2886c6700))
+
 ### [1.4.1](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v1.4.0...v1.4.1) (2020-07-28)
 
 
