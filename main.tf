@@ -22,7 +22,7 @@ locals {
   gcloud_bin_abs_path  = abspath(local.gcloud_bin_path)
   components           = join(",", var.additional_components)
 
-  download_override = data.external.env_override.result.download
+  download_override = data.external.env_override[0].result.download
   skip_download     = local.download_override == "always" ? false : (local.download_override == "never" ? true : var.skip_download)
 
   gcloud              = local.skip_download ? "gcloud" : "${local.gcloud_bin_path}/gcloud"
@@ -68,9 +68,10 @@ resource "null_resource" "module_depends_on" {
 }
 
 data "external" "env_override" {
-  program = ["${path.module}/scripts/check_env.sh"]
+  count = var.enabled ? 1 : 0
 
-  query = {}
+  program = ["${path.module}/scripts/check_env.sh"]
+  query   = {}
 }
 
 resource "null_resource" "prepare_cache" {
