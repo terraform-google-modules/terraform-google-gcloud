@@ -7,6 +7,13 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### [2.0.1](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v2.0.0...v2.0.1) (2020-08-13)
+
+
+### Bug Fixes
+
+* Only instantiate external data resource if module is enabled ([c47859c](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/c47859c14687f5fef4aa961d0754a136c7c153cb))
+
 ## [2.0.0](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v1.4.1...v2.0.0) (2020-08-12)
 
 
