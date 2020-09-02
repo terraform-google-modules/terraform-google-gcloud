@@ -35,6 +35,6 @@ module "cli-disabled" {
   additional_components = ["kubectl", "beta"]
 
   enabled          = false
-  create_cmd_body  = "services enable container.googleapis.com --project ${var.project_id}"
-  destroy_cmd_body = "services disable container.googleapis.com --project ${var.project_id}"
+  create_cmd_body  = "services enable datastore.googleapis.com --project ${var.project_id}"
+  destroy_cmd_body = "services disable datastore.googleapis.com --project ${var.project_id}"
 }
