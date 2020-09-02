@@ -19,5 +19,6 @@ control "gcloud" do
     its(:exit_status) { should eq 0 }
     its(:stderr) { should eq "" }
     its(:stdout) { should match "youtube.googleapis.com" }
+    its(:stdout) { should_not match "datastore.googleapis.com" }
   end
 end
