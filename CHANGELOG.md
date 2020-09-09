@@ -7,6 +7,13 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### [2.0.2](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v2.0.1...v2.0.2) (2020-09-02)
+
+
+### Bug Fixes
+
+* Lazy eval data source only if enabled ([#76](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/76)) ([f2c9913](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/f2c9913f7d7e0b0fc7f26c145e2ca85028507e81))
+
 ### [2.0.1](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v2.0.0...v2.0.1) (2020-08-13)
 
 
