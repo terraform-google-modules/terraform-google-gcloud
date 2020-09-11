@@ -14,9 +14,9 @@
 # limitations under the License.
 
 
-set -e
+set -xeo pipefail
 
-if [ "$#" -lt 3 ]; then
+if [ "$#" -lt 5 ]; then
     >&2 echo "Not all expected arguments set."
     exit 1
 fi
