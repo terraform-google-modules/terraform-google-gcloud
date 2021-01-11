@@ -7,6 +7,13 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### [2.0.3](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v2.0.2...v2.0.3) (2020-09-12)
+
+
+### Bug Fixes
+
+* Add debug options and bump arg num check kubectl wrapper ([#79](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/79)) ([162a4ec](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/162a4ecf02e8fb431db9e23244cd28a6582e2e8d))
+
 ### [2.0.2](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v2.0.1...v2.0.2) (2020-09-02)
 
 
