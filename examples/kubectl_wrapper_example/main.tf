@@ -15,7 +15,7 @@
  */
 
 provider "google" {
-  version = "~> 3.16.0"
+  version = "~> 3.53"
 }
 
 locals {
@@ -24,7 +24,7 @@ locals {
 
 module "enabled_google_apis" {
   source  = "terraform-google-modules/project-factory/google//modules/project_services"
-  version = "~> 8.0"
+  version = "~> 10.0"
 
   project_id                  = var.project_id
   disable_services_on_destroy = false
@@ -39,7 +39,7 @@ module "enabled_google_apis" {
 
 module "gcp-network" {
   source       = "terraform-google-modules/network/google"
-  version      = "~> 2.0"
+  version      = "~> 3.0"
   project_id   = module.enabled_google_apis.project_id
   network_name = var.network
 
@@ -67,7 +67,7 @@ module "gcp-network" {
 
 module "gke" {
   source                 = "terraform-google-modules/kubernetes-engine/google"
-  version                = "~> 9.0"
+  version                = "~> 14.0"
   project_id             = module.enabled_google_apis.project_id
   name                   = var.cluster_name
   regional               = true
