@@ -16,7 +16,7 @@
 
 module "project" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 10.0"
+  version = "~> 10.2"
 
   name              = "ci-gcloud"
   random_project_id = "true"
@@ -27,5 +27,6 @@ module "project" {
   activate_apis = [
     "cloudresourcemanager.googleapis.com",
     "serviceusage.googleapis.com",
+    "container.googleapis.com"
   ]
 }

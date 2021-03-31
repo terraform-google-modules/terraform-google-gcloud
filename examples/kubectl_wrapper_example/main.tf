@@ -24,7 +24,7 @@ locals {
 
 module "enabled_google_apis" {
   source  = "terraform-google-modules/project-factory/google//modules/project_services"
-  version = "~> 10.0"
+  version = "~> 10.2"
 
   project_id                  = var.project_id
   disable_services_on_destroy = false
