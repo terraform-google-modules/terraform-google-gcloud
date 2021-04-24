@@ -31,6 +31,7 @@ module "kubectl" {
 | create\_cmd\_triggers | List of any additional triggers for the create command execution. | map | `<map>` | no |
 | enabled | Flag to optionally disable usage of this module. | bool | `"true"` | no |
 | gcloud\_sdk\_version | The gcloud sdk version to download. | string | `"281.0.0"` | no |
+| impersonate\_service\_account | An optional service account to impersonate for gcloud commands. If this service account is not specified, the module will use Application Default Credentials. | string | `""` | no |
 | internal\_ip | Use internal ip for the cluster endpoint. | bool | `"false"` | no |
 | kubectl\_create\_command | The kubectl command to create resources. | string | n/a | yes |
 | kubectl\_destroy\_command | The kubectl command to destroy resources. | string | n/a | yes |
@@ -40,7 +41,6 @@ module "kubectl" {
 | skip\_download | Whether to skip downloading gcloud (assumes gcloud and kubectl is already available outside the module) | bool | `"true"` | no |
 | upgrade | Whether to upgrade gcloud at runtime | bool | `"true"` | no |
 | use\_existing\_context | Use existing kubecontext to auth kube-api. | bool | `"false"` | no |
-| impersonate\_service\_account | An optional service account to impersonate for gcloud commands. If this service account is not specified, the module will use Application Default Credentials. | `string` | `""` | no |
 
 ## Outputs
 
