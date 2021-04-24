@@ -40,6 +40,7 @@ module "kubectl" {
 | skip\_download | Whether to skip downloading gcloud (assumes gcloud and kubectl is already available outside the module) | bool | `"true"` | no |
 | upgrade | Whether to upgrade gcloud at runtime | bool | `"true"` | no |
 | use\_existing\_context | Use existing kubecontext to auth kube-api. | bool | `"false"` | no |
+| impersonate\_service\_account | An optional service account to impersonate for gcloud commands. If this service account is not specified, the module will use Application Default Credentials. | `string` | `""` | no |
 
 ## Outputs
 

@@ -15,7 +15,7 @@
  */
 
 locals {
-  base_cmd = "${var.cluster_name} ${var.cluster_location} ${var.project_id} ${var.internal_ip} ${var.use_existing_context}"
+  base_cmd = "${var.cluster_name} ${var.cluster_location} ${var.project_id} ${var.internal_ip} ${var.use_existing_context} ${var.impersonate_service_account}"
 }
 
 module "gcloud_kubectl" {

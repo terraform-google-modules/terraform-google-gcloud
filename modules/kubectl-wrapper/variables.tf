@@ -98,3 +98,9 @@ variable "service_account_key_file" {
   description = "Path to service account key file to auth as for running `gcloud container clusters get-credentials`."
   default     = ""
 }
+
+variable "impersonate_service_account" {
+  type        = string
+  description = "An optional service account to impersonate for gcloud commands. If this service account is not specified, the module will use Application Default Credentials."
+  default     = ""
+}
