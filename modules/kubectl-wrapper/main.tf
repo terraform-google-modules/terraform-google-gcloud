@@ -29,8 +29,8 @@ module "gcloud_kubectl" {
   service_account_key_file = var.service_account_key_file
 
   create_cmd_entrypoint  = "${path.module}/scripts/kubectl_wrapper.sh"
-  create_cmd_body        = var.impersonate_service_account == "" ? "${local.base_cmd} ${var.impersonate_service_account} ${var.kubectl_create_command}" : "${local.base_cmd} ${var.kubectl_create_command}"
+  create_cmd_body        = var.impersonate_service_account == "" ? "${local.base_cmd} ${var.kubectl_create_command}": "${local.base_cmd} ${var.impersonate_service_account} ${var.kubectl_create_command}"
   create_cmd_triggers    = var.create_cmd_triggers
   destroy_cmd_entrypoint = "${path.module}/scripts/kubectl_wrapper.sh"
-  destroy_cmd_body       = var.impersonate_service_account == "" ? "${local.base_cmd} ${var.impersonate_service_account} ${var.kubectl_destroy_command}" : "${local.base_cmd} ${var.kubectl_destroy_command}"
+  destroy_cmd_body       = var.impersonate_service_account == "" ? "${local.base_cmd} ${var.kubectl_destroy_command}": "${local.base_cmd} ${var.impersonate_service_account} ${var.kubectl_destroy_command}"
 }
