@@ -54,6 +54,7 @@ else
     CMD="gcloud container clusters get-credentials ${CLUSTER_NAME} --project ${PROJECT_ID}"
     if [[ "${ENABLE_IMPERSONATE_SERVICE_ACCOUNT}" == true ]]; then
       CMD+=" --impersonate-service-account ${IMPERSONATE_SERVICE_ACCOUNT}"
+      shift 2
     fi
 
     if [[ $LOCATION_TYPE -eq 2 ]] ;then
