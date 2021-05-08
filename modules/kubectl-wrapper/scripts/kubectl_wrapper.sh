@@ -26,6 +26,8 @@ LOCATION=$2
 PROJECT_ID=$3
 INTERNAL=$4
 USE_EXISTING_CONTEXT=$5
+ENABLE_IMPERSONATE_SERVICE_ACCOUNT=$6
+IMPERSONATE_SERVICE_ACCOUNT=$7
 
 shift 5
 
@@ -50,6 +52,10 @@ else
     LOCATION_TYPE=$(grep -o "-" <<< "${LOCATION}" | wc -l)
 
     CMD="gcloud container clusters get-credentials ${CLUSTER_NAME} --project ${PROJECT_ID}"
+    if [[ "${ENABLE_IMPERSONATE_SERVICE_ACCOUNT}" == true ]]; then
+      CMD+=" --impersonate-service-account ${IMPERSONATE_SERVICE_ACCOUNT}"
+      shift 2
+    fi
 
     if [[ $LOCATION_TYPE -eq 2 ]] ;then
         CMD+=" --zone ${LOCATION}"
