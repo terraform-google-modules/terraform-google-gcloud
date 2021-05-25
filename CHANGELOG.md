@@ -7,6 +7,13 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v2.0.3...v2.1.0) (2021-05-08)
+
+
+### Features
+
+* add ability to impersonate for kubectl-wrapper module ([#91](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/91)) ([0d4e6f3](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/0d4e6f3e69e58e6f94b1d2325c4ea9f7ab68952d))
+
 ### [2.0.3](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v2.0.2...v2.0.3) (2020-09-12)
 
 
