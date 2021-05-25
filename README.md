@@ -58,7 +58,7 @@ Setting it to `never` will *never* gcloud download and setting it to `always` wi
 | service\_account\_key\_file | Path to service account key file to run `gcloud auth activate-service-account` with. Optional. | `string` | `""` | no |
 | skip\_download | Whether to skip downloading gcloud (assumes gcloud is already available outside the module) | `bool` | `true` | no |
 | upgrade | Whether to upgrade gcloud at runtime | `bool` | `true` | no |
-| use\_tf\_google\_credentials\_env\_var | Use GOOGLE\_CREDENTIALS environment variable to run `gcloud auth activate-service-account` with. Optional. | `bool` | `false` | no |
+| use\_tf\_google\_credentials\_env\_var | Use `GOOGLE_CREDENTIALS` environment variable to run `gcloud auth activate-service-account` with. Optional. | `bool` | `false` | no |
 
 ## Outputs
 
