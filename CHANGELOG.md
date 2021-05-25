@@ -7,6 +7,22 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v2.1.0...v3.0.0) (2021-05-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* add Terraform 0.13 constraint and module attribution (#89)
+
+### Features
+
+* add Terraform 0.13 constraint and module attribution ([#89](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/89)) ([6037c26](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/6037c26415eda0f693b0f75ae552441f0ea2aa20))
+
+
+### Bug Fixes
+
+* Chain GOOGLE_CREDENTIALS variable on kubectl-wrapper submodule ([#95](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/95)) ([48e1fee](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/48e1fee9892f08dc71761d6ac4b06173c28a87fd))
+
 ## [2.1.0](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v2.0.3...v2.1.0) (2021-05-08)
 
 
