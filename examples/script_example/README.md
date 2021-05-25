@@ -6,8 +6,12 @@ This example illustrates how to use the `gcloud` module with a script
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| project\_id | The ID of the project in which to provision resources. | string | n/a | yes |
+|------|-------------|------|---------|:--------:|
+| project\_id | The ID of the project in which to provision resources. | `string` | n/a | yes |
+
+## Outputs
+
+No output.
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
