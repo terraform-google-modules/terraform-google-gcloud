@@ -80,7 +80,7 @@ variable "service_account_key_file" {
 }
 
 variable "use_tf_google_credentials_env_var" {
-  description = "Use GOOGLE_CREDENTIALS environment variable to run `gcloud auth activate-service-account` with. Optional."
+  description = "Use `GOOGLE_CREDENTIALS` environment variable to run `gcloud auth activate-service-account` with. Optional."
   default     = false
 }
 

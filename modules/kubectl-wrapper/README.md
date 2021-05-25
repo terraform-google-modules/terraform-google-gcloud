@@ -38,10 +38,10 @@ module "kubectl" {
 | module\_depends\_on | List of modules or resources this module depends on. | list | `<list>` | no |
 | project\_id | The project ID hosting the cluster. Optional if use_existing_context is true. | string | `""` | no |
 | service\_account\_key\_file | Path to service account key file to auth as for running `gcloud container clusters get-credentials`. | string | `""` | no |
-| use\_tf\_google\_credentials\_env\_var | Use `GOOGLE_CREDENTIALS` environment variable to run `gcloud auth activate-service-account` with. Optional. | string | `"false"` | no |
 | skip\_download | Whether to skip downloading gcloud (assumes gcloud and kubectl is already available outside the module) | bool | `"true"` | no |
 | upgrade | Whether to upgrade gcloud at runtime | bool | `"true"` | no |
 | use\_existing\_context | Use existing kubecontext to auth kube-api. | bool | `"false"` | no |
+| use\_tf\_google\_credentials\_env\_var | Use `GOOGLE_CREDENTIALS` environment variable to run `gcloud auth activate-service-account` with. Optional. | string | `"false"` | no |
 
 ## Outputs
 
