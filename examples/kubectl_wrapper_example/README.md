@@ -6,14 +6,14 @@ This example illustrates how to use the kubectl submodule to deploy Kubernetes r
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| cluster\_name | The name for the GKE cluster | string | `"gke-on-vpc-cluster"` | no |
-| ip\_range\_pods\_name | The secondary ip range to use for pods | string | `"ip-range-pods"` | no |
-| ip\_range\_services\_name | The secondary ip range to use for services | string | `"ip-range-scv"` | no |
-| network | The VPC network created to host the cluster in | string | `"gke-network"` | no |
-| project\_id | The project ID to host the cluster in | string | n/a | yes |
-| region | The region to host the cluster in | string | `"us-central1"` | no |
-| subnetwork | The subnetwork created to host the cluster in | string | `"gke-subnet"` | no |
+|------|-------------|------|---------|:--------:|
+| cluster\_name | The name for the GKE cluster | `string` | `"gke-on-vpc-cluster"` | no |
+| ip\_range\_pods\_name | The secondary ip range to use for pods | `string` | `"ip-range-pods"` | no |
+| ip\_range\_services\_name | The secondary ip range to use for services | `string` | `"ip-range-scv"` | no |
+| network | The VPC network created to host the cluster in | `string` | `"gke-network"` | no |
+| project\_id | The project ID to host the cluster in | `any` | n/a | yes |
+| region | The region to host the cluster in | `string` | `"us-central1"` | no |
+| subnetwork | The subnetwork created to host the cluster in | `string` | `"gke-subnet"` | no |
 
 ## Outputs
 

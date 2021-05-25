@@ -41,24 +41,24 @@ Setting it to `never` will *never* gcloud download and setting it to `always` wi
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| additional\_components | Additional gcloud CLI components to install. Defaults to none. Valid value are components listed in `gcloud components list` | list | `<list>` | no |
-| create\_cmd\_body | On create, the command body you'd like to run with your entrypoint. | string | `"info"` | no |
-| create\_cmd\_entrypoint | On create, the command entrypoint you'd like to use. Can also be set to a custom script. Module's bin directory will be prepended to path. | string | `"gcloud"` | no |
-| create\_cmd\_triggers | List of any additional triggers for the create command execution. | map | `<map>` | no |
-| destroy\_cmd\_body | On destroy, the command body you'd like to run with your entrypoint. | string | `"info"` | no |
-| destroy\_cmd\_entrypoint | On destroy, the command entrypoint you'd like to use.  Can also be set to a custom script. Module's bin directory will be prepended to path. | string | `"gcloud"` | no |
-| enabled | Flag to optionally disable usage of this module. | bool | `"true"` | no |
-| gcloud\_download\_url | Custom gcloud download url. Optional. | string | `""` | no |
-| gcloud\_sdk\_version | The gcloud sdk version to download. | string | `"281.0.0"` | no |
-| jq\_download\_url | Custom jq download url. Optional. | string | `""` | no |
-| jq\_version | The jq version to download. | string | `"1.6"` | no |
-| module\_depends\_on | List of modules or resources this module depends on. | list | `<list>` | no |
-| platform | Platform CLI will run on. Defaults to linux. Valid values: linux, darwin | string | `"linux"` | no |
-| service\_account\_key\_file | Path to service account key file to run `gcloud auth activate-service-account` with. Optional. | string | `""` | no |
-| skip\_download | Whether to skip downloading gcloud (assumes gcloud is already available outside the module) | bool | `"true"` | no |
-| upgrade | Whether to upgrade gcloud at runtime | bool | `"true"` | no |
-| use\_tf\_google\_credentials\_env\_var | Use GOOGLE_CREDENTIALS environment variable to run `gcloud auth activate-service-account` with. Optional. | string | `"false"` | no |
+|------|-------------|------|---------|:--------:|
+| additional\_components | Additional gcloud CLI components to install. Defaults to none. Valid value are components listed in `gcloud components list` | `list` | `[]` | no |
+| create\_cmd\_body | On create, the command body you'd like to run with your entrypoint. | `string` | `"info"` | no |
+| create\_cmd\_entrypoint | On create, the command entrypoint you'd like to use. Can also be set to a custom script. Module's bin directory will be prepended to path. | `string` | `"gcloud"` | no |
+| create\_cmd\_triggers | List of any additional triggers for the create command execution. | `map` | `{}` | no |
+| destroy\_cmd\_body | On destroy, the command body you'd like to run with your entrypoint. | `string` | `"info"` | no |
+| destroy\_cmd\_entrypoint | On destroy, the command entrypoint you'd like to use.  Can also be set to a custom script. Module's bin directory will be prepended to path. | `string` | `"gcloud"` | no |
+| enabled | Flag to optionally disable usage of this module. | `bool` | `true` | no |
+| gcloud\_download\_url | Custom gcloud download url. Optional. | `string` | `""` | no |
+| gcloud\_sdk\_version | The gcloud sdk version to download. | `string` | `"281.0.0"` | no |
+| jq\_download\_url | Custom jq download url. Optional. | `string` | `""` | no |
+| jq\_version | The jq version to download. | `string` | `"1.6"` | no |
+| module\_depends\_on | List of modules or resources this module depends on. | `list` | `[]` | no |
+| platform | Platform CLI will run on. Defaults to linux. Valid values: linux, darwin | `string` | `"linux"` | no |
+| service\_account\_key\_file | Path to service account key file to run `gcloud auth activate-service-account` with. Optional. | `string` | `""` | no |
+| skip\_download | Whether to skip downloading gcloud (assumes gcloud is already available outside the module) | `bool` | `true` | no |
+| upgrade | Whether to upgrade gcloud at runtime | `bool` | `true` | no |
+| use\_tf\_google\_credentials\_env\_var | Use GOOGLE\_CREDENTIALS environment variable to run `gcloud auth activate-service-account` with. Optional. | `bool` | `false` | no |
 
 ## Outputs
 
