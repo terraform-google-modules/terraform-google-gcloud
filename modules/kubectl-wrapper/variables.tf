@@ -99,6 +99,11 @@ variable "service_account_key_file" {
   default     = ""
 }
 
+variable "use_tf_google_credentials_env_var" {
+  description = "Use GOOGLE_CREDENTIALS environment variable to run `gcloud auth activate-service-account` with. Optional."
+  default     = false
+}
+
 variable "impersonate_service_account" {
   type        = string
   description = "An optional service account to impersonate for gcloud commands. If this service account is not specified, the module will use Application Default Credentials."
