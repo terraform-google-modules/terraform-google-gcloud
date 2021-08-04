@@ -163,7 +163,7 @@ resource "null_resource" "upgrade" {
 
 resource "null_resource" "additional_components" {
   count      = var.enabled && length(var.additional_components) > 0 ? 1 : 0
-  depends_on = [null_resource.upgrade]
+  depends_on = [null_resource.decompress, null_resource.upgrade]
 
   triggers = merge({
     md5                           = md5(var.create_cmd_entrypoint)
@@ -179,7 +179,7 @@ resource "null_resource" "additional_components" {
 
 resource "null_resource" "gcloud_auth_service_account_key_file" {
   count      = var.enabled && length(var.service_account_key_file) > 0 ? 1 : 0
-  depends_on = [null_resource.upgrade]
+  depends_on = [null_resource.decompress, null_resource.upgrade]
 
   triggers = merge({
     md5                                          = md5(var.create_cmd_entrypoint)
@@ -195,7 +195,7 @@ resource "null_resource" "gcloud_auth_service_account_key_file" {
 
 resource "null_resource" "gcloud_auth_google_credentials" {
   count      = var.enabled && var.use_tf_google_credentials_env_var ? 1 : 0
-  depends_on = [null_resource.upgrade]
+  depends_on = [null_resource.decompress, null_resource.upgrade]
 
   triggers = merge({
     md5                                    = md5(var.create_cmd_entrypoint)
