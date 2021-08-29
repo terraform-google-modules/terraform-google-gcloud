@@ -34,7 +34,7 @@ variable "skip_download" {
 
 variable "module_depends_on" {
   description = "List of modules or resources this module depends on."
-  type        = list
+  type        = list(any)
   default     = []
 }
 
@@ -50,7 +50,7 @@ variable "create_cmd_body" {
 
 variable "create_cmd_triggers" {
   description = "List of any additional triggers for the create command execution."
-  type        = map
+  type        = map(any)
   default     = {}
 }
 

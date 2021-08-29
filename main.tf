@@ -54,7 +54,7 @@ locals {
 }
 
 resource "random_id" "cache" {
-  count = (! local.skip_download) ? 1 : 0
+  count = (!local.skip_download) ? 1 : 0
 
   byte_length = 4
 }
@@ -75,7 +75,7 @@ data "external" "env_override" {
 }
 
 resource "null_resource" "prepare_cache" {
-  count = (var.enabled && ! local.skip_download) ? 1 : 0
+  count = (var.enabled && !local.skip_download) ? 1 : 0
 
   triggers = merge({
     md5                   = md5(var.create_cmd_entrypoint)
@@ -92,7 +92,7 @@ resource "null_resource" "prepare_cache" {
 }
 
 resource "null_resource" "download_gcloud" {
-  count = (var.enabled && ! local.skip_download) ? 1 : 0
+  count = (var.enabled && !local.skip_download) ? 1 : 0
 
   triggers = merge({
     md5                     = md5(var.create_cmd_entrypoint)
@@ -109,7 +109,7 @@ resource "null_resource" "download_gcloud" {
 }
 
 resource "null_resource" "download_jq" {
-  count = (var.enabled && ! local.skip_download) ? 1 : 0
+  count = (var.enabled && !local.skip_download) ? 1 : 0
 
   triggers = merge({
     md5                 = md5(var.create_cmd_entrypoint)
@@ -126,7 +126,7 @@ resource "null_resource" "download_jq" {
 }
 
 resource "null_resource" "decompress" {
-  count = (var.enabled && ! local.skip_download) ? 1 : 0
+  count = (var.enabled && !local.skip_download) ? 1 : 0
 
   triggers = merge({
     md5                     = md5(var.create_cmd_entrypoint)
@@ -145,7 +145,7 @@ resource "null_resource" "decompress" {
 }
 
 resource "null_resource" "upgrade" {
-  count = (var.enabled && var.upgrade && ! local.skip_download) ? 1 : 0
+  count = (var.enabled && var.upgrade && !local.skip_download) ? 1 : 0
 
   depends_on = [null_resource.decompress]
 
@@ -308,7 +308,7 @@ resource "null_resource" "additional_components_destroy" {
 }
 
 resource "null_resource" "upgrade_destroy" {
-  count = (var.enabled && var.upgrade && ! local.skip_download) ? 1 : 0
+  count = (var.enabled && var.upgrade && !local.skip_download) ? 1 : 0
 
   depends_on = [
     null_resource.additional_components_destroy,
@@ -327,7 +327,7 @@ resource "null_resource" "upgrade_destroy" {
 }
 
 resource "null_resource" "decompress_destroy" {
-  count      = (var.enabled && ! local.skip_download) ? 1 : 0
+  count      = (var.enabled && !local.skip_download) ? 1 : 0
   depends_on = [null_resource.upgrade_destroy]
 
   triggers = {

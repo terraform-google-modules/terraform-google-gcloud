@@ -50,3 +50,6 @@ tmp
 # Ignore cache directory
 cache/*
 !cache/README.md
+
+# tf lock file
+.terraform.lock.hcl
