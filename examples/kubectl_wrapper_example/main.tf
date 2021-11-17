@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-provider "google" {
-  version = "~> 3.53"
-}
-
 locals {
   manifest_path = "${path.module}/manifests"
 }
