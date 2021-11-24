@@ -7,6 +7,13 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.0](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v3.0.1...v3.1.0) (2021-11-24)
+
+
+### Features
+
+* update TPG version constraints to allow 4.0 ([#108](https://www.github.com/terraform-google-modules/terraform-google-gcloud/issues/108)) ([9b769df](https://www.github.com/terraform-google-modules/terraform-google-gcloud/commit/9b769df3077b282d07e09a9d43fce1c2b3388e66))
+
 ### [3.0.1](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v3.0.0...v3.0.1) (2021-08-04)
 
 
