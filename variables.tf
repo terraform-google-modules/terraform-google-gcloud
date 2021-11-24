@@ -49,7 +49,7 @@ variable "create_cmd_body" {
 }
 
 variable "create_cmd_triggers" {
-  description = "List of any additional triggers for the create command execution."
+  description = "List of any additional triggers to re-run the create command execution when either of values in the maps change. Some keys are reserved and will be overwritten if specified in this option. (eg. `md5`, `arguments`, `download_gcloud_command`, `download_jq_command`, etc. See details in [the source](https://github.com/terraform-google-modules/terraform-google-gcloud/blob/master/main.tf).)"
   type        = map(any)
   default     = {}
 }
