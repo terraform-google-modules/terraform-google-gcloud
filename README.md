@@ -24,7 +24,7 @@ module "gcloud" {
 ```
 
 Functional examples are included in the
-[examples](./examples/) directory.
+[examples](https://github.com/terraform-google-modules/terraform-google-gcloud/tree/master/examples) directory.
 
 The [jq](https://stedolan.github.io/jq/) binary is also included in this module so you can use it as well for either of your `create_cmd_entrypoint` or `destroy_cmd_entrypoint` values.
 
