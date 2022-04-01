@@ -7,6 +7,13 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### [3.1.1](https://github.com/terraform-google-modules/terraform-google-gcloud/compare/v3.1.0...v3.1.1) (2022-03-09)
+
+
+### Bug Fixes
+
+* Switch to using bash env to make module work on NixOS and BSD ([#117](https://github.com/terraform-google-modules/terraform-google-gcloud/issues/117)) ([2a03680](https://github.com/terraform-google-modules/terraform-google-gcloud/commit/2a036802f63e9b6d41b72d4d5950df1da52279ec))
+
 ## [3.1.0](https://www.github.com/terraform-google-modules/terraform-google-gcloud/compare/v3.0.1...v3.1.0) (2021-11-24)
 
 
