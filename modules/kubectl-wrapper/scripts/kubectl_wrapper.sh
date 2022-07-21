@@ -33,7 +33,7 @@ shift 5
 
 if $USE_EXISTING_CONTEXT ;then
 
-    "$@"
+    "$USE_EXISTING_CONTEXT" "$@"
 
 else
 
