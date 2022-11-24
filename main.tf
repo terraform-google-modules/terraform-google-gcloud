@@ -264,7 +264,7 @@ resource "null_resource" "run_destroy_command" {
   }
 }
 
-// Destroy provision steps in opposite depdenency order
+// Destroy provision steps in opposite dependency order
 // so they run before `run_destroy_command` destroy
 resource "null_resource" "gcloud_auth_google_credentials_destroy" {
   count      = var.enabled && var.use_tf_google_credentials_env_var ? 1 : 0
