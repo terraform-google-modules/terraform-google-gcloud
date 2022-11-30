@@ -35,7 +35,7 @@ module "enabled_google_apis" {
 
 module "gcp-network" {
   source       = "terraform-google-modules/network/google"
-  version      = "~> 5.1"
+  version      = "~> 6.0"
   project_id   = module.enabled_google_apis.project_id
   network_name = var.network
 
@@ -63,7 +63,7 @@ module "gcp-network" {
 
 module "gke" {
   source                 = "terraform-google-modules/kubernetes-engine/google"
-  version                = "~> 23.0"
+  version                = "~> 24.0"
   project_id             = module.enabled_google_apis.project_id
   name                   = var.cluster_name
   regional               = true
