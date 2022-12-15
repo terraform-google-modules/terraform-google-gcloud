@@ -92,6 +92,12 @@ variable "use_tf_google_credentials_env_var" {
   default     = false
 }
 
+variable "activate_service_account" {
+  description = "Set to false to skip running `gcloud auth activate-service-account`. Optional."
+  type        = bool
+  default     = true
+}
+
 variable "jq_version" {
   description = "The jq version to download."
   type        = string
