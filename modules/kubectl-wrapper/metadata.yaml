@@ -1,0 +1,140 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: blueprints.cloud.google.com/v1alpha1
+kind: BlueprintMetadata
+metadata:
+  name: terraform-google-gcloud
+  annotations:
+    config.kubernetes.io/local-config: "true"
+spec:
+  title: kubectl wrapper
+  source:
+    repo: https://github.com/terraform-google-modules/terraform-google-gcloud
+    sourceType: git
+  version: 3.1.2
+  actuationTool:
+    type: Terraform
+    version: '>= 0.13'
+  examples:
+  - name: dependency_example
+    location: examples/dependency_example
+  - name: kubectl_wrapper_example
+    location: examples/kubectl_wrapper_example
+  - name: script_example
+    location: examples/script_example
+  - name: simple_example
+    location: examples/simple_example
+  variables:
+  - name: additional_components
+    description: Additional gcloud CLI components to install. Defaults to installing kubectl. Valid value are components listed in `gcloud components list`
+    type: list(string)
+    default:
+    - kubectl
+    required: false
+  - name: cluster_location
+    description: Cluster location (Zone/Region). Optional if use_existing_context is true.
+    type: string
+    default: ""
+    required: false
+  - name: cluster_name
+    description: Cluster name. Optional if use_existing_context is true.
+    type: string
+    default: ""
+    required: false
+  - name: create_cmd_triggers
+    description: List of any additional triggers for the create command execution.
+    type: map(any)
+    default: {}
+    required: false
+  - name: enabled
+    description: Flag to optionally disable usage of this module.
+    type: bool
+    default: true
+    required: false
+  - name: gcloud_sdk_version
+    description: The gcloud sdk version to download.
+    type: string
+    default: 281.0.0
+    required: false
+  - name: impersonate_service_account
+    description: An optional service account to impersonate for gcloud commands. If this service account is not specified, the module will use Application Default Credentials.
+    type: string
+    default: ""
+    required: false
+  - name: internal_ip
+    description: Use internal ip for the cluster endpoint.
+    type: bool
+    default: false
+    required: false
+  - name: kubectl_create_command
+    description: The kubectl command to create resources.
+    type: string
+    required: true
+  - name: kubectl_destroy_command
+    description: The kubectl command to destroy resources.
+    type: string
+    required: true
+  - name: module_depends_on
+    description: List of modules or resources this module depends on.
+    type: list(any)
+    default: []
+    required: false
+  - name: project_id
+    description: The project ID hosting the cluster. Optional if use_existing_context is true.
+    type: string
+    default: ""
+    required: false
+  - name: service_account_key_file
+    description: Path to service account key file to auth as for running `gcloud container clusters get-credentials`.
+    type: string
+    default: ""
+    required: false
+  - name: skip_download
+    description: Whether to skip downloading gcloud (assumes gcloud and kubectl is already available outside the module)
+    type: bool
+    default: true
+    required: false
+  - name: upgrade
+    description: Whether to upgrade gcloud at runtime
+    type: bool
+    default: true
+    required: false
+  - name: use_existing_context
+    description: Use existing kubecontext to auth kube-api.
+    type: bool
+    default: false
+    required: false
+  - name: use_tf_google_credentials_env_var
+    description: Use `GOOGLE_CREDENTIALS` environment variable to run `gcloud auth activate-service-account` with. Optional.
+    type: string
+    default: false
+    required: false
+  outputs:
+  - name: bin_dir
+    description: The full bin path of the modules executables
+  - name: create_cmd_bin
+    description: The full bin path & command used on create
+  - name: destroy_cmd_bin
+    description: The full bin path & command used on destroy
+  - name: wait
+    description: An output to use when you want to depend on cmd finishing
+  roles:
+  - level: Project
+    roles:
+    - roles/owner
+  services:
+  - cloudresourcemanager.googleapis.com
+  - serviceusage.googleapis.com
+  - container.googleapis.com
