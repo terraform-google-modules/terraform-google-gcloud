@@ -81,10 +81,10 @@ data "google_client_config" "default" {
 module "kubectl-imperative" {
   source = "../../modules/kubectl-wrapper"
 
-  project_id        = var.project_id
-  cluster_name      = module.gke.name
-  cluster_location  = module.gke.location
-  module_depends_on = [module.gke.endpoint]
+  project_id              = var.project_id
+  cluster_name            = module.gke.name
+  cluster_location        = module.gke.location
+  module_depends_on       = [module.gke.endpoint]
   kubectl_create_command  = "kubectl run nginx-imperative --image=nginx"
   kubectl_destroy_command = "kubectl delete pod nginx-imperative"
   skip_download           = true
