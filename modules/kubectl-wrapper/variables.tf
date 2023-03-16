@@ -75,7 +75,7 @@ variable "skip_download" {
 variable "gcloud_sdk_version" {
   description = "The gcloud sdk version to download."
   type        = string
-  default     = "281.0.0"
+  default     = "422.0.0"
 }
 
 variable "upgrade" {
