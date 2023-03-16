@@ -85,8 +85,7 @@ module "kubectl-imperative" {
   cluster_name      = module.gke.name
   cluster_location  = module.gke.location
   module_depends_on = [module.gke.endpoint]
-  # using --generator for cross compat between 1.18 and lower
-  kubectl_create_command  = "kubectl run --generator=run-pod/v1 nginx-imperative --image=nginx"
+  kubectl_create_command  = "kubectl run nginx-imperative --image=nginx"
   kubectl_destroy_command = "kubectl delete pod nginx-imperative"
   skip_download           = true
 }
