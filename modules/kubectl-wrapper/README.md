@@ -25,7 +25,7 @@ module "kubectl" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| additional\_components | Additional gcloud CLI components to install. Defaults to installing kubectl. Valid value are components listed in `gcloud components list` | `list` | <pre>[<br>  "kubectl"<br>]</pre> | no |
+| additional\_components | Additional gcloud CLI components to install. Defaults to installing kubectl. Valid value are components listed in `gcloud components list` | `list(string)` | <pre>[<br>  "kubectl"<br>]</pre> | no |
 | cluster\_location | Cluster location (Zone/Region). Optional if use\_existing\_context is true. | `string` | `""` | no |
 | cluster\_name | Cluster name. Optional if use\_existing\_context is true. | `string` | `""` | no |
 | create\_cmd\_triggers | List of any additional triggers for the create command execution. | `map(any)` | `{}` | no |
