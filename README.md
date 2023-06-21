@@ -42,7 +42,7 @@ Setting it to `never` will *never* gcloud download and setting it to `always` wi
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| additional\_components | Additional gcloud CLI components to install. Defaults to none. Valid value are components listed in `gcloud components list` | `list` | `[]` | no |
+| additional\_components | Additional gcloud CLI components to install. Defaults to none. Valid value are components listed in `gcloud components list` | `list(string)` | `[]` | no |
 | create\_cmd\_body | On create, the command body you'd like to run with your entrypoint. | `string` | `"info"` | no |
 | create\_cmd\_entrypoint | On create, the command entrypoint you'd like to use. Can also be set to a custom script. Module's bin directory will be prepended to path. | `string` | `"gcloud"` | no |
 | create\_cmd\_triggers | List of any additional triggers to re-run the create command execution when either of values in the maps change. Some keys are reserved and will be overwritten if specified in this option. (eg. `md5`, `arguments`, `download_gcloud_command`, `download_jq_command`, etc. See details in [the source](https://github.com/terraform-google-modules/terraform-google-gcloud/blob/master/main.tf).) | `map(any)` | `{}` | no |
@@ -50,7 +50,7 @@ Setting it to `never` will *never* gcloud download and setting it to `always` wi
 | destroy\_cmd\_entrypoint | On destroy, the command entrypoint you'd like to use.  Can also be set to a custom script. Module's bin directory will be prepended to path. | `string` | `"gcloud"` | no |
 | enabled | Flag to optionally disable usage of this module. | `bool` | `true` | no |
 | gcloud\_download\_url | Custom gcloud download url. Optional. | `string` | `""` | no |
-| gcloud\_sdk\_version | The gcloud sdk version to download. | `string` | `"281.0.0"` | no |
+| gcloud\_sdk\_version | The gcloud sdk version to download. | `string` | `"434.0.0"` | no |
 | jq\_download\_url | Custom jq download url. Optional. | `string` | `""` | no |
 | jq\_version | The jq version to download. | `string` | `"1.6"` | no |
 | module\_depends\_on | List of modules or resources this module depends on. | `list(any)` | `[]` | no |

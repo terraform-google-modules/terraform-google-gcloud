@@ -26,6 +26,14 @@ terraform {
       source  = "hashicorp/external"
       version = ">= 2.2.2"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 2.1.0"
+    }
+    null = {
+      source  = "hashicorp/null"
+      version = ">= 2.1.0"
+    }
   }
 
   provider_meta "google" {
