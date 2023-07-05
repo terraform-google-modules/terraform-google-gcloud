@@ -5,7 +5,7 @@ This example illustrates how to control the order of execution for scripts.
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
-No input.
+No inputs.
 
 ## Outputs
 
