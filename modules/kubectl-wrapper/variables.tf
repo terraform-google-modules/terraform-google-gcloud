@@ -1,5 +1,5 @@
 /**
- * Copyright 2020 Google LLC
+ * Copyright 2020-2023 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,6 +62,7 @@ variable "create_cmd_triggers" {
 
 variable "additional_components" {
   description = "Additional gcloud CLI components to install. Defaults to installing kubectl. Valid value are components listed in `gcloud components list`"
+  type        = list(string)
   default     = ["kubectl"]
 }
 
@@ -73,7 +74,8 @@ variable "skip_download" {
 
 variable "gcloud_sdk_version" {
   description = "The gcloud sdk version to download."
-  default     = "281.0.0"
+  type        = string
+  default     = "434.0.0"
 }
 
 variable "upgrade" {
@@ -96,11 +98,13 @@ variable "internal_ip" {
 
 variable "service_account_key_file" {
   description = "Path to service account key file to auth as for running `gcloud container clusters get-credentials`."
+  type        = string
   default     = ""
 }
 
 variable "use_tf_google_credentials_env_var" {
   description = "Use `GOOGLE_CREDENTIALS` environment variable to run `gcloud auth activate-service-account` with. Optional."
+  type        = bool
   default     = false
 }
 

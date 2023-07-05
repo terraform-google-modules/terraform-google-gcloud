@@ -35,7 +35,7 @@ module "enabled_google_apis" {
 
 module "gcp-network" {
   source       = "terraform-google-modules/network/google"
-  version      = "~> 6.0"
+  version      = "~> 7.0"
   project_id   = module.enabled_google_apis.project_id
   network_name = var.network
 
@@ -48,7 +48,7 @@ module "gcp-network" {
   ]
 
   secondary_ranges = {
-    "${var.subnetwork}" = [
+    (var.subnetwork) = [
       {
         range_name    = var.ip_range_pods_name
         ip_cidr_range = "192.168.0.0/18"
@@ -63,7 +63,7 @@ module "gcp-network" {
 
 module "gke" {
   source                 = "terraform-google-modules/kubernetes-engine/google"
-  version                = "~> 24.0"
+  version                = "~> 26.0"
   project_id             = module.enabled_google_apis.project_id
   name                   = var.cluster_name
   regional               = true
@@ -81,12 +81,11 @@ data "google_client_config" "default" {
 module "kubectl-imperative" {
   source = "../../modules/kubectl-wrapper"
 
-  project_id        = var.project_id
-  cluster_name      = module.gke.name
-  cluster_location  = module.gke.location
-  module_depends_on = [module.gke.endpoint]
-  # using --generator for cross compat between 1.18 and lower
-  kubectl_create_command  = "kubectl run --generator=run-pod/v1 nginx-imperative --image=nginx"
+  project_id              = var.project_id
+  cluster_name            = module.gke.name
+  cluster_location        = module.gke.location
+  module_depends_on       = [module.gke.endpoint]
+  kubectl_create_command  = "kubectl run nginx-imperative --image=nginx"
   kubectl_destroy_command = "kubectl delete pod nginx-imperative"
   skip_download           = true
 }
