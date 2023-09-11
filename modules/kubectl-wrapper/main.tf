@@ -1,5 +1,5 @@
 /**
- * Copyright 2020 Google LLC
+ * Copyright 2020-2023 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,8 @@
  */
 
 locals {
-  base_cmd = "${var.cluster_name} ${var.cluster_location} ${var.project_id} ${var.internal_ip} ${var.use_existing_context}"
+  connect_cmd = var.use_connect_gateway ? "fleet memberships" : "clusters"
+  base_cmd    = "${var.cluster_name} ${var.cluster_location} ${var.project_id} ${var.internal_ip} ${var.use_existing_context} ${local.connect_cmd}"
 }
 
 module "gcloud_kubectl" {

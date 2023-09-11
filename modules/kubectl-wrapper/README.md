@@ -40,6 +40,7 @@ module "kubectl" {
 | service\_account\_key\_file | Path to service account key file to auth as for running `gcloud container clusters get-credentials`. | `string` | `""` | no |
 | skip\_download | Whether to skip downloading gcloud (assumes gcloud and kubectl is already available outside the module) | `bool` | `true` | no |
 | upgrade | Whether to upgrade gcloud at runtime | `bool` | `true` | no |
+| use\_connect\_gateway | Use Connect Gateway to obtain credentials. The provided cluster\_name will be used as the fleet membership name. | `bool` | `false` | no |
 | use\_existing\_context | Use existing kubecontext to auth kube-api. | `bool` | `false` | no |
 | use\_tf\_google\_credentials\_env\_var | Use `GOOGLE_CREDENTIALS` environment variable to run `gcloud auth activate-service-account` with. Optional. | `bool` | `false` | no |
 

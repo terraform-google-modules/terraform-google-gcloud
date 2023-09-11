@@ -113,3 +113,9 @@ variable "impersonate_service_account" {
   description = "An optional service account to impersonate for gcloud commands. If this service account is not specified, the module will use Application Default Credentials."
   default     = ""
 }
+
+variable "use_connect_gateway" {
+  type        = bool
+  description = "Use Connect Gateway to obtain credentials. The provided cluster_name will be used as the fleet membership name."
+  default     = false
+}
