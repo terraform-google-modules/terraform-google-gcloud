@@ -33,10 +33,10 @@ locals {
   create_cmd_bin  = local.skip_download ? var.create_cmd_entrypoint : "${local.gcloud_bin_path}/${var.create_cmd_entrypoint}"
   destroy_cmd_bin = local.skip_download ? var.destroy_cmd_entrypoint : "${local.gcloud_bin_path}/${var.destroy_cmd_entrypoint}"
 
-  wait = length(null_resource.additional_components.*.triggers) + length(
-    null_resource.gcloud_auth_service_account_key_file.*.triggers,
-    ) + length(null_resource.gcloud_auth_google_credentials.*.triggers,
-  ) + length(null_resource.run_command.*.triggers) + length(null_resource.run_destroy_command.*.triggers)
+  wait = length(null_resource.additional_components[*].triggers) + length(
+    null_resource.gcloud_auth_service_account_key_file[*].triggers,
+    ) + length(null_resource.gcloud_auth_google_credentials[*].triggers,
+  ) + length(null_resource.run_command[*].triggers) + length(null_resource.run_destroy_command[*].triggers)
 
   prepare_cache_command                        = "mkdir -p ${local.cache_path}"
   download_gcloud_command                      = "curl -sL -o ${local.cache_path}/google-cloud-sdk.tar.gz ${local.gcloud_download_url}"
