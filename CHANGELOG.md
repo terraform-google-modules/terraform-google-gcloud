@@ -7,6 +7,19 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0](https://github.com/terraform-google-modules/terraform-google-gcloud/compare/v3.1.2...v3.2.0) (2023-09-12)
+
+
+### Features
+
+* add option to use connect gateway ([#155](https://github.com/terraform-google-modules/terraform-google-gcloud/issues/155)) ([e3ea6e9](https://github.com/terraform-google-modules/terraform-google-gcloud/commit/e3ea6e929912235ee87abf1f9727595f3865dbb7))
+
+
+### Bug Fixes
+
+* **lint:** updates for tflint ([#159](https://github.com/terraform-google-modules/terraform-google-gcloud/issues/159)) ([2b143df](https://github.com/terraform-google-modules/terraform-google-gcloud/commit/2b143df2bb3e75e1b868e27c94389d332ea647ee))
+* updates for tflint, gcloud, dev-tools v1.13 ([#150](https://github.com/terraform-google-modules/terraform-google-gcloud/issues/150)) ([ba1e087](https://github.com/terraform-google-modules/terraform-google-gcloud/commit/ba1e087daaa54ba9b46dc27381f6c9d0f8b1f96d))
+
 ## [3.1.2](https://github.com/terraform-google-modules/terraform-google-gcloud/compare/v3.1.1...v3.1.2) (2022-08-30)
 
 
