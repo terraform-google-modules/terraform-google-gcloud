@@ -30,6 +30,8 @@ module "enabled_google_apis" {
     "monitoring.googleapis.com",
     "container.googleapis.com",
     "stackdriver.googleapis.com",
+    "gkehub.googleapis.com",
+    "connectgateway.googleapis.com",
   ]
 }
 
@@ -97,7 +99,46 @@ module "kubectl-local-yaml" {
   cluster_name            = module.gke.name
   cluster_location        = module.gke.location
   module_depends_on       = [module.kubectl-imperative.wait, module.gke.endpoint]
-  kubectl_create_command  = "kubectl apply -f ${local.manifest_path}"
-  kubectl_destroy_command = "kubectl delete -f ${local.manifest_path}"
+  kubectl_create_command  = "kubectl apply -f ${local.manifest_path}/nginx.yaml"
+  kubectl_destroy_command = "kubectl delete -f ${local.manifest_path}/nginx.yaml"
   skip_download           = false
+}
+
+module "hub" {
+  source  = "terraform-google-modules/kubernetes-engine/google//modules/fleet-membership"
+  version = "~> 27.0"
+
+  depends_on = [module.gke]
+
+  project_id   = var.project_id
+  cluster_name = module.gke.name
+  location     = module.gke.location
+}
+
+module "kubectl-fleet-imperative" {
+  source = "../../modules/kubectl-fleet-wrapper"
+
+  membership_name = module.hub.cluster_membership_id
+  # TODO: Once released, use project_id and location from fleet-membership module.
+  # https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/1739
+  membership_project_id   = var.project_id
+  membership_location     = "global"
+  module_depends_on       = [module.kubectl-local-yaml.wait, module.hub.wait]
+  kubectl_create_command  = "kubectl run nginx-fleet-imperative --image=nginx"
+  kubectl_destroy_command = "kubectl delete pod nginx-fleet-imperative"
+  skip_download           = false
+}
+
+module "kubectl-fleet-local-yaml" {
+  source = "../../modules/kubectl-fleet-wrapper"
+
+  membership_name = module.hub.cluster_membership_id
+  # TODO: Once released, use project_id and location from fleet-membership module.
+  # https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/1739
+  membership_project_id   = var.project_id
+  membership_location     = "global"
+  module_depends_on       = [module.kubectl-fleet-imperative.wait, module.gke.endpoint]
+  kubectl_create_command  = "kubectl apply -f ${local.manifest_path}/nginx-fleet.yaml"
+  kubectl_destroy_command = "kubectl delete -f ${local.manifest_path}/nginx-fleet.yaml"
+  skip_download           = true
 }
