@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright 2020-2023 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 set -xeo pipefail
 
-if [ "$#" -lt 6 ]; then
+if [ "$#" -lt 5 ]; then
     >&2 echo "Not all expected arguments set."
     exit 1
 fi
@@ -26,11 +26,10 @@ LOCATION=$2
 PROJECT_ID=$3
 INTERNAL=$4
 USE_EXISTING_CONTEXT=$5
-CONNECT_CMD=$6
-ENABLE_IMPERSONATE_SERVICE_ACCOUNT=$7
-IMPERSONATE_SERVICE_ACCOUNT=$8
+ENABLE_IMPERSONATE_SERVICE_ACCOUNT=$6
+IMPERSONATE_SERVICE_ACCOUNT=$7
 
-shift 6
+shift 5
 
 if $USE_EXISTING_CONTEXT ;then
 
@@ -52,7 +51,7 @@ else
 
     LOCATION_TYPE=$(grep -o "-" <<< "${LOCATION}" | wc -l)
 
-    CMD="gcloud container ${CONNECT_CMD} get-credentials ${CLUSTER_NAME} --project ${PROJECT_ID}"
+    CMD="gcloud container clusters get-credentials ${CLUSTER_NAME} --project ${PROJECT_ID}"
     if [[ "${ENABLE_IMPERSONATE_SERVICE_ACCOUNT}" == true ]]; then
       CMD+=" --impersonate-service-account ${IMPERSONATE_SERVICE_ACCOUNT}"
       shift 2
