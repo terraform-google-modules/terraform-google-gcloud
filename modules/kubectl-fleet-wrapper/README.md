@@ -6,7 +6,7 @@ This module can be used to deploy any Kubernetes resource using imperative comma
 
 ## Usage
 
-Basic usage of this module is as follows:
+Basic imperative usage of this module is as follows:
 
 ```hcl
 module "kubectl" {
