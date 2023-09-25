@@ -1,6 +1,6 @@
 # kubectl fleet wrapper
 
-This submodule aims to make interactions with GKE clusters with Fleet memberships using kubectl easier by utilizing the gcloud module and the kubectl_fleet_wrapper script.
+This submodule aims to make interactions with [GKE clusters with Fleet memberships](https://cloud.google.com/anthos/fleet-management/docs) using kubectl easier by utilizing the gcloud module and the kubectl_fleet_wrapper script.
 
 This module can be used to deploy any Kubernetes resource using imperative commands or declarative yaml files. An example can be found [here](../../examples/kubectl_wrapper_example).
 
