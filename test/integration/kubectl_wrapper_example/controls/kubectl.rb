@@ -58,6 +58,22 @@ control "kubectl" do
 					expect(nginxi).not_to be_nil
 				end
 			end
+
+			describe "nginx-fleet-declarative" do
+				let(:nginxd) { client.get_pod("nginx-fleet-declarative", "default") }
+
+				it "exists" do
+					expect(nginxd).not_to be_nil
+				end
+			end
+
+			describe "nginx-fleet-imperative" do
+				let(:nginxi) { client.get_pod("nginx-fleet-imperative", "default") }
+
+				it "exists" do
+					expect(nginxi).not_to be_nil
+				end
+			end
 		end
 	end
 end
