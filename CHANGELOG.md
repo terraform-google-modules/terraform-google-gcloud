@@ -7,6 +7,18 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0](https://github.com/terraform-google-modules/terraform-google-gcloud/compare/v3.2.1...v3.3.0) (2023-10-09)
+
+
+### Features
+
+* add kubectl-fleet-wrapper sub-module ([#161](https://github.com/terraform-google-modules/terraform-google-gcloud/issues/161)) ([bc4076c](https://github.com/terraform-google-modules/terraform-google-gcloud/commit/bc4076c2c35b524c4f8f5f12cfbbc69fe67786df))
+
+
+### Bug Fixes
+
+* upgraded versions.tf to include minor bumps from tpg v5 ([#174](https://github.com/terraform-google-modules/terraform-google-gcloud/issues/174)) ([58d16f5](https://github.com/terraform-google-modules/terraform-google-gcloud/commit/58d16f5b01c784bd7ff07a9670d35dc7664e6ffb))
+
 ## [3.2.1](https://github.com/terraform-google-modules/terraform-google-gcloud/compare/v3.2.0...v3.2.1) (2023-09-13)
 
 
