@@ -81,7 +81,8 @@ data "google_client_config" "default" {
 }
 
 module "kubectl-imperative" {
-  source = "../../modules/kubectl-wrapper"
+  source  = "terraform-google-modules/gcloud/google//modules/kubectl-wrapper"
+  version = "~> 3.0"
 
   project_id              = var.project_id
   cluster_name            = module.gke.name
@@ -93,7 +94,8 @@ module "kubectl-imperative" {
 }
 
 module "kubectl-local-yaml" {
-  source = "../../modules/kubectl-wrapper"
+  source  = "terraform-google-modules/gcloud/google//modules/kubectl-wrapper"
+  version = "~> 3.0"
 
   project_id              = var.project_id
   cluster_name            = module.gke.name
@@ -116,7 +118,8 @@ module "fleet" {
 }
 
 module "kubectl-fleet-imperative" {
-  source = "../../modules/kubectl-fleet-wrapper"
+  source  = "terraform-google-modules/gcloud/google//modules/kubectl-fleet-wrapper"
+  version = "~> 3.0"
 
   membership_name         = module.fleet.cluster_membership_id
   membership_project_id   = module.fleet.project_id
@@ -128,7 +131,8 @@ module "kubectl-fleet-imperative" {
 }
 
 module "kubectl-fleet-local-yaml" {
-  source = "../../modules/kubectl-fleet-wrapper"
+  source  = "terraform-google-modules/gcloud/google//modules/kubectl-fleet-wrapper"
+  version = "~> 3.0"
 
   membership_name         = module.fleet.cluster_membership_id
   membership_project_id   = module.fleet.project_id

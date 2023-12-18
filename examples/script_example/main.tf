@@ -15,7 +15,8 @@
  */
 
 module "cli" {
-  source = "../.."
+  source  = "terraform-google-modules/gcloud/google"
+  version = "~> 3.0"
 
   platform              = "linux"
   additional_components = ["kubectl", "beta"]
