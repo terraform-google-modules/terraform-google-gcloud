@@ -25,7 +25,8 @@ resource "random_pet" "filename" {
 }
 
 module "hello" {
-  source = "../.."
+  source  = "terraform-google-modules/gcloud/google"
+  version = "~> 3.0"
 
   platform      = "linux"
   upgrade       = false
@@ -36,7 +37,8 @@ module "hello" {
 }
 
 module "two" {
-  source = "../.."
+  source  = "terraform-google-modules/gcloud/google"
+  version = "~> 3.0"
 
   platform      = "linux"
   upgrade       = false
@@ -47,7 +49,8 @@ module "two" {
 }
 
 module "goodbye" {
-  source = "../.."
+  source  = "terraform-google-modules/gcloud/google"
+  version = "~> 3.0"
 
   platform      = "linux"
   upgrade       = false
