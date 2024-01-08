@@ -75,6 +75,7 @@ module "gke" {
   ip_range_pods          = var.ip_range_pods_name
   ip_range_services      = var.ip_range_services_name
   create_service_account = true
+  deletion_protection    = false
 }
 
 data "google_client_config" "default" {
