@@ -27,6 +27,7 @@ module "project" {
   activate_apis = [
     "cloudresourcemanager.googleapis.com",
     "serviceusage.googleapis.com",
-    "container.googleapis.com"
+    "container.googleapis.com",
+    "compute.googleapis.com"
   ]
 }
