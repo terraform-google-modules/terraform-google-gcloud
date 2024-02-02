@@ -46,9 +46,10 @@ locals {
   upgrade_command                              = "${local.gcloud} components update --quiet"
   additional_components_command                = "${path.module}/scripts/check_components.sh ${local.gcloud} ${local.components}"
   gcloud_auth_service_account_key_file_command = "${local.gcloud} auth activate-service-account --key-file ${var.service_account_key_file}"
+  activate_service_account                     = var.activate_service_account ? "${local.gcloud} auth activate-service-account --key-file ${local.tmp_credentials_path}" : "true"
   gcloud_auth_google_credentials_command       = <<-EOT
-    printf "%s" "$GOOGLE_CREDENTIALS" > ${local.tmp_credentials_path} &&
-    ${local.gcloud} auth activate-service-account --key-file ${local.tmp_credentials_path}
+    printf "%s" "$GOOGLE_CREDENTIALS" > ${local.tmp_credentials_path} && \
+    ${local.activate_service_account}
   EOT
 
 }

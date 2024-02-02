@@ -42,6 +42,7 @@ Setting it to `never` will *never* gcloud download and setting it to `always` wi
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| activate\_service\_account | Set to false to skip running `gcloud auth activate-service-account`. Optional. | `bool` | `true` | no |
 | additional\_components | Additional gcloud CLI components to install. Defaults to none. Valid value are components listed in `gcloud components list` | `list(string)` | `[]` | no |
 | create\_cmd\_body | On create, the command body you'd like to run with your entrypoint. | `string` | `"info"` | no |
 | create\_cmd\_entrypoint | On create, the command entrypoint you'd like to use. Can also be set to a custom script. Module's bin directory will be prepended to path. | `string` | `"gcloud"` | no |
