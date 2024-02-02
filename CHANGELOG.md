@@ -7,6 +7,13 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.0](https://github.com/terraform-google-modules/terraform-google-gcloud/compare/v3.3.0...v3.4.0) (2024-02-02)
+
+
+### Features
+
+* add option to skip sa activation ([#139](https://github.com/terraform-google-modules/terraform-google-gcloud/issues/139)) ([7fd85d9](https://github.com/terraform-google-modules/terraform-google-gcloud/commit/7fd85d995ef322d8d639373c3bea2233b506f03a))
+
 ## [3.3.0](https://github.com/terraform-google-modules/terraform-google-gcloud/compare/v3.2.1...v3.3.0) (2023-10-09)
 
 
