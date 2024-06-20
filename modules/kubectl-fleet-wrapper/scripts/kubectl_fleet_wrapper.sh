@@ -44,7 +44,6 @@ CMD="gcloud container fleet memberships get-credentials ${NAME} --project ${PROJ
 
 if [[ "${IMPERSONATE_SERVICE_ACCOUNT}" != false ]]; then
   CMD+=" --impersonate-service-account ${IMPERSONATE_SERVICE_ACCOUNT}"
-  shift 2
 fi
 
 $CMD
