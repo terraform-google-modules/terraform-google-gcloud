@@ -7,6 +7,13 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.1](https://github.com/terraform-google-modules/terraform-google-gcloud/compare/v3.4.0...v3.4.1) (2024-06-20)
+
+
+### Bug Fixes
+
+* **kubectl_fleet_wrapper:** impersonate service account ([#193](https://github.com/terraform-google-modules/terraform-google-gcloud/issues/193)) ([d982144](https://github.com/terraform-google-modules/terraform-google-gcloud/commit/d9821440523bc04b11823b4ad571b4935c41ba33))
+
 ## [3.4.0](https://github.com/terraform-google-modules/terraform-google-gcloud/compare/v3.3.0...v3.4.0) (2024-02-02)
 
 
