@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Google LLC
+ * Copyright 2018-2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ locals {
   gcloud_download_url = var.gcloud_download_url != "" ? var.gcloud_download_url : "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${var.gcloud_sdk_version}-${var.platform}-x86_64.tar.gz"
   jq_platform         = var.platform == "darwin" ? "osx-amd" : var.platform
   jq_download_url     = var.jq_download_url != "" ? var.jq_download_url : "https://github.com/stedolan/jq/releases/download/jq-${var.jq_version}/jq-${local.jq_platform}64"
+  asmcli_download_url = var.asmcli_version != null ? "https://storage.googleapis.com/csm-artifacts/asm/asmcli_${var.asmcli_version}" : ""
 
   create_cmd_bin  = local.skip_download ? var.create_cmd_entrypoint : "${local.gcloud_bin_path}/${var.create_cmd_entrypoint}"
   destroy_cmd_bin = local.skip_download ? var.destroy_cmd_entrypoint : "${local.gcloud_bin_path}/${var.destroy_cmd_entrypoint}"
@@ -41,8 +42,9 @@ locals {
   prepare_cache_command                        = "mkdir -p ${local.cache_path}"
   download_gcloud_command                      = "curl -sL -o ${local.cache_path}/google-cloud-sdk.tar.gz ${local.gcloud_download_url}"
   download_jq_command                          = "curl -sL -o ${local.cache_path}/jq ${local.jq_download_url} && chmod +x ${local.cache_path}/jq"
-  decompress_command                           = "tar -xzf ${local.gcloud_tar_path} -C ${local.cache_path} && cp ${local.cache_path}/jq ${local.cache_path}/google-cloud-sdk/bin/"
-  decompress_wrapper                           = fileexists(local.gcloud_tar_path) ? local.decompress_command : "${local.prepare_cache_command} && ${local.download_gcloud_command} && ${local.download_jq_command} && ${local.decompress_command}"
+  download_asmcli_command                      = "curl -sL -o ${local.cache_path}/asmcli ${local.asmcli_download_url} && chmod +x ${local.cache_path}/asmcli"
+  decompress_command                           = var.asmcli_version != null ? "tar -xzf ${local.gcloud_tar_path} -C ${local.cache_path} && cp ${local.cache_path}/jq ${local.cache_path}/google-cloud-sdk/bin/ && cp ${local.cache_path}/asmcli ${local.cache_path}/google-cloud-sdk/bin/" : "tar -xzf ${local.gcloud_tar_path} -C ${local.cache_path} && cp ${local.cache_path}/jq ${local.cache_path}/google-cloud-sdk/bin/"
+  decompress_wrapper                           = fileexists(local.gcloud_tar_path) ? local.decompress_command : var.asmcli_version != null ? "${local.prepare_cache_command} && ${local.download_gcloud_command} && ${local.download_jq_command} && ${local.download_asmcli_command} && ${local.decompress_command}" : "${local.prepare_cache_command} && ${local.download_gcloud_command} && ${local.download_jq_command} && ${local.decompress_command}"
   upgrade_command                              = "${local.gcloud} components update --quiet"
   additional_components_command                = "${path.module}/scripts/check_components.sh ${local.gcloud} ${local.components}"
   gcloud_auth_service_account_key_file_command = "${local.gcloud} auth activate-service-account --key-file ${var.service_account_key_file}"
@@ -126,6 +128,23 @@ resource "null_resource" "download_jq" {
   depends_on = [null_resource.prepare_cache]
 }
 
+resource "null_resource" "download_asmcli" {
+  count = (var.enabled && !local.skip_download && var.asmcli_version != null) ? 1 : 0
+
+  triggers = merge({
+    md5                     = md5(var.create_cmd_entrypoint)
+    arguments               = md5(var.create_cmd_body)
+    download_asmcli_command = local.download_asmcli_command
+  }, var.create_cmd_triggers)
+
+  provisioner "local-exec" {
+    when    = create
+    command = self.triggers.download_asmcli_command
+  }
+
+  depends_on = [null_resource.prepare_cache]
+}
+
 resource "null_resource" "decompress" {
   count = (var.enabled && !local.skip_download) ? 1 : 0
 
@@ -135,6 +154,7 @@ resource "null_resource" "decompress" {
     decompress_command      = local.decompress_command
     download_gcloud_command = local.download_gcloud_command
     download_jq_command     = local.download_jq_command
+    download_asmcli_command = local.download_asmcli_command
   }, var.create_cmd_triggers)
 
   provisioner "local-exec" {
@@ -142,7 +162,7 @@ resource "null_resource" "decompress" {
     command = self.triggers.decompress_command
   }
 
-  depends_on = [null_resource.download_gcloud, null_resource.download_jq]
+  depends_on = [null_resource.download_gcloud, null_resource.download_jq, null_resource.download_asmcli]
 }
 
 resource "null_resource" "upgrade" {

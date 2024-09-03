@@ -27,6 +27,19 @@ platforms:
   - name: skipped_env
 
 suites:
+  - name: asmcli_example
+    driver:
+      command_timeout: 3600
+      root_module_directory: test/fixtures/asmcli_example/
+    verifier:
+      color: false
+      systems:
+        - name: asmcli_example local
+          backend: local
+          controls:
+            - asmcli
+    excludes:
+      - skipped_env
   - name: simple_example
     driver:
       command_timeout: 1800

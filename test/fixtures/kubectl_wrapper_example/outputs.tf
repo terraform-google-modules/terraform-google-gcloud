@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 output "kubernetes_endpoint" {
   description = "The cluster endpoint"
   sensitive   = true
@@ -32,4 +31,3 @@ output "ca_certificate" {
   sensitive   = true
   value       = module.gke.ca_certificate
 }
-

@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Google LLC
+ * Copyright 2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,19 @@
  * limitations under the License.
  */
 
-terraform {
-  required_version = ">= 1.3"
-  required_providers {
-    google = {
-      source = "hashicorp/google"
-    }
-  }
+output "kubernetes_endpoint" {
+  description = "The cluster endpoint"
+  sensitive   = true
+  value       = module.gke.endpoint
+}
+
+output "client_token" {
+  description = "The bearer token for auth"
+  sensitive   = true
+  value       = base64encode(data.google_client_config.default.access_token)
+}
+
+output "ca_certificate" {
+  description = "The cluster ca certificate (base64 encoded)"
+  value       = module.gke.ca_certificate
 }

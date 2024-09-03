@@ -39,3 +39,8 @@ output "downloaded" {
   value       = !local.skip_download
   depends_on  = [local.wait]
 }
+
+output "asmcli_downloaded" {
+  description = "Whether asmcli was downloaded or not"
+  value       = var.asmcli_version != null
+}

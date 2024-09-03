@@ -121,3 +121,9 @@ variable "jq_download_url" {
   type        = string
   default     = ""
 }
+
+variable "asmcli_version" {
+  description = "The asmcli version to download. Optional."
+  type        = string
+  default     = null
+}
