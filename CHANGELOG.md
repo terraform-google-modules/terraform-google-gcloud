@@ -7,6 +7,18 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.5.0](https://github.com/terraform-google-modules/terraform-google-gcloud/compare/v3.4.1...v3.5.0) (2024-09-03)
+
+
+### Features
+
+* **deps:** Update Terraform google to v6 ([#199](https://github.com/terraform-google-modules/terraform-google-gcloud/issues/199)) ([f96ca9f](https://github.com/terraform-google-modules/terraform-google-gcloud/commit/f96ca9f0246f55ea77a4bf1d1ec1c43910cb779a))
+
+
+### Bug Fixes
+
+* **deps:** Update gcloud to v481.0.0 to support python 3.12 ([#191](https://github.com/terraform-google-modules/terraform-google-gcloud/issues/191)) ([1d2df6b](https://github.com/terraform-google-modules/terraform-google-gcloud/commit/1d2df6b793699d42c325059dfd11cc8b70689bb6))
+
 ## [3.4.1](https://github.com/terraform-google-modules/terraform-google-gcloud/compare/v3.4.0...v3.4.1) (2024-06-20)
 
 
