@@ -25,7 +25,7 @@ terraform {
   }
 
   provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-gcloud:kubectl-wrapper/v3.4.1"
+    module_name = "blueprints/terraform/terraform-google-gcloud:kubectl-wrapper/v3.5.0"
   }
 
 }
