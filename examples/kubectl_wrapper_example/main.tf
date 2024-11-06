@@ -65,7 +65,7 @@ module "gcp-network" {
 
 module "gke" {
   source                 = "terraform-google-modules/kubernetes-engine/google"
-  version                = "~> 33.0"
+  version                = "~> 34.0"
   project_id             = module.enabled_google_apis.project_id
   name                   = var.cluster_name
   regional               = true
@@ -109,7 +109,7 @@ module "kubectl-local-yaml" {
 
 module "fleet" {
   source  = "terraform-google-modules/kubernetes-engine/google//modules/fleet-membership"
-  version = "~> 33.0"
+  version = "~> 34.0"
 
   depends_on = [module.gke]
 
