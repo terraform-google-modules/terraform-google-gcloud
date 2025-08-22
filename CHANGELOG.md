@@ -7,6 +7,17 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.0](https://github.com/terraform-google-modules/terraform-google-gcloud/compare/v3.5.0...v4.0.0) (2025-08-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* **TF>=1.3:** bump minimum Terraform version ([#205](https://github.com/terraform-google-modules/terraform-google-gcloud/issues/205))
+
+### Bug Fixes
+
+* **TF>=1.3:** bump minimum Terraform version ([#205](https://github.com/terraform-google-modules/terraform-google-gcloud/issues/205)) ([2d74386](https://github.com/terraform-google-modules/terraform-google-gcloud/commit/2d7438655e30a9f51e73712c88f652bc4b731e9e))
+
 ## [3.5.0](https://github.com/terraform-google-modules/terraform-google-gcloud/compare/v3.4.1...v3.5.0) (2024-09-03)
 
 
