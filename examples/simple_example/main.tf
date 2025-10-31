@@ -16,7 +16,7 @@
 
 module "cli" {
   source  = "terraform-google-modules/gcloud/google"
-  version = "~> 3.0"
+  version = "~> 4.0"
 
   platform              = "linux"
   additional_components = ["kubectl", "beta"]
@@ -27,7 +27,7 @@ module "cli" {
 
 module "cli-disabled" {
   source  = "terraform-google-modules/gcloud/google"
-  version = "~> 3.0"
+  version = "~> 4.0"
 
   platform              = "linux"
   additional_components = ["kubectl", "beta"]
