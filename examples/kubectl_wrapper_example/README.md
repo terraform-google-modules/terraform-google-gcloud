@@ -2,6 +2,8 @@
 
 This example illustrates how to use the kubectl submodule to deploy Kubernetes resources.
 
+Note: For compatibility with gcloud CLI 575.0.0+, the `gke-gcloud-auth-plugin` component is included in `additional_components` alongside `kubectl`.
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 

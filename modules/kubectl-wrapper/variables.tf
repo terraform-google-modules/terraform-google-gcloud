@@ -61,9 +61,9 @@ variable "create_cmd_triggers" {
 }
 
 variable "additional_components" {
-  description = "Additional gcloud CLI components to install. Defaults to installing kubectl. Valid value are components listed in `gcloud components list`"
+  description = "Additional gcloud CLI components to install. Defaults to installing kubectl and gke-gcloud-auth-plugin. Valid value are components listed in `gcloud components list`"
   type        = list(string)
-  default     = ["kubectl"]
+  default     = ["kubectl", "gke-gcloud-auth-plugin"]
 }
 
 variable "skip_download" {
@@ -75,7 +75,7 @@ variable "skip_download" {
 variable "gcloud_sdk_version" {
   description = "The gcloud sdk version to download."
   type        = string
-  default     = "481.0.0"
+  default     = "575.0.0"
 }
 
 variable "upgrade" {
