@@ -37,6 +37,9 @@ You can also override the behavior by setting the `GCLOUD_TF_DOWNLOAD` environme
 This environment variable will override all other settings.
 Setting it to `never` will *never* gcloud download and setting it to `always` will always download gcloud.
 
+> **Note on Service Account Authentication (gcloud 575.0.0+):** Starting in Google Cloud CLI 575.0.0+, `gcloud config config-helper` (invoked by tools like `kubectl` via `gke-gcloud-auth-plugin`) requires an explicitly authenticated service account key file context. To ensure commands function properly with `gcloud 575.0.0+`, set `use_tf_google_credentials_env_var = true` or provide `service_account_key_file` so `gcloud auth activate-service-account` is executed for the `gcloud` instance.
+
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
