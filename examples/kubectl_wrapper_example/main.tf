@@ -98,13 +98,14 @@ module "kubectl-local-yaml" {
   source  = "terraform-google-modules/gcloud/google//modules/kubectl-wrapper"
   version = "~> 4.0"
 
-  project_id              = var.project_id
-  cluster_name            = module.gke.name
-  cluster_location        = module.gke.location
-  module_depends_on       = [module.kubectl-imperative.wait, module.gke.endpoint]
-  kubectl_create_command  = "kubectl apply -f ${local.manifest_path}/nginx.yaml"
-  kubectl_destroy_command = "kubectl delete -f ${local.manifest_path}/nginx.yaml"
-  skip_download           = false
+  project_id                         = var.project_id
+  cluster_name                       = module.gke.name
+  cluster_location                   = module.gke.location
+  module_depends_on                  = [module.kubectl-imperative.wait, module.gke.endpoint]
+  kubectl_create_command             = "kubectl apply -f ${local.manifest_path}/nginx.yaml"
+  kubectl_destroy_command            = "kubectl delete -f ${local.manifest_path}/nginx.yaml"
+  skip_download                      = false
+  use_tf_google_credentials_env_var = true
 }
 
 module "fleet" {
@@ -122,13 +123,14 @@ module "kubectl-fleet-imperative" {
   source  = "terraform-google-modules/gcloud/google//modules/kubectl-fleet-wrapper"
   version = "~> 4.0"
 
-  membership_name         = module.fleet.cluster_membership_id
-  membership_project_id   = module.fleet.project_id
-  membership_location     = module.fleet.location
-  module_depends_on       = [module.kubectl-local-yaml.wait, module.fleet.wait]
-  kubectl_create_command  = "kubectl run nginx-fleet-imperative --image=nginx"
-  kubectl_destroy_command = "kubectl delete pod nginx-fleet-imperative"
-  skip_download           = false
+  membership_name                    = module.fleet.cluster_membership_id
+  membership_project_id              = module.fleet.project_id
+  membership_location                = module.fleet.location
+  module_depends_on                  = [module.kubectl-local-yaml.wait, module.fleet.wait]
+  kubectl_create_command             = "kubectl run nginx-fleet-imperative --image=nginx"
+  kubectl_destroy_command            = "kubectl delete pod nginx-fleet-imperative"
+  skip_download                      = false
+  use_tf_google_credentials_env_var = true
 }
 
 module "kubectl-fleet-local-yaml" {
@@ -142,4 +144,33 @@ module "kubectl-fleet-local-yaml" {
   kubectl_create_command  = "kubectl apply -f ${local.manifest_path}/nginx-fleet.yaml"
   kubectl_destroy_command = "kubectl delete -f ${local.manifest_path}/nginx-fleet.yaml"
   skip_download           = true
+}
+
+module "kubectl-impersonate" {
+  source  = "terraform-google-modules/gcloud/google//modules/kubectl-wrapper"
+  version = "~> 4.0"
+
+  project_id                  = var.project_id
+  cluster_name                = module.gke.name
+  cluster_location            = module.gke.location
+  impersonate_service_account = module.gke.service_account
+  module_depends_on           = [module.kubectl-fleet-local-yaml.wait, module.gke.endpoint]
+  kubectl_create_command      = "kubectl run nginx-impersonate --image=nginx"
+  kubectl_destroy_command     = "kubectl delete pod nginx-impersonate"
+  skip_download               = true
+}
+
+module "kubectl-existing-context" {
+  source  = "terraform-google-modules/gcloud/google//modules/kubectl-wrapper"
+  version = "~> 4.0"
+
+  project_id                  = var.project_id
+  cluster_name                = module.gke.name
+  cluster_location            = module.gke.location
+  use_existing_context        = true
+  impersonate_service_account = module.gke.service_account
+  module_depends_on           = [module.kubectl-impersonate.wait, module.gke.endpoint]
+  kubectl_create_command      = "kubectl run nginx-existing-context --image=nginx"
+  kubectl_destroy_command     = "kubectl delete pod nginx-existing-context"
+  skip_download               = true
 }
