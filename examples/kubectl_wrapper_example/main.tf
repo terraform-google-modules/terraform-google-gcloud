@@ -105,6 +105,8 @@ module "kubectl-local-yaml" {
   kubectl_create_command  = "kubectl apply -f ${local.manifest_path}/nginx.yaml"
   kubectl_destroy_command = "kubectl delete -f ${local.manifest_path}/nginx.yaml"
   skip_download           = false
+  gcloud_sdk_version      = "561.0.0"
+  upgrade                 = false
 }
 
 module "fleet" {
@@ -129,6 +131,8 @@ module "kubectl-fleet-imperative" {
   kubectl_create_command  = "kubectl run nginx-fleet-imperative --image=nginx"
   kubectl_destroy_command = "kubectl delete pod nginx-fleet-imperative"
   skip_download           = false
+  gcloud_sdk_version      = "561.0.0"
+  upgrade                 = false
 }
 
 module "kubectl-fleet-local-yaml" {
