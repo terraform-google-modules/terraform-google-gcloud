@@ -91,6 +91,7 @@ module "kubectl-imperative" {
   module_depends_on       = [module.gke.endpoint]
   kubectl_create_command  = "kubectl run nginx-imperative --image=nginx"
   kubectl_destroy_command = "kubectl delete pod nginx-imperative"
+  additional_components   = ["kubectl", "gke-gcloud-auth-plugin"]
   skip_download           = true
 }
 
@@ -104,6 +105,7 @@ module "kubectl-local-yaml" {
   module_depends_on       = [module.kubectl-imperative.wait, module.gke.endpoint]
   kubectl_create_command  = "kubectl apply -f ${local.manifest_path}/nginx.yaml"
   kubectl_destroy_command = "kubectl delete -f ${local.manifest_path}/nginx.yaml"
+  additional_components   = ["kubectl", "gke-gcloud-auth-plugin"]
   skip_download           = false
 }
 
@@ -128,6 +130,7 @@ module "kubectl-fleet-imperative" {
   module_depends_on       = [module.kubectl-local-yaml.wait, module.fleet.wait]
   kubectl_create_command  = "kubectl run nginx-fleet-imperative --image=nginx"
   kubectl_destroy_command = "kubectl delete pod nginx-fleet-imperative"
+  additional_components   = ["kubectl", "gke-gcloud-auth-plugin"]
   skip_download           = false
 }
 
@@ -141,5 +144,6 @@ module "kubectl-fleet-local-yaml" {
   module_depends_on       = [module.kubectl-fleet-imperative.wait, module.gke.endpoint]
   kubectl_create_command  = "kubectl apply -f ${local.manifest_path}/nginx-fleet.yaml"
   kubectl_destroy_command = "kubectl delete -f ${local.manifest_path}/nginx-fleet.yaml"
+  additional_components   = ["kubectl", "gke-gcloud-auth-plugin"]
   skip_download           = true
 }

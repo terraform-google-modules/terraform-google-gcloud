@@ -43,13 +43,26 @@ do
 done
 
 # check if any component exists as a binary
+GCLOUD_BIN_DIR=""
+if [[ "$GCLOUD_PATH" == *"/"* ]]; then
+    GCLOUD_BIN_DIR=$(dirname "$GCLOUD_PATH")
+fi
+
 FINAL_COMPONENT_LIST=()
 for component in "${FILTER_COMPONENT_LIST[@]}"
 do
-    if [[ $(command -v "$component") ]]; then
-        echo "Found $component via $(command -v "$component")";
+    if [[ -n "$GCLOUD_BIN_DIR" ]]; then
+        if [[ -x "$GCLOUD_BIN_DIR/$component" ]]; then
+            echo "Found $component via $GCLOUD_BIN_DIR/$component";
+        else
+            FINAL_COMPONENT_LIST+=("$component")
+        fi
     else
-        FINAL_COMPONENT_LIST+=("$component")
+        if [[ $(command -v "$component") ]]; then
+            echo "Found $component via $(command -v "$component")";
+        else
+            FINAL_COMPONENT_LIST+=("$component")
+        fi
     fi
 done
 
