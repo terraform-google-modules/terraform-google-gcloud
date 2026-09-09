@@ -68,8 +68,9 @@ module "gke" {
   version                = "~> 44.0"
   project_id             = module.enabled_google_apis.project_id
   name                   = var.cluster_name
-  regional               = true
+  regional               = false
   region                 = var.region
+  zones                  = ["${var.region}-a"]
   network                = module.gcp-network.network_name
   subnetwork             = module.gcp-network.subnets_names[0]
   ip_range_pods          = var.ip_range_pods_name
