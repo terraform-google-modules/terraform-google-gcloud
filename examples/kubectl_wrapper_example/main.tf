@@ -64,10 +64,12 @@ module "gcp-network" {
 }
 
 module "gke" {
-  source                 = "terraform-google-modules/kubernetes-engine/google"
-  version                = "~> 44.0"
-  project_id             = module.enabled_google_apis.project_id
-  name                   = var.cluster_name
+  source     = "terraform-google-modules/kubernetes-engine/google"
+  version    = "~> 44.0"
+  project_id = module.enabled_google_apis.project_id
+  name       = var.cluster_name
+  # Zonal cluster is used in this example for CI test speed and quota efficiency.
+  # For production deployments, regional = true is recommended.
   regional               = false
   region                 = var.region
   zones                  = ["${var.region}-a"]

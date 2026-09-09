@@ -27,6 +27,7 @@ REGISTRY_URL := gcr.io/cloud-foundation-cicd
 docker_run:
 	docker run --rm -it \
 		-e SERVICE_ACCOUNT_JSON \
+		-e CLOUDSDK_CONTAINER_USE_APPLICATION_DEFAULT_CREDENTIALS=true \
 		-v "$(CURDIR)":/workspace \
 		$(REGISTRY_URL)/${DOCKER_IMAGE_DEVELOPER_TOOLS}:${DOCKER_TAG_VERSION_DEVELOPER_TOOLS} \
 		/bin/bash
@@ -60,6 +61,7 @@ docker_test_cleanup:
 docker_test_integration:
 	docker run --rm -it \
 		-e SERVICE_ACCOUNT_JSON \
+		-e CLOUDSDK_CONTAINER_USE_APPLICATION_DEFAULT_CREDENTIALS=true \
 		-v "$(CURDIR)":/workspace \
 		$(REGISTRY_URL)/${DOCKER_IMAGE_DEVELOPER_TOOLS}:${DOCKER_TAG_VERSION_DEVELOPER_TOOLS} \
 		/usr/local/bin/test_integration.sh

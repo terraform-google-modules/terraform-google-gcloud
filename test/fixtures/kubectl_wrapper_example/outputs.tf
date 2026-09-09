@@ -33,3 +33,18 @@ output "ca_certificate" {
   value       = module.gke.ca_certificate
 }
 
+output "cluster_name" {
+  description = "Cluster name"
+  value       = module.gke.cluster_name
+}
+
+output "cluster_location" {
+  description = "Cluster location"
+  value       = module.gke.cluster_location
+}
+
+output "project_id" {
+  description = "The ID of the project in which resources are provisioned."
+  value       = var.project_id
+}
+

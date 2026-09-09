@@ -28,6 +28,7 @@ output "client_token" {
 
 output "ca_certificate" {
   description = "The cluster ca certificate (base64 encoded)"
+  sensitive   = true
   value       = module.gke.ca_certificate
 }
 
@@ -39,6 +40,11 @@ output "service_account" {
 output "cluster_name" {
   description = "Cluster name"
   value       = module.gke.name
+}
+
+output "cluster_location" {
+  description = "Cluster location"
+  value       = module.gke.location
 }
 
 output "network_name" {

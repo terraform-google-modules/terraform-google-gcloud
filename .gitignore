@@ -31,11 +31,9 @@ Session.vim
 # Crash log files
 crash.log
 
-# Kitchen files
-**/inspec.lock
-**/.kitchen
-**/kitchen.local.yml
-**/Gemfile.lock
+# Go test files
+*.test
+coverage.out
 
 # Ignore any .tfvars files that are generated automatically for each Terraform run. Most
 # .tfvars files are managed as part of configuration and so should be included in

@@ -1,4 +1,4 @@
-# Copyright 2019 Google LLC
+# Copyright 2019-2026 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,38 +24,92 @@ steps:
   - 'TF_VAR_org_id=$_ORG_ID'
   - 'TF_VAR_folder_id=$_FOLDER_ID'
   - 'TF_VAR_billing_account=$_BILLING_ACCOUNT'
-- id: create
+- id: init-all
+  waitFor:
+  - prepare
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do create default']
-- id: converge
+  args: ['/bin/bash', '-c', 'cft test run all --stage init --verbose']
+- id: apply simple-example
+  waitFor:
+  - init-all
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && (kitchen_do converge default || (echo "Retrying converge default after transient error..." && sleep 30 && kitchen_do converge default))']
-- id: verify
+  args: ['/bin/bash', '-c', 'cft test run TestSimpleExample --stage apply --verbose']
+- id: verify simple-example
+  waitFor:
+  - apply simple-example
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do verify default']
-- id: destroy
+  args: ['/bin/bash', '-c', 'cft test run TestSimpleExample --stage verify --verbose']
+- id: teardown simple-example
+  waitFor:
+  - verify simple-example
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do destroy default']
-- id: create-skipped
+  args: ['/bin/bash', '-c', 'cft test run TestSimpleExample --stage teardown --verbose']
+- id: apply override-example
+  waitFor:
+  - teardown simple-example
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do create skipped-env']
+  args: ['/bin/bash', '-c', 'cft test run TestOverrideExample --stage apply --verbose']
   env:
   - 'GCLOUD_TF_DOWNLOAD=never'
-- id: converge-skipped
+- id: verify override-example
+  waitFor:
+  - apply override-example
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && (kitchen_do converge skipped-env || (echo "Retrying converge skipped-env after transient error..." && sleep 30 && kitchen_do converge skipped-env))']
+  args: ['/bin/bash', '-c', 'cft test run TestOverrideExample --stage verify --verbose']
   env:
-    - 'GCLOUD_TF_DOWNLOAD=never'
-- id: verify-skipped
+  - 'GCLOUD_TF_DOWNLOAD=never'
+- id: teardown override-example
+  waitFor:
+  - verify override-example
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do verify skipped-env']
+  args: ['/bin/bash', '-c', 'cft test run TestOverrideExample --stage teardown --verbose']
   env:
-    - 'GCLOUD_TF_DOWNLOAD=never'
-- id: destroy-skipped
+  - 'GCLOUD_TF_DOWNLOAD=never'
+- id: apply script-example
+  waitFor:
+  - init-all
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do destroy skipped-env']
-  env:
-    - 'GCLOUD_TF_DOWNLOAD=never'
+  args: ['/bin/bash', '-c', 'cft test run TestScriptExample --stage apply --verbose']
+- id: verify script-example
+  waitFor:
+  - apply script-example
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestScriptExample --stage verify --verbose']
+- id: teardown script-example
+  waitFor:
+  - verify script-example
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestScriptExample --stage teardown --verbose']
+- id: apply dependency-example
+  waitFor:
+  - init-all
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestDependencyExample --stage apply --verbose']
+- id: verify dependency-example
+  waitFor:
+  - apply dependency-example
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestDependencyExample --stage verify --verbose']
+- id: teardown dependency-example
+  waitFor:
+  - verify dependency-example
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestDependencyExample --stage teardown --verbose']
+- id: apply kubectl-wrapper-example
+  waitFor:
+  - init-all
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestKubectlWrapperExample --stage apply --verbose']
+- id: verify kubectl-wrapper-example
+  waitFor:
+  - apply kubectl-wrapper-example
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestKubectlWrapperExample --stage verify --verbose']
+- id: teardown kubectl-wrapper-example
+  waitFor:
+  - verify kubectl-wrapper-example
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestKubectlWrapperExample --stage teardown --verbose']
 tags:
 - 'ci'
 - 'integration'

@@ -21,6 +21,7 @@ This example illustrates how to use the kubectl submodule to deploy Kubernetes r
 |------|-------------|
 | ca\_certificate | The cluster ca certificate (base64 encoded) |
 | client\_token | The bearer token for auth |
+| cluster\_location | Cluster location |
 | cluster\_name | Cluster name |
 | kubernetes\_endpoint | The cluster endpoint |
 | network\_name | The name of the VPC being created |
