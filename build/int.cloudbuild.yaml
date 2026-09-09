@@ -29,7 +29,7 @@ steps:
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do create default']
 - id: converge
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && (kitchen_do converge default || (echo "Retrying converge default after transient error..." && sleep 30 && kitchen_do converge default))']
+  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && (kitchen_do converge default']
 - id: verify
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do verify default']
@@ -43,7 +43,7 @@ steps:
   - 'GCLOUD_TF_DOWNLOAD=never'
 - id: converge-skipped
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && (kitchen_do converge skipped-env || (echo "Retrying converge skipped-env after transient error..." && sleep 30 && kitchen_do converge skipped-env))']
+  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && (kitchen_do converge skipped-env']
   env:
     - 'GCLOUD_TF_DOWNLOAD=never'
 - id: verify-skipped
