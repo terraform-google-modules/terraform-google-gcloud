@@ -28,24 +28,22 @@ IMPERSONATE_SERVICE_ACCOUNT=$4
 
 shift 4
 
-RANDOM_ID="${RANDOM}_${RANDOM}"
-export TMPDIR="/tmp/kubectl_fleet_wrapper_${RANDOM_ID}"
+TMPDIR=$(mktemp -d -t kubectl_fleet_wrapper_XXXXXX)
+export TMPDIR
 
 function cleanup {
-    rm -rf "${TMPDIR}"
+    [[ -n "${TMPDIR}" && -d "${TMPDIR}" ]] && rm -rf "${TMPDIR}"
 }
 trap cleanup EXIT
 
-mkdir "${TMPDIR}"
-
 export KUBECONFIG="${TMPDIR}/config"
 
-CMD="gcloud container fleet memberships get-credentials ${NAME} --project ${PROJECT_ID} --location ${LOCATION}"
+CMD=(gcloud container fleet memberships get-credentials "${NAME}" --project "${PROJECT_ID}" --location "${LOCATION}")
 
-if [[ "${IMPERSONATE_SERVICE_ACCOUNT}" != false ]]; then
-  CMD+=" --impersonate-service-account ${IMPERSONATE_SERVICE_ACCOUNT}"
+if [[ "${IMPERSONATE_SERVICE_ACCOUNT}" != "false" && -n "${IMPERSONATE_SERVICE_ACCOUNT}" ]]; then
+  CMD+=(--impersonate-service-account "${IMPERSONATE_SERVICE_ACCOUNT}")
 fi
 
-$CMD
+"${CMD[@]}"
 
 "$@"

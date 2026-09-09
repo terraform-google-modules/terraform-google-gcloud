@@ -20,6 +20,9 @@ module "kubectl" {
 }
 ```
 
+> **Note on Authentication (gcloud 575.0.0+):** Starting in Google Cloud CLI 575.0.0+, `gcloud config config-helper` (invoked by `kubectl` via `gke-gcloud-auth-plugin`) requires an explicitly authenticated service account key file context. When running commands with `gcloud 575.0.0+`, set `use_tf_google_credentials_env_var = true` (or supply `service_account_key_file`) so the `gcloud` instance is authenticated to run `gke-gcloud-auth-plugin`.
+
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 

@@ -45,6 +45,7 @@ crash.log
 google-cloud-sdk/
 google-cloud-sdk.staging/
 credentials.json
+terraform-google-credentials.json
 tmp
 
 # Ignore cache directory
