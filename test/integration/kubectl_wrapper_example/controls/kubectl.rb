@@ -74,6 +74,22 @@ control "kubectl" do
 					expect(nginxi).not_to be_nil
 				end
 			end
+
+			describe "nginx-impersonate" do
+				let(:nginximp) { client.get_pod("nginx-impersonate", "default") }
+
+				it "exists" do
+					expect(nginximp).not_to be_nil
+				end
+			end
+
+			describe "nginx-existing-context" do
+				let(:nginxctx) { client.get_pod("nginx-existing-context", "default") }
+
+				it "exists" do
+					expect(nginxctx).not_to be_nil
+				end
+			end
 		end
 	end
 end
