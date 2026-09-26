@@ -29,45 +29,51 @@ USE_EXISTING_CONTEXT=$5
 ENABLE_IMPERSONATE_SERVICE_ACCOUNT=$6
 IMPERSONATE_SERVICE_ACCOUNT=$7
 
-shift 5
+if [[ "${ENABLE_IMPERSONATE_SERVICE_ACCOUNT}" == "true" ]]; then
+    if [ "$#" -lt 7 ]; then
+        >&2 echo "Not all expected arguments set (expected at least 7)."
+        exit 1
+    fi
+    shift 7
+else
+    shift 5
+fi
 
-if $USE_EXISTING_CONTEXT ;then
+if [[ "${USE_EXISTING_CONTEXT}" == "true" ]]; then
 
     "$@"
 
 else
 
-    RANDOM_ID="${RANDOM}_${RANDOM}"
-    export TMPDIR="/tmp/kubectl_wrapper_${RANDOM_ID}"
+    TMPDIR=$(mktemp -d -t kubectl_wrapper_XXXXXX)
+    export TMPDIR
 
     function cleanup {
-        rm -rf "${TMPDIR}"
+        [[ -n "${TMPDIR}" && -d "${TMPDIR}" ]] && rm -rf "${TMPDIR}"
     }
     trap cleanup EXIT
 
-    mkdir "${TMPDIR}"
-
     export KUBECONFIG="${TMPDIR}/config"
 
-    LOCATION_TYPE=$(grep -o "-" <<< "${LOCATION}" | wc -l)
+    LOCATION_TYPE=$(grep -o "-" <<< "${LOCATION}" | wc -l || true)
 
-    CMD="gcloud container clusters get-credentials ${CLUSTER_NAME} --project ${PROJECT_ID}"
-    if [[ "${ENABLE_IMPERSONATE_SERVICE_ACCOUNT}" == true ]]; then
-      CMD+=" --impersonate-service-account ${IMPERSONATE_SERVICE_ACCOUNT}"
-      shift 2
+    CMD=(gcloud container clusters get-credentials "${CLUSTER_NAME}" --project "${PROJECT_ID}")
+
+    if [[ "${ENABLE_IMPERSONATE_SERVICE_ACCOUNT}" == "true" && -n "${IMPERSONATE_SERVICE_ACCOUNT}" ]]; then
+      CMD+=(--impersonate-service-account "${IMPERSONATE_SERVICE_ACCOUNT}")
     fi
 
-    if [[ $LOCATION_TYPE -eq 2 ]] ;then
-        CMD+=" --zone ${LOCATION}"
+    if [[ ${LOCATION_TYPE} -eq 2 ]]; then
+        CMD+=(--zone "${LOCATION}")
     else
-        CMD+=" --region ${LOCATION}"
+        CMD+=(--region "${LOCATION}")
     fi
 
-    if $INTERNAL ;then
-        CMD+=" --internal-ip"
+    if [[ "${INTERNAL}" == "true" ]]; then
+        CMD+=(--internal-ip)
     fi
 
-    $CMD
+    "${CMD[@]}"
 
     "$@"
 fi
